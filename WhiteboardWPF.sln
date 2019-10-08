@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhiteboardWPF", "WhiteboardWPF\WhiteboardWPF.csproj", "{8B3C6044-D040-4010-BC17-2B5E33C25440}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0EC5428C-AA27-4D21-8361-66E95CF4EABE} = {0EC5428C-AA27-4D21-8361-66E95CF4EABE}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serveur", "TP3Serveur\Serveur.csproj", "{0EC5428C-AA27-4D21-8361-66E95CF4EABE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B3C6044-D040-4010-BC17-2B5E33C25440}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B3C6044-D040-4010-BC17-2B5E33C25440}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B3C6044-D040-4010-BC17-2B5E33C25440}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B3C6044-D040-4010-BC17-2B5E33C25440}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EC5428C-AA27-4D21-8361-66E95CF4EABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EC5428C-AA27-4D21-8361-66E95CF4EABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EC5428C-AA27-4D21-8361-66E95CF4EABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EC5428C-AA27-4D21-8361-66E95CF4EABE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {019D5756-CA13-4B5F-A64E-0E5DAD2338D2}
+	EndGlobalSection
+EndGlobal
