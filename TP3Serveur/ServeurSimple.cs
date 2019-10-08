@@ -82,7 +82,6 @@ namespace TCPServeur
                 actualID++;
             }
             Monitor.Exit(clients);
-            display();
         }
         private void add(int idClient, Object o)
         {
@@ -95,7 +94,6 @@ namespace TCPServeur
             }
             actualID++;
             Monitor.Exit(clients);
-            display();
         }
         private void modif(int idClient, int id, Object o)
         {
@@ -116,7 +114,7 @@ namespace TCPServeur
             Console.WriteLine("Préparation à l'écoute...");
 
             //On crée le serveur en lui spécifiant le port sur lequel il devra écouter.
-            IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+            IPAddress localAddr = IPAddress.Parse("138.195.241.105");
             TcpListener server = new TcpListener(localAddr, 5035);
 
             server.Start();
@@ -138,21 +136,29 @@ namespace TCPServeur
             TcpClient client = (TcpClient) o;
             Monitor.Enter(clients);
             
-            Client interfaceCl = new Client(client, actualIDClient, add, select, deselect, delete, modif);
+            Client interfaceCl = new Client(client, actualIDClient, add, select, deselect, delete, modif, clear_all);
             actualIDClient++;
 
 
             interfaceCl.start();
             clients.Add(interfaceCl);
+            foreach(ObjetAffichable oo in listObject)
+            {
+                interfaceCl.add(oo.m_id, oo.m_o);
+            }
             Monitor.Exit(clients);
         }
 
-        private void display()
+        private void clear_all()
         {
-            foreach(ObjetAffichable o in listObject)
+            
+            Monitor.Enter(clients);
+            listObject = new List<ObjetAffichable>();
+            foreach (Client client in clients)
             {
-                Console.WriteLine((String)o.m_o);
+                client.clear();
             }
+            Monitor.Exit(clients);
         }
     }
 }

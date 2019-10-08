@@ -107,24 +107,46 @@ namespace TCPServeur
             int i = 0;
             int j = 0;
             byte[] bytes = new byte[2048];
-            while ((i = stream.Read(bytes, 0, bytes.Length)) != 0 && isActive)
+            try
             {
-                string temp = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
-                instructionToTreat.Enqueue(temp);
+                while (isActive && (i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                {
+                
+                        string temp = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
+                        instructionToTreat.Enqueue(temp);
+                
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                isActive = false;
+                stop();
             }
         }
+            
+
 
         private void broadcast()
         {
             NetworkStream stream = m_tcpClient.GetStream();
             String str = "";
-            while (isActive)
+            try
             {
-                if (instructionToSend.TryDequeue(out str))
+                while (isActive)
                 {
-                    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str + "\n");
-                    stream.Write(bytes, 0, bytes.Length);
+                    if (instructionToSend.TryDequeue(out str))
+                    {
+                        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str + "\n");
+                        stream.Write(bytes, 0, bytes.Length);
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                isActive = false;
+                stop();
             }
 
         }
