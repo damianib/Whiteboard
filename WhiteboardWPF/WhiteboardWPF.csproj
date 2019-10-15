@@ -63,6 +63,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TextBlockAndCoordinates.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Connexion.cs" />
     <Compile Include="MainWindow.xaml.cs">

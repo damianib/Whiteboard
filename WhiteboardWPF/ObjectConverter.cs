@@ -86,6 +86,33 @@ namespace WhiteboardWPF
 
             return stroke;
         }
-        
+
+        public static string TextBlockToString(TextBlockAndCoordinates block)
+        {
+            string str = "";
+            char separator = Convert.ToChar(Int16.Parse("feff001f"));
+
+            str += block.BlockT.Text + separator + block.BlockT.Height.ToString() + separator + block.BlockT.Width.ToString() + separator + block.X + separator + block.Y;
+
+            return str;
+        }
+
+        public static TextBlockAndCoordinates StringToTextblock(string str)
+        {
+            TextBlock block = new TextBlock();
+            char separator = Convert.ToChar(Int16.Parse("feff001f"));
+            string[] strlst = str.Split(separator);
+
+            block.Text = strlst[0];
+
+            block.Height = Double.Parse(strlst[1]);
+
+            block.Width = Double.Parse(strlst[2]);
+
+            TextBlockAndCoordinates blockC = new TextBlockAndCoordinates(block, Double.Parse(strlst[3]), Double.Parse(strlst[4]));
+
+            return blockC;
+        }
+
     }
 }
