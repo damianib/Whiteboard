@@ -23,16 +23,20 @@ namespace TCPServeur
         private addFunction m_add;
         private modifFunction m_modif;
         private clearFunction m_clear_all;
+        private char m_limitor;
 
         private Connexion connexionClient;
 
         public int ObjectLocked = -1;
         public int idClient { get; private set; }
-        public Client(TcpClient tcpClient, int id, addFunction addI, selector selectI, selector deselectI, selector deleteI, modifFunction modifI, string limitor = "\n")
+        public Client(TcpClient tcpClient, int id, addFunction addI, selector selectI, selector deselectI, selector deleteI, modifFunction modifI)
         {
-            
+
+
+
+            m_limitor = Convert.ToChar(Int16.Parse("feff001e"));
             idClient = id;
-            connexionClient = new Connexion(tcpClient, runInstruction);
+            connexionClient = new Connexion(tcpClient, runInstruction, m_limitor.ToString());
             m_add = addI;
             m_select = selectI;
             m_deselect = deselectI;
@@ -43,8 +47,10 @@ namespace TCPServeur
         public Client(TcpClient tcpClient, int id, addFunction addI, selector selectI, selector deselectI, selector deleteI, modifFunction modifI, clearFunction clearI, string limitor = "\n")
         {
 
+            m_limitor = Convert.ToChar(Int16.Parse("feff001e"));
+
             idClient = id;
-            connexionClient = new Connexion(tcpClient, runInstruction);
+            connexionClient = new Connexion(tcpClient, runInstruction, m_limitor.ToString());
             m_add = addI;
             m_select = selectI;
             m_deselect = deselectI;
@@ -70,7 +76,7 @@ namespace TCPServeur
             {
                 
                 int i = 3;
-                while (i < str.Length && str[i] != '\n' && str[i] != ' ')
+                while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
                 {
                     i++;
                 }
@@ -80,7 +86,7 @@ namespace TCPServeur
             if (instructionName.Equals("DES"))
             {
                 int i = 3;
-                while (i < str.Length && str[i] != '\n' && str[i] != ' ')
+                while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
                 {
                     i++;
                 }
@@ -90,7 +96,7 @@ namespace TCPServeur
             if (instructionName.Equals("DEL"))
             {
                 int i = 3;
-                while (i < str.Length && str[i] != '\n' && str[i] != ' ')
+                while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
                 {
                     i++;
                 }
@@ -101,7 +107,7 @@ namespace TCPServeur
             {
                 
                 int i = 3;
-                while (i < str.Length && str[i] != '\n' && str[i] != ' ')
+                while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
                 {
                     i++;
                 }

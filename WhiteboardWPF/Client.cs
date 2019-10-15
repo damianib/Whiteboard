@@ -21,13 +21,17 @@ namespace WhiteboardWPF
         private modifFunction m_add;
         private modifFunction m_modif;
 
+        private Char m_limitor;
+
         Connexion connexionServer;
 
         public Client(TcpClient tcpClient, modifFunction add_recieve, selector select_recieve, selector deselect_recieve, selector delete_recieve, modifFunction modif_recieve, string limitor = "\n")
         {
-            connexionServer = new Connexion(tcpClient, runInstruction);
-            
+            m_limitor = Convert.ToChar(Int16.Parse("feff001e"));
 
+            connexionServer = new Connexion(tcpClient, runInstruction, m_limitor.ToString());
+            
+            
             m_add = add_recieve;
             m_select = select_recieve;
             m_deselect = deselect_recieve;
