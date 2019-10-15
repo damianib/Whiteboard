@@ -26,6 +26,7 @@ namespace WhiteboardWPF
         private Thread theradReception;
         private Thread theradEmission;
         private Thread threadTreatment;
+        private int sizeLeft = 0;
 
         public bool isActive { private set; get; }
         public Connexion(TcpClient tcpClient, executer executor, Char limitor = '\n')
@@ -68,23 +69,43 @@ namespace WhiteboardWPF
         {
 
             mut.WaitOne();
-            int limit = 0;
-            for (int i = 0; i < newData.Length; i++)
+            int pos = 0;
+            while (pos < newData.Length)
             {
-                if (newData[i] == m_limitor)
+                if (sizeLeft == 0)
                 {
-                    instruction += newData.Substring(limit, i - limit);
+                    while (pos < newData.Length && newData[pos] != ' ')
+                    {
+                        instruction += newData[pos];
+                        pos++;
+                    }
+                    if (pos < newData.Length)
+                    {
 
+                        pos += 1;
+                        sizeLeft = int.Parse(instruction);
+                        instruction = "";
+
+
+                    }
+                }
+                else if (sizeLeft <= newData.Length - pos)
+                {
+
+                    instruction += newData.Substring(pos, sizeLeft);
                     m_executor(instruction);
-
                     instruction = "";
-                    limit = i + 1;
+                    pos += sizeLeft;
+                    sizeLeft = 0;
+                }
+                else
+                {
+                    instruction += newData.Substring(pos, newData.Length - pos);
+                    sizeLeft -= newData.Length - pos;
+                    pos = newData.Length;
                 }
             }
-            if (limit < newData.Length)
-            {
-                instruction += newData.Substring(limit, newData.Length - limit);
-            }
+
             mut.ReleaseMutex();
         }
 
@@ -123,7 +144,7 @@ namespace WhiteboardWPF
             {
                 if (instructionToSend.TryDequeue(out str))
                 {
-                    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str + m_limitor);
+                    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str.Length.ToString() +" " + str);
                     stream.Write(bytes, 0, bytes.Length);
                 }
             }

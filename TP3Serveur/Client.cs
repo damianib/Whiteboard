@@ -66,8 +66,6 @@ namespace TCPServeur
         public void runInstruction(String str)
         {
             String instructionName = str.Substring(0, 3);
-
-            
             if (instructionName.Equals("ADD"))
             {
                 

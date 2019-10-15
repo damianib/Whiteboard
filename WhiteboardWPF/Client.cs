@@ -122,7 +122,6 @@ namespace WhiteboardWPF
 
         public void ask_add (Object o)
         {
-
             connexionServer.addInstruction("ADD" +ObjectConverter.getString(o));
 
         }
