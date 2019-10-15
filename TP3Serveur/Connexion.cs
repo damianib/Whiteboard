@@ -15,7 +15,7 @@ namespace TCPServeur
         private TcpClient m_tcpClient;
         private Mutex mut = new Mutex();
         private String instruction = "";
-        private String m_limitor;
+        private Char m_limitor;
 
         public delegate void executer(String instruction);
 
@@ -28,7 +28,7 @@ namespace TCPServeur
         private Thread threadTreatment;
 
         public bool isActive { private set; get; }
-        public Connexion(TcpClient tcpClient, executer executor, string limitor = "\n")
+        public Connexion(TcpClient tcpClient, executer executor, Char limitor = '\n')
         {
             isActive = true;
 
@@ -70,7 +70,7 @@ namespace TCPServeur
             int limit = 0;
             for (int i = 0; i < newData.Length; i++)
             {
-                if (newData[i] == m_limitor[0])
+                if (newData[i] == m_limitor)
                 {
                     instruction += newData.Substring(limit, i - limit);
 

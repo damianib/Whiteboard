@@ -23,7 +23,7 @@ namespace WhiteboardWPF
         bool isTextMode = false;
 
         Client client;
-        bool online = false;
+        bool online = true;
 
         public MainWindow()
         {

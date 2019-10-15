@@ -30,9 +30,9 @@ namespace WhiteboardWPF
 
         public Client(TcpClient tcpClient, modifFunction add_recieve, selector select_recieve, selector deselect_recieve, selector delete_recieve, modifFunction modif_recieve)
         {
-            m_limitor = Convert.ToChar(Int16.Parse("feff001e"));
+            m_limitor = '\n';
 
-            connexionServer = new Connexion(tcpClient, runInstruction, m_limitor.ToString());
+            connexionServer = new Connexion(tcpClient, runInstruction, m_limitor);
             
             
             m_add = add_recieve;
@@ -44,9 +44,9 @@ namespace WhiteboardWPF
 
         public Client(TcpClient tcpClient, modifFunction add_recieve, selector select_recieve, selector deselect_recieve, selector delete_recieve, modifFunction modif_recieve, clearFunction clear_receive)
         {
-            m_limitor = Convert.ToChar(Int16.Parse("feff001e"));
+            m_limitor = '\n';
 
-            connexionServer = new Connexion(tcpClient, runInstruction, m_limitor.ToString());
+            connexionServer = new Connexion(tcpClient, runInstruction, m_limitor);
 
 
             m_add = add_recieve;
@@ -71,7 +71,7 @@ namespace WhiteboardWPF
 
                 
                 int i = 3;
-                while (i < str.Length && str[i] != '\n' && str[i] != ' ')
+                while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
                 {
                     i++;
                 }
@@ -81,7 +81,7 @@ namespace WhiteboardWPF
             if (instructionName.Equals("SEL"))
             {
                 int i = 3;
-                while (i < str.Length && str[i] != '\n' && str[i] != ' ')
+                while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
                 {
                     i++;
                 }
@@ -91,7 +91,7 @@ namespace WhiteboardWPF
             if (instructionName.Equals("DES"))
             {
                 int i = 3;
-                while (i < str.Length && str[i] != '\n' && str[i] != ' ')
+                while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
                 {
                     i++;
                 }
@@ -101,7 +101,7 @@ namespace WhiteboardWPF
             if (instructionName.Equals("DEL"))
             {
                 int i = 3;
-                while (i < str.Length && str[i] != '\n' && str[i] != ' ')
+                while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
                 {
                     i++;
                 }
@@ -111,7 +111,7 @@ namespace WhiteboardWPF
             if (instructionName.Equals("MOD"))
             {
                 int i = 3;
-                while (i < str.Length && str[i] != '\n' && str[i] != ' ')
+                while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
                 {
                     i++;
                 }
