@@ -101,21 +101,19 @@ namespace WhiteboardWPF
             }
         }
 
-        void clearAll(object sender, System.EventArgs e) // clear ink from canvas
+        void clickEraseAllButton(object sender, System.EventArgs e)
+        {
+        }
+
+        void doEraseAll() // clear ink from canvas
         {
             inkCanvas.Strokes.Clear();
         }
 
         void strokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e) // collect last stroke collected
         {
-            showStrokes();
-            sendNewStroke(e.Stroke);
+            client.ask_add(e.Stroke);
             inkCanvas.Strokes.Remove(e.Stroke);
-        }
-
-        void sendNewStroke(System.Windows.Ink.Stroke newStroke)
-        {
-            // to complete
         }
 
         void addNewStroke(System.Windows.Ink.Stroke newStroke)
@@ -127,16 +125,6 @@ namespace WhiteboardWPF
         {
             inkCanvas.DefaultDrawingAttributes.Width = widthSlider.Value;
             inkCanvas.DefaultDrawingAttributes.Height = widthSlider.Value;
-        }
-
-        public void showStrokes()
-        {
-            string text = "| ";
-            foreach (var stroke in inkCanvas.Strokes)
-            {
-                text += stroke.StylusPoints.First().ToPoint().ToString() + " -> " + stroke.StylusPoints.Last().ToPoint().ToString() + " | ";
-            }
-            textBlock.Text = text;
         }
 
         void clickTextButton(object sender, System.EventArgs e)
