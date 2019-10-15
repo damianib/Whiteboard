@@ -134,12 +134,14 @@ namespace WhiteboardWPF
             changeMode("select");
         }
 
-        void clickCanvas(object sender, MouseEventArgs e)
+        DateTime lastClick = DateTime.Now;
+        void clickCanvas(object sender, MouseButtonEventArgs e)
         {
-            if (currentMode == "text")
+            if ((currentMode == "text") && ((DateTime.Now - lastClick) > new TimeSpan(0, 0, 1)))
             {
-                string inputText = Interaction.InputBox("Prompt", "Title", "", 100, 100);
+                string inputText = Interaction.InputBox("Prompt", "Title", "");
                 doAddTextBlock(inputText, e.GetPosition(this).X, e.GetPosition(this).Y);
+                lastClick = DateTime.Now;
             }
         }
 
