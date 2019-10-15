@@ -125,7 +125,7 @@ namespace TCPServeur
             Console.WriteLine("Préparation à l'écoute...");
 
             //On crée le serveur en lui spécifiant le port sur lequel il devra écouter.
-            IPAddress localAddr = IPAddress.Parse("138.195.241.105");
+            IPAddress localAddr = IPAddress.Parse("127.0.0.1");
             TcpListener server = new TcpListener(localAddr, 5035);
 
             server.Start();

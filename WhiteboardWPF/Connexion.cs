@@ -15,7 +15,7 @@ namespace WhiteboardWPF
         private TcpClient m_tcpClient;
         private String instruction = "";
         private Mutex mut = new Mutex();
-        private String m_limitor;
+        private Char m_limitor;
 
         public delegate void executer(String instruction);
 
@@ -28,7 +28,7 @@ namespace WhiteboardWPF
         private Thread threadTreatment;
 
         public bool isActive { private set; get; }
-        public Connexion(TcpClient tcpClient, executer executor, string limitor = "\n")
+        public Connexion(TcpClient tcpClient, executer executor, Char limitor = '\n')
         {
             isActive = true;
 
@@ -71,7 +71,7 @@ namespace WhiteboardWPF
             int limit = 0;
             for (int i = 0; i < newData.Length; i++)
             {
-                if (newData[i] == m_limitor[0])
+                if (newData[i] == m_limitor)
                 {
                     instruction += newData.Substring(limit, i - limit);
 
@@ -123,7 +123,7 @@ namespace WhiteboardWPF
             {
                 if (instructionToSend.TryDequeue(out str))
                 {
-                    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str + "\n");
+                    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str + m_limitor);
                     stream.Write(bytes, 0, bytes.Length);
                 }
             }

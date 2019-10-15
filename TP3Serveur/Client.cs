@@ -32,11 +32,11 @@ namespace TCPServeur
         public Client(TcpClient tcpClient, int id, addFunction addI, selector selectI, selector deselectI, selector deleteI, modifFunction modifI)
         {
 
-
+            m_limitor = '\n';
 
             m_limitor = Convert.ToChar(Int16.Parse("feff001e"));
             idClient = id;
-            connexionClient = new Connexion(tcpClient, runInstruction, m_limitor.ToString());
+            connexionClient = new Connexion(tcpClient, runInstruction, m_limitor);
             m_add = addI;
             m_select = selectI;
             m_deselect = deselectI;
@@ -47,10 +47,11 @@ namespace TCPServeur
         public Client(TcpClient tcpClient, int id, addFunction addI, selector selectI, selector deselectI, selector deleteI, modifFunction modifI, clearFunction clearI, string limitor = "\n")
         {
 
-            m_limitor = Convert.ToChar(Int16.Parse("feff001e"));
+            Console.WriteLine("ERREUR LAAAAAAA");
+            m_limitor = '\n';
 
             idClient = id;
-            connexionClient = new Connexion(tcpClient, runInstruction, m_limitor.ToString());
+            connexionClient = new Connexion(tcpClient, runInstruction, m_limitor);
             m_add = addI;
             m_select = selectI;
             m_deselect = deselectI;

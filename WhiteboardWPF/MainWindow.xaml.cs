@@ -24,7 +24,7 @@ namespace WhiteboardWPF
         string currentMode = "ink"; // possible values : ink, text
 
         Client client;
-        bool online = false;
+        bool online = true;
 
         public MainWindow()
         {
