@@ -147,7 +147,7 @@ namespace TCPServeur
             TcpClient client = (TcpClient) o;
             Monitor.Enter(clients);
             
-            Client interfaceCl = new Client(client, actualIDClient, do_add, select, do_deselect, do_delete, do_modif, clear_all);
+            Client interfaceCl = new Client(client, actualIDClient, do_add, select, do_deselect, do_delete, do_modif, do_clearAll);
             actualIDClient++;
 
 
@@ -177,3 +177,4 @@ namespace TCPServeur
         }
     }
 }
+
