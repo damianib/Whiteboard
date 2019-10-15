@@ -8,16 +8,16 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <InkCanvas x:Name="inkCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0, 0, 0, 40" StrokeCollected="strokeCollected" MouseDown="clickCanvas"></InkCanvas>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment ="Stretch" VerticalAlignment="Bottom">
-            <ComboBox x:Name="penStyleBox" HorizontalAlignment="Left" Width="100" Height="40" SelectionChanged="selectedPenStyle"/>
-            <ComboBox x:Name="colorBox" HorizontalAlignment="Left"  Width="70" Height="40" SelectionChanged="selectedColor"/>
-            <Button x:Name="clearAllButton" Content="Clear All" HorizontalAlignment="Right" Height="40" Width="80" Click="clearAll"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment ="Stretch" VerticalAlignment="Bottom" Height="40">
+            <ComboBox x:Name="penStyleBox" HorizontalAlignment="Left" Width="100" SelectionChanged="selectedPenStyle"/>
+            <ComboBox x:Name="colorBox" HorizontalAlignment="Left"  Width="70" SelectionChanged="selectedColor"/>
+            <Button x:Name="eraseAllButton" Content="Erase All" HorizontalAlignment="Right" Width="80" Click="clickEraseAllButton"/>
             <StackPanel>
-                <Slider x:Name="widthSlider" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Height="20" Orientation="Horizontal" Width="100" Minimum="1" Maximum="10" ValueChanged="sliderValueChanged"/>
+                <Slider x:Name="widthSlider" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Height="20" Orientation="Horizontal" Width="100" Minimum="1" Maximum="10" ValueChanged="selectedStylusWidth"/>
                 <TextBlock HorizontalAlignment="Center">Width</TextBlock>
             </StackPanel>
             <Button x:Name="textButton" Click="clickTextButton">TEXT</Button>
-            <TextBlock x:Name="textBlock" Height="40" Width="200"/>
+            <TextBlock x:Name="textBlock" Width="200"/>
         </StackPanel>
     </Grid>
 </Window>
