@@ -15,12 +15,14 @@ namespace TCPServeur
         public delegate void selector(int idClient, int id);
         public delegate void addFunction(int idClient, Object o);
         public delegate void modifFunction(int idClient, int id, Object o);
+        public delegate void clearFunction(int idClient);
 
         private selector m_select;
         private selector m_deselect;
         private selector m_delete;
         private addFunction m_add;
         private modifFunction m_modif;
+        private clearFunction m_clear_all;
 
         private Connexion connexionClient;
 
@@ -36,6 +38,19 @@ namespace TCPServeur
             m_deselect = deselectI;
             m_delete = deleteI;
             m_modif = modifI;
+        }
+
+        public Client(TcpClient tcpClient, int id, addFunction addI, selector selectI, selector deselectI, selector deleteI, modifFunction modifI, clearFunction clearI, string limitor = "\n")
+        {
+
+            idClient = id;
+            connexionClient = new Connexion(tcpClient, runInstruction);
+            m_add = addI;
+            m_select = selectI;
+            m_deselect = deselectI;
+            m_delete = deleteI;
+            m_modif = modifI;
+            m_clear_all = clearI;
         }
         public void start()
         {
@@ -93,27 +108,36 @@ namespace TCPServeur
                 int id = int.Parse(str.Substring(3, i - 3));
                 m_modif(idClient, id, ObjectConverter.getObject(str.Substring(i + 1)));
             }
+            if (instructionName.Equals("CLR"))
+            {
+                m_clear_all(idClient);
+            }
         }
-        public void add(int id, Object o)
+        public void send_add(int id, Object o)
         {
             connexionClient.addInstruction("ADD"+ Convert.ToString(id)+" "+ ObjectConverter.getString(o));
         }
-        public void select(int id)
+        public void send_select(int id)
         {
             connexionClient.addInstruction("SEL" + Convert.ToString(id));
 
         }
-        public void deselect(int id)
+        public void send_deselect(int id)
         {
             connexionClient.addInstruction("DES" + Convert.ToString(id));
         }
-        public void delete(int id)
+        public void send_delet(int id)
         {
             connexionClient.addInstruction("DEL" + Convert.ToString(id));
         }
-        public void modif(int id, Object o)
+        public void send_modif(int id, Object o)
         {
             connexionClient.addInstruction("MOD" + Convert.ToString(id) + " " + ObjectConverter.getString(o));
+        }
+
+        public void send_clear_all()
+        {
+            connexionClient.addInstruction("CLR");
         }
 
     }

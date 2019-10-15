@@ -121,5 +121,10 @@ namespace WhiteboardWPF
         {
             connexionServer.addInstruction("MOD" + Convert.ToString(id)+" "+ObjectConverter.getString(o));
         }
+
+        public void ask_clear_all()
+        {
+            connexionServer.addInstruction("CLR");
+        }
     }
 }
