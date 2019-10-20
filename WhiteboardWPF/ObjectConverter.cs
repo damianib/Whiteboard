@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +16,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Ink;
+using System.Diagnostics;
+
+
 
 namespace WhiteboardWPF
 {
@@ -20,16 +26,18 @@ namespace WhiteboardWPF
     {
         public static Object getObject(String str)
         {
-            return ReconvertStroke(str);
+            StrokeElement se = (StrokeElement) ReconvertElement(str);
+            return se.GetStroke();
         }
 
         public static Stroke ReconvertStroke(string locval)
         {
+
             string str = locval;
             string[] strlst = locval.Split('#');
             string[] vals;
             Stroke stroke;
-
+            Debug.WriteLine(locval);
             StylusPointCollection collect = new StylusPointCollection();
             DrawingAttributes attri = new DrawingAttributes();
 
@@ -89,15 +97,14 @@ namespace WhiteboardWPF
 
         public static BoardElement ReconvertElement(string str)
         {
-            string identifier = str.Substring(0, 2);
-
+            string identifier = str.Substring(0, 3);
             if (identifier.Equals("txt"))
             {
                 return ReconvertTextblock(str.Substring(3));
             }
             else if (identifier.Equals("str"))
             {
-
+                
                 return new StrokeElement(ReconvertStroke(str.Substring(3)));
             }
             else

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define DEBUG
+
+using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -7,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Diagnostics;
 
 
 namespace WhiteboardWPF
@@ -27,6 +30,7 @@ namespace WhiteboardWPF
 
         public MainWindow()
         {
+            Debug.WriteLine("Heyyyyyyyyyaaaaaaah");
             AllocConsole();
             if (online)
             {

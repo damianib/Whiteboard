@@ -30,6 +30,10 @@ namespace WhiteboardWPF
             this.Strokeat = stroke;
         }
 
+        public Stroke GetStroke()
+        {
+            return Strokeat;
+        }
         public override string GetString()
         {
             string locval;
@@ -42,8 +46,8 @@ namespace WhiteboardWPF
                 locval += "%" + point.X + ";" + point.Y;
             }
 
-            locval = "str" + locval;
-            return locval;
+            //locval = "str" + locval;
+            return "str"+locval;
         }
     }
 }
