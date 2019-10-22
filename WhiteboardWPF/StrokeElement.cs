@@ -54,6 +54,5 @@ namespace WhiteboardWPF
         {
             ink.Strokes.Add(Strokeat);
         }
-
     }
 }

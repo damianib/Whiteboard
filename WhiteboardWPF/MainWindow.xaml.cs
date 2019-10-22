@@ -22,6 +22,7 @@ namespace WhiteboardWPF
         List<Color> availableColors = new List<Color>() { Color.FromRgb(0, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0),
             Color.FromRgb(0, 0, 255) };
         string currentMode = "ink"; // possible values : ink, text
+        Dictionary<int, BoardElement> allBoardElements = new Dictionary<int, BoardElement>();
 
         Client client;
         bool online = true;
@@ -139,7 +140,16 @@ namespace WhiteboardWPF
         {
             if ((currentMode == "text") && ((DateTime.Now - lastClick) > new TimeSpan(0, 0, 1)))
             {
-                doAddTextBox("", e.GetPosition(this).X, e.GetPosition(this).Y);
+                TextBox newTextBox = new TextBox
+                {
+                    Width = 100,
+                    Height = 20,
+                    MaxLines = 100
+                };
+                inkCanvas.Children.Add(newTextBox);
+                InkCanvas.SetLeft(newTextBox, e.GetPosition(this).X);
+                InkCanvas.SetTop(newTextBox, e.GetPosition(this).Y);
+                newTextBox.Focus();
                 lastClick = DateTime.Now;
             }
         }
@@ -191,17 +201,7 @@ namespace WhiteboardWPF
             Dispatcher.Invoke(
                 () =>
                 {
-                    TextBox newTextBox = new TextBox
-                    {
-                        Text = text,
-                        Width = 100,
-                        Height = 20,
-                        MaxLines = 100
-                    };
-                    inkCanvas.Children.Add(newTextBox);
-                    InkCanvas.SetLeft(newTextBox, x);
-                    InkCanvas.SetTop(newTextBox, y);
-                    newTextBox.Focus();
+                    
                 });
         }
 
