@@ -13,7 +13,7 @@ namespace WhiteboardWPF
     class Client
     {
         public delegate void selector(int id);
-        public delegate void addFunction(Object o);
+        public delegate void addFunction(BoardElement b);
         public delegate void clearFunction();
 
         private selector m_select;
