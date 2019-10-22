@@ -139,8 +139,9 @@ namespace WhiteboardWPF
         {
             if ((currentMode == "text") && ((DateTime.Now - lastClick) > new TimeSpan(0, 0, 1)))
             {
-                string inputText = Interaction.InputBox("Prompt", "Title", "");
-                doAddTextBlock(inputText, e.GetPosition(this).X, e.GetPosition(this).Y);
+                //string inputText = Interaction.InputBox("Prompt", "Title", "");
+                //doAddTextBlock(inputText, e.GetPosition(this).X, e.GetPosition(this).Y);
+                doAddTextBox(e.GetPosition(this).X, e.GetPosition(this).Y);
                 lastClick = DateTime.Now;
             }
         }
@@ -198,6 +199,18 @@ namespace WhiteboardWPF
                     inkCanvas.Children.Add(newTextBlock);
                     InkCanvas.SetLeft(newTextBlock, x);
                     InkCanvas.SetTop(newTextBlock, y);
+                });
+        }
+
+        void doAddTextBox(double x, double y)
+        {
+            Dispatcher.Invoke(
+                () =>
+                {
+                    TextBox newTextBox = new TextBox();
+                    inkCanvas.Children.Add(newTextBox);
+                    InkCanvas.SetLeft(newTextBox, x);
+                    InkCanvas.SetTop(newTextBox, y);
                 });
         }
 
