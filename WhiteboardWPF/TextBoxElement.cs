@@ -43,7 +43,7 @@ namespace WhiteboardWPF
             string str = "";
             char separator = '\u0000';
 
-            str += "txb" + this.BoxT.Text + separator + this.BoxT.Height.ToString() + separator + this.BoxT.Width.ToString() + separator + this.X + separator + this.Y;
+            str += "txb" + this.BoxT.Text + this.X + this.Y + separator + this.BoxT.Height.ToString() + separator + this.BoxT.Width.ToString() + separator + this.X + separator + this.Y;
 
             return str;
         }
@@ -54,8 +54,8 @@ namespace WhiteboardWPF
             BoxT.Text = this.Text;
             BoxT.Width = this.Width;
             BoxT.Height = this.Height;
-            Canvas.SetTop(BoxT, this.X);
-            Canvas.SetLeft(BoxT, this.Y);
+            InkCanvas.SetTop(BoxT, this.Y);
+            InkCanvas.SetLeft(BoxT, this.X);
             ink.Children.Add(BoxT);
         }
 
