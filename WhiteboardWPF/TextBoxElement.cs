@@ -32,7 +32,9 @@ namespace WhiteboardWPF
 
         public override void AddToCanvas(InkCanvas ink)
         {
-            throw new NotImplementedException();
+            Canvas.SetTop(BoxT, X);
+            Canvas.SetLeft(BoxT, Y);
+            ink.Children.Add(BoxT);
         }
 
         public override void DeleteFromCanvas(InkCanvas ink)
