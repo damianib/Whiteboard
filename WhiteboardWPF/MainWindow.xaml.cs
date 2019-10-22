@@ -170,10 +170,11 @@ namespace WhiteboardWPF
 
         private void doAddStroke(int id, object o) // add a new stroke to canvas
         {
+            BoardElement b = (BoardElement)o;
             Dispatcher.Invoke(
                 () =>
                 {
-                    inkCanvas.Strokes.Add((Stroke)o);
+                    b.AddToCanvas(inkCanvas);
                 }
                 );
         }

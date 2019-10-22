@@ -1,6 +1,4 @@
 ﻿
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +27,7 @@ namespace WhiteboardWPF
             StrokeElement se = (StrokeElement) ReconvertElement(str);
             return se.GetStroke();
         }
+
 
         public static Stroke ReconvertStroke(string locval)
         {

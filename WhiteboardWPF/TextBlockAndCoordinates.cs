@@ -43,5 +43,10 @@ namespace WhiteboardWPF
 
             return str;
         }
+
+        public override void AddToCanvas(InkCanvas ink)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

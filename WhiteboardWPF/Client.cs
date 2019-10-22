@@ -76,7 +76,7 @@ namespace WhiteboardWPF
                     i++;
                 }
                 int id = int.Parse(str.Substring(3, i - 3));
-                m_add(id, ObjectConverter.getObject(str.Substring(i+1)));
+                m_add(id, ObjectConverter.ReconvertElement(str.Substring(i+1)));
             }
             if (instructionName.Equals("SEL"))
             {
