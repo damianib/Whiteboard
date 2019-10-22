@@ -28,11 +28,7 @@ namespace WhiteboardWPF
         Client client;
 
         Dictionary<int, BoardElement> allBoardElements = new Dictionary<int, BoardElement>();
-        private int getIdFromBoardElement(BoardElement boardElement)
-        {
-            int key = allBoardElements.FirstOrDefault(x => x.Value == boardElement).Key;
-            return key;
-        }
+        Dictionary<IntPtr, int> elementToBoardId = new Dictionary<IntPtr, int>();
 
         public MainWindow()
         {
@@ -176,10 +172,12 @@ namespace WhiteboardWPF
 
         void textBoxModified(object sender, RoutedEventArgs e)
         {
+            Console.WriteLine("HEY");
             TextBox sourceTextBox = (TextBox)e.Source;
             if (isCreatingATextBox)
             {
                 client.ask_add(new TextBoxElement(sourceTextBox, InkCanvas.GetLeft(sourceTextBox), InkCanvas.GetRight(sourceTextBox)));
+                inkCanvas.Children.Remove(sourceTextBox);
             }
             isCreatingATextBox = false;
         }
