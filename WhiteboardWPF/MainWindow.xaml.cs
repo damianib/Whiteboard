@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -22,21 +23,24 @@ namespace WhiteboardWPF
         List<Color> availableColors = new List<Color>() { Color.FromRgb(0, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0),
             Color.FromRgb(0, 0, 255) };
         string currentMode = "ink"; // possible values : ink, text
-        Dictionary<int, BoardElement> allBoardElements = new Dictionary<int, BoardElement>();
+        bool isCreatingATextBox = false;
 
         Client client;
-        bool online = true;
+
+        Dictionary<int, BoardElement> allBoardElements = new Dictionary<int, BoardElement>();
+        private int getIdFromBoardElement(BoardElement boardElement)
+        {
+            int key = allBoardElements.FirstOrDefault(x => x.Value == boardElement).Key;
+            return key;
+        }
 
         public MainWindow()
         {
             AllocConsole();
-            if (online)
-            {
-                TcpClient tcpClient = new TcpClient();
-                tcpClient.Connect("127.0.0.1", 5035);
-                client = new Client(tcpClient, doAdd, doSelectStroke, doDeselectStroke, doDeleteStroke);
-                client.start();
-            }
+            TcpClient tcpClient = new TcpClient();
+            tcpClient.Connect("127.0.0.1", 5035);
+            client = new Client(tcpClient, doAdd, doSelectStroke, doDeselectStroke, doDeleteStroke);
+            client.start();
 
             InitializeComponent();
             inkCanvas.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(clickCanvas), true);
@@ -144,12 +148,14 @@ namespace WhiteboardWPF
                 {
                     Width = 100,
                     Height = 20,
-                    MaxLines = 100
+                    MaxLines = 100,
                 };
+                newTextBox.LostFocus += new RoutedEventHandler(textBoxModified);
                 inkCanvas.Children.Add(newTextBox);
                 InkCanvas.SetLeft(newTextBox, e.GetPosition(this).X);
                 InkCanvas.SetTop(newTextBox, e.GetPosition(this).Y);
                 newTextBox.Focus();
+                isCreatingATextBox = true;
                 lastClick = DateTime.Now;
             }
         }
@@ -159,11 +165,8 @@ namespace WhiteboardWPF
 
         void strokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e) // send last stroke collected
         {
-            if (online)
-            {
-                client.ask_add(new StrokeElement(e.Stroke));
-                inkCanvas.Strokes.Remove(e.Stroke);
-            }
+            client.ask_add(new StrokeElement(e.Stroke));
+            inkCanvas.Strokes.Remove(e.Stroke);
         }
 
         void clickEraseAllButton(object sender, System.EventArgs e) // send erase all
@@ -171,14 +174,22 @@ namespace WhiteboardWPF
             Console.WriteLine(inkCanvas.Children);
         }
 
-        
+        void textBoxModified(object sender, RoutedEventArgs e)
+        {
+            TextBox sourceTextBox = (TextBox)e.Source;
+            if (isCreatingATextBox)
+            {
+                client.ask_add(new TextBoxElement(sourceTextBox, InkCanvas.GetLeft(sourceTextBox), InkCanvas.GetRight(sourceTextBox)));
+            }
+            isCreatingATextBox = false;
+        }
 
         // -----------------------------------------------------------------------------------------
         // FUNCTIONS CALLED FROM CLIENT
 
         private void doAdd(BoardElement boardElement) // add board element to ink canvas
         {
-            if (allBoardElements.ContainsValue(boardElement))
+            if (allBoardElements.ContainsKey(boardElement.id))
             {
                 doDelete(boardElement);
             }
