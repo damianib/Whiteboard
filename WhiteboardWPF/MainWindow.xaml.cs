@@ -154,7 +154,7 @@ namespace WhiteboardWPF
         {
             if (online)
             {
-                client.ask_add(e.Stroke);
+                client.ask_add(new StrokeElement(e.Stroke));
                 inkCanvas.Strokes.Remove(e.Stroke);
             }
         }
