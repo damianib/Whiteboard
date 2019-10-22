@@ -139,18 +139,15 @@ namespace WhiteboardWPF
         {
             if ((currentMode == "text") && ((DateTime.Now - lastClick) > new TimeSpan(0, 0, 1)))
             {
-                //string inputText = Interaction.InputBox("Prompt", "Title", "");
-                //doAddTextBlock(inputText, e.GetPosition(this).X, e.GetPosition(this).Y);
-                doAddTextBox(e.GetPosition(this).X, e.GetPosition(this).Y);
+                doAddTextBox("", e.GetPosition(this).X, e.GetPosition(this).Y);
                 lastClick = DateTime.Now;
             }
         }
 
-
         // -----------------------------------------------------------------------------------------
         // EVENTS SENT TO CLIENT
 
-        void strokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e) // collect last stroke collected
+        void strokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e) // send last stroke collected
         {
             if (online)
             {
@@ -159,11 +156,12 @@ namespace WhiteboardWPF
             }
         }
 
-        void clickEraseAllButton(object sender, System.EventArgs e)
+        void clickEraseAllButton(object sender, System.EventArgs e) // send erase all
         {
             Console.WriteLine(inkCanvas.Children);
         }
 
+        
 
         // -----------------------------------------------------------------------------------------
         // FUNCTIONS CALLED FROM CLIENT
@@ -188,30 +186,22 @@ namespace WhiteboardWPF
                 });
         }
 
-        void doAddTextBlock(string text, double x, double y) // add a new text block to canvas at specified position
+        void doAddTextBox(string text, double x, double y) // add a new text box to canvas
         {
             Dispatcher.Invoke(
                 () =>
                 {
-                    TextBlock newTextBlock = new TextBlock
+                    TextBox newTextBox = new TextBox
                     {
-                        Text = text
+                        Text = text,
+                        Width = 100,
+                        Height = 20,
+                        MaxLines = 100
                     };
-                    inkCanvas.Children.Add(newTextBlock);
-                    InkCanvas.SetLeft(newTextBlock, x);
-                    InkCanvas.SetTop(newTextBlock, y);
-                });
-        }
-
-        void doAddTextBox(double x, double y)
-        {
-            Dispatcher.Invoke(
-                () =>
-                {
-                    TextBox newTextBox = new TextBox();
                     inkCanvas.Children.Add(newTextBox);
                     InkCanvas.SetLeft(newTextBox, x);
                     InkCanvas.SetTop(newTextBox, y);
+                    newTextBox.Focus();
                 });
         }
 
