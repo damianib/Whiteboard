@@ -95,17 +95,19 @@ namespace WhiteboardWPF
 
         public static TextBoxElement ReconvertTextBox(string str)
         {
-            TextBox block = new TextBox();
+            TextBoxElement BoxT = new TextBoxElement();
             char separator = '\u0000';
             string[] strlst = str.Split(separator);
 
-            block.Text = strlst[0];
+            BoxT.Text = strlst[0];
 
-            block.Height = Double.Parse(strlst[1]);
+            BoxT.Height = Double.Parse(strlst[1]);
 
-            block.Width = Double.Parse(strlst[2]);
+            BoxT.Width = Double.Parse(strlst[2]);
 
-            TextBoxElement BoxT = new TextBoxElement(block, Double.Parse(strlst[3]), Double.Parse(strlst[4]));
+            BoxT.X = Double.Parse(strlst[3]);
+
+            BoxT.Y = Double.Parse(strlst[4]);
 
             return BoxT;
         }

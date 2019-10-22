@@ -9,15 +9,33 @@ namespace WhiteboardWPF
 {
     class TextBoxElement : BoardElement
     {
-        private TextBox BoxT;
-        private double X;
-        private double Y;
+        private TextBox BoxT = null;
+        public double X { get; set; }
+        public double Y { get; set; }
+
+        public string Text { get; set; }
+        public double Height { get; set; }
+        public double Width { get; set; }
 
         public TextBoxElement(TextBox box, double x, double y)
         {
             this.BoxT = box;
             this.X = x;
             this.Y = y;
+        }
+
+        public TextBoxElement(double height, double width, string text, double x, double y)
+        {
+            this.Height = height;
+            this.Width = width;
+            this.Text = text;
+            this.X = x;
+            this.Y = y;
+        }
+
+        public TextBoxElement()
+        {
+
         }
 
         public override string GetString()
@@ -32,8 +50,12 @@ namespace WhiteboardWPF
 
         public override void AddToCanvas(InkCanvas ink)
         {
-            Canvas.SetTop(BoxT, X);
-            Canvas.SetLeft(BoxT, Y);
+            BoxT = new TextBox();
+            BoxT.Text = this.Text;
+            BoxT.Width = this.Width;
+            BoxT.Height = this.Height;
+            Canvas.SetTop(BoxT, this.X);
+            Canvas.SetLeft(BoxT, this.Y);
             ink.Children.Add(BoxT);
         }
 
