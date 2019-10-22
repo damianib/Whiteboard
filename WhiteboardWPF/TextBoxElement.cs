@@ -37,7 +37,7 @@ namespace WhiteboardWPF
 
         public override void DeleteFromCanvas(InkCanvas ink)
         {
-            throw new NotImplementedException();
+            ink.Children.Remove(BoxT);
         }
     }
 }

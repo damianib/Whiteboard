@@ -129,7 +129,7 @@ namespace WhiteboardWPF
             }
             else
             {
-                return new StrokeElement(ReconvertStroke(str));
+                throw new NotImplementedException();
             }
         }
 
@@ -151,7 +151,7 @@ namespace WhiteboardWPF
             }
             else
             {
-                return "";
+                throw new NotImplementedException();
             }
         }
     }
