@@ -176,7 +176,7 @@ namespace WhiteboardWPF
             TextBox sourceTextBox = (TextBox)e.Source;
             if (isCreatingATextBox)
             {
-                client.ask_add(new TextBoxElement(sourceTextBox, InkCanvas.GetLeft(sourceTextBox), InkCanvas.GetRight(sourceTextBox)));
+                client.ask_add(new TextBoxElement(sourceTextBox, InkCanvas.GetLeft(sourceTextBox), InkCanvas.GetTop(sourceTextBox)));
                 inkCanvas.Children.Remove(sourceTextBox);
             }
             isCreatingATextBox = false;
