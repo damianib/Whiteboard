@@ -13,14 +13,13 @@ namespace WhiteboardWPF
     class Client
     {
         public delegate void selector(int id);
-        public delegate void modifFunction(int id, Object o);
+        public delegate void addFunction(Object o);
         public delegate void clearFunction();
 
         private selector m_select;
         private selector m_deselect;
         private selector m_delete;
-        private modifFunction m_add;
-        private modifFunction m_modif;
+        private addFunction m_add;
         private clearFunction m_clear_all;
         
 
@@ -28,7 +27,7 @@ namespace WhiteboardWPF
 
         Connexion connexionServer;
 
-        public Client(TcpClient tcpClient, modifFunction add_recieve, selector select_recieve, selector deselect_recieve, selector delete_recieve, modifFunction modif_recieve)
+        public Client(TcpClient tcpClient, addFunction add_recieve, selector select_recieve, selector deselect_recieve, selector delete_recieve)
         {
             m_limitor = '\n';
 
@@ -39,10 +38,9 @@ namespace WhiteboardWPF
             m_select = select_recieve;
             m_deselect = deselect_recieve;
             m_delete = delete_recieve;
-            m_modif = modif_recieve;
         }
 
-        public Client(TcpClient tcpClient, modifFunction add_recieve, selector select_recieve, selector deselect_recieve, selector delete_recieve, modifFunction modif_recieve, clearFunction clear_receive)
+        public Client(TcpClient tcpClient, addFunction add_recieve, selector select_recieve, selector deselect_recieve, selector delete_recieve, clearFunction clear_receive)
         {
             m_limitor = '\n';
 
@@ -53,7 +51,6 @@ namespace WhiteboardWPF
             m_select = select_recieve;
             m_deselect = deselect_recieve;
             m_delete = delete_recieve;
-            m_modif = modif_recieve;
             m_clear_all = clear_receive;
         }
 
@@ -76,7 +73,9 @@ namespace WhiteboardWPF
                     i++;
                 }
                 int id = int.Parse(str.Substring(3, i - 3));
-                m_add(id, ObjectConverter.ReconvertElement(str.Substring(i+1)));
+                BoardElement b = ObjectConverter.ReconvertElement(str.Substring(i + 1));
+                b.id = id;
+                m_add(b);
             }
             if (instructionName.Equals("SEL"))
             {
@@ -108,7 +107,7 @@ namespace WhiteboardWPF
                 int id = int.Parse(str.Substring(3, i - 3));
                 m_delete(id);
             }
-            if (instructionName.Equals("MOD"))
+            /*if (instructionName.Equals("MOD"))
             {
                 int i = 3;
                 while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
@@ -116,8 +115,9 @@ namespace WhiteboardWPF
                     i++;
                 }
                 int id = int.Parse(str.Substring(3, i - 3));
-                m_modif(id, str.Substring(i + 1));
-            }
+                BoardElement b = 
+                m_modif(str.Substring(i + 1));
+            } */
         }
 
         public void ask_add (Object o)

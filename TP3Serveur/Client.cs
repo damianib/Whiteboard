@@ -135,10 +135,10 @@ namespace TCPServeur
         {
             connexionClient.addInstruction("DEL" + Convert.ToString(id));
         }
-        public void send_modif(int id, Object o)
+        /*public void send_modif(int id, Object o)
         {
-            connexionClient.addInstruction("MOD" + Convert.ToString(id) + " " + ObjectConverter.getString(o));
-        }
+            connexionClient.addInstruction("ADD" + Convert.ToString(id) + " " + ObjectConverter.getString(o));
+        }*/
 
         public void send_clear_all()
         {

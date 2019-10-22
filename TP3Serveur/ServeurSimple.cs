@@ -36,7 +36,7 @@ namespace TCPServeur
                 listObject[idLock].m_clientLocker = -1; //Unselect the object
                 clients[idClient].ObjectLocked = -1; // Telle the client the object have been unselected
                 clients[idClient].send_deselect(idLock);
-                clients[idClient].send_modif(idLock, listObject[idLock]);
+                clients[idClient].send_add(idLock, listObject[idLock]);
             }
             
             if(id<listObject.Count && id>= 0)
@@ -64,7 +64,7 @@ namespace TCPServeur
                 listObject[idLock].m_clientLocker = -1; //Unselect the object
                 clients[idClient].ObjectLocked = -1; // Telle the client the object have been unselected
                 clients[idClient].send_deselect(idLock);
-                clients[idClient].send_modif(idLock, listObject[idLock]);
+                clients[idClient].send_add(idLock, listObject[idLock]);
             }
 
             Monitor.Exit(clients);
@@ -103,7 +103,7 @@ namespace TCPServeur
                 
                 foreach (Client client in clients)
                 {
-                    client.send_modif(id, o);
+                    client.send_add(id, o);
                 }
             }
             Monitor.Exit(clients);
