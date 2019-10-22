@@ -46,6 +46,12 @@ namespace WhiteboardWPF
 
         public override void AddToCanvas(InkCanvas ink)
         {
+            throw new NotImplementedException();
+        }
+
+        public override void DeleteFromCanvas(InkCanvas ink)
+        {
             ink.Children.Remove(BlockT);
+        }
     }
 }
