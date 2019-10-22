@@ -176,6 +176,32 @@ namespace WhiteboardWPF
         // -----------------------------------------------------------------------------------------
         // FUNCTIONS CALLED FROM CLIENT
 
+        private void doAdd(BoardElement boardElement) // add board element to ink canvas
+        {
+            if (allBoardElements.ContainsValue(boardElement))
+            {
+                doDelete(boardElement);
+            }
+            Dispatcher.Invoke(
+                () =>
+                {
+                    
+                    boardElement.AddToCanvas(inkCanvas);
+                });
+
+            allBoardElements[boardElement.id] = boardElement;
+        }
+
+        private void doDelete(BoardElement boardElement) // delete board element from ink canvas
+        {
+            Dispatcher.Invoke(
+                () =>
+                {
+                    boardElement.DeleteFromCanvas(inkCanvas);
+                });
+            allBoardElements.Remove(boardElement.id);
+        }
+
         private void doAddStroke(int id, object o) // add a new stroke to canvas
         {
             BoardElement b = (BoardElement)o;
