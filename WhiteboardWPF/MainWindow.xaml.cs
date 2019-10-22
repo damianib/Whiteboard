@@ -34,7 +34,7 @@ namespace WhiteboardWPF
             {
                 TcpClient tcpClient = new TcpClient();
                 tcpClient.Connect("127.0.0.1", 5035);
-                client = new Client(tcpClient, doAddStroke, doSelectStroke, doDeselectStroke, doDeleteStroke, doModifStroke);
+                client = new Client(tcpClient, doAdd, doSelectStroke, doDeselectStroke, doDeleteStroke);
                 client.start();
             }
 
