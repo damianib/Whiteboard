@@ -22,11 +22,11 @@ namespace WhiteboardWPF
 {
     class ObjectConverter
     {
-        public static Object getObject(String str)
+        /*public static Object getObject(String str)
         {
             StrokeElement se = (StrokeElement) ReconvertElement(str);
             return se.GetStroke();
-        }
+        } */
 
 
         public static Stroke ReconvertStroke(string locval)
@@ -133,7 +133,7 @@ namespace WhiteboardWPF
             }
         }
 
-        public static string getString(Object o)
+        /*public static string getString(Object o)
         {
             if (typeof(Stroke).IsInstanceOfType(o)){
                 StrokeElement stroke = new StrokeElement((Stroke)o);
@@ -153,6 +153,6 @@ namespace WhiteboardWPF
             {
                 throw new NotImplementedException();
             }
-        }
+        }*/
     }
 }

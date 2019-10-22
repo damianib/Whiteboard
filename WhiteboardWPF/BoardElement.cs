@@ -8,6 +8,8 @@ using System.Windows.Ink;
 
 namespace WhiteboardWPF
 {
+
+    
     abstract class BoardElement
     {
         public int id;
