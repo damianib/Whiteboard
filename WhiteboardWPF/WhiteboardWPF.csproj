@@ -64,6 +64,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BoardElement.cs" />
+    <Compile Include="StrokeElement.cs" />
     <Compile Include="TextBlockAndCoordinates.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Connexion.cs" />

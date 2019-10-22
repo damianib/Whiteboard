@@ -16,11 +16,11 @@ using System.Windows.Ink;
 
 namespace WhiteboardWPF
 {
-    class TextBlockAndCoordinates
+    class TextBlockAndCoordinates : BoardElement
     {
-        public TextBlock BlockT { get; set; }
-        public double X { get; set; }
-        public double Y { get; set; }
+        private TextBlock BlockT { get; set; }
+        private double X { get; set; }
+        private double Y { get; set; }
 
         public TextBlockAndCoordinates(TextBlock block, double x, double y)
         {
@@ -32,6 +32,16 @@ namespace WhiteboardWPF
         public TextBlockAndCoordinates()
         {
 
+        }
+
+        public override string GetString()
+        {
+            string str = "";
+            char separator = '\u0000';
+
+            str += "txt" + this.BlockT.Text + separator + this.BlockT.Height.ToString() + separator + this.BlockT.Width.ToString() + separator + this.X + separator + this.Y;
+
+            return str;
         }
     }
 }
