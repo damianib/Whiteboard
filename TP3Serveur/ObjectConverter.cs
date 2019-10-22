@@ -18,9 +18,17 @@ namespace TCPServeur
             return (String)o;
         }
 
-        internal static object reconvertElement(string v)
+        public static BoardElement reconvertElement(int id, string v)
         {
-            throw new NotImplementedException();
+            if (v.Substring(0, 3).Equals("str"))
+            {
+                return new StrokeElement(id, v.Substring(3));
+            }
+            else
+            {
+                return new TextBoxElement(id, v.Substring(3));
+            }
+            
         }
     }
 }

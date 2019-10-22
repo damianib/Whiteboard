@@ -15,6 +15,7 @@ namespace TCPServeur
 
         private Mutex mutex = new Mutex();
         private List<ObjetAffichable> listObject = new List<ObjetAffichable>();
+        private Dictionary<int, BoardElement> allBoardElements = new Dictionary<int, BoardElement>();
         private List<Client> clients = new List<Client>();
 
 
@@ -86,10 +87,14 @@ namespace TCPServeur
         {
             
             Monitor.Enter(clients);
+
+            BoardElement b = ObjectConverter.reconvertElement(actualID, (String)o);
             listObject.Add(new ObjetAffichable(actualID,o));
+            allBoardElements.Add(actualID, b);
             foreach (Client client in clients)
             {
-                client.send_add(actualID, o);
+                //client.send_add(actualID, o);
+                client.send_add(b.m_id, b.GetString());
             }
             actualID++;
             Monitor.Exit(clients);
@@ -98,12 +103,13 @@ namespace TCPServeur
         {
             
             Monitor.Enter(clients);
+            BoardElement b = ObjectConverter.reconvertElement(id, (String)o);
             if (clients[idClient].ObjectLocked == id)
             {
                 
                 foreach (Client client in clients)
                 {
-                    client.send_add(id, o);
+                    client.send_add(id, b.GetString());
                 }
             }
             Monitor.Exit(clients);
@@ -117,8 +123,9 @@ namespace TCPServeur
                 client.send_clear_all();
         
             }
-
+            allBoardElements.Clear();
             Monitor.Exit(clients);
+
         }
         private void listen()
         {

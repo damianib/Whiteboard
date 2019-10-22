@@ -54,8 +54,8 @@ namespace WhiteboardWPF
             BoxT.Text = this.Text;
             BoxT.Width = this.Width;
             BoxT.Height = this.Height;
-            Canvas.SetTop(BoxT, this.X);
-            Canvas.SetLeft(BoxT, this.Y);
+            InkCanvas.SetTop(BoxT, this.Y);
+            InkCanvas.SetLeft(BoxT, this.X);
             ink.Children.Add(BoxT);
         }
 
