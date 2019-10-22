@@ -54,5 +54,10 @@ namespace WhiteboardWPF
         {
             ink.Strokes.Add(Strokeat);
         }
+
+        public override void DeleteFromCanvas(InkCanvas ink)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
