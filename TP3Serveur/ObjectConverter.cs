@@ -17,5 +17,10 @@ namespace TCPServeur
         {
             return (String)o;
         }
+
+        internal static object reconvertElement(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

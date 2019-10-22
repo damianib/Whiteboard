@@ -49,5 +49,11 @@ namespace WhiteboardWPF
             //locval = "str" + locval;
             return "str"+locval;
         }
+
+        public override void AddToCanvas(InkCanvas ink)
+        {
+            ink.Strokes.Add(Strokeat);
+        }
+
     }
 }

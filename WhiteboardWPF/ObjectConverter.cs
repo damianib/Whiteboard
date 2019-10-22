@@ -1,6 +1,4 @@
 ﻿
-
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +27,7 @@ namespace WhiteboardWPF
             StrokeElement se = (StrokeElement) ReconvertElement(str);
             return se.GetStroke();
         }
+
 
         public static Stroke ReconvertStroke(string locval)
         {
@@ -94,6 +93,23 @@ namespace WhiteboardWPF
             return blockC;
         }
 
+        public static TextBoxElement ReconvertTextBox(string str)
+        {
+            TextBox block = new TextBox();
+            char separator = '\u0000';
+            string[] strlst = str.Split(separator);
+
+            block.Text = strlst[0];
+
+            block.Height = Double.Parse(strlst[1]);
+
+            block.Width = Double.Parse(strlst[2]);
+
+            TextBoxElement BoxT = new TextBoxElement(block, Double.Parse(strlst[3]), Double.Parse(strlst[4]));
+
+            return BoxT;
+        }
+
 
         public static BoardElement ReconvertElement(string str)
         {
@@ -106,6 +122,10 @@ namespace WhiteboardWPF
             {
                 
                 return new StrokeElement(ReconvertStroke(str.Substring(3)));
+            }
+            else if (identifier.Equals("txb"))
+            {
+                return ReconvertTextBox(str.Substring(3));
             }
             else
             {
@@ -122,6 +142,11 @@ namespace WhiteboardWPF
             else if (typeof(TextBlockAndCoordinates).IsInstanceOfType(o))
             {
                 TextBlockAndCoordinates txt = (TextBlockAndCoordinates)o;
+                return txt.GetString();
+            }
+            else if (typeof(TextBoxElement).IsInstanceOfType(o))
+            {
+                TextBoxElement txt = (TextBoxElement)o;
                 return txt.GetString();
             }
             else
