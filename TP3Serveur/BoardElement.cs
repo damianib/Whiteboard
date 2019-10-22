@@ -8,5 +8,6 @@ namespace TP3Serveur
 {
     class BoardElement
     {
+        
     }
 }

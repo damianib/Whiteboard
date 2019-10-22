@@ -120,9 +120,8 @@ namespace WhiteboardWPF
             } */
         }
 
-        public void ask_add (Object o)
+        public void ask_add (BoardElement b)
         {
-            BoardElement b = (BoardElement)o;
             connexionServer.addInstruction("ADD" + b.GetString());
 
         }
@@ -139,9 +138,8 @@ namespace WhiteboardWPF
         {
             connexionServer.addInstruction("DEL" + Convert.ToString(id));
         }
-        public void ask_modif(int id, Object o)
+        public void ask_modif(int id, BoardElement b)
         {
-            BoardElement b = (BoardElement)o;
             connexionServer.addInstruction("MOD" + Convert.ToString(id)+" "+b.GetString());
         }
 
