@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
@@ -27,8 +28,9 @@ namespace WhiteboardWPF
 
         Client client;
 
+        ObjectIDGenerator objectIDGenerator = new ObjectIDGenerator();
         Dictionary<int, BoardElement> allBoardElements = new Dictionary<int, BoardElement>();
-        Dictionary<IntPtr, int> elementToBoardId = new Dictionary<IntPtr, int>();
+        Dictionary<int, int> objectIdToBoardId = new Dictionary<int, int>();
 
         public MainWindow()
         {
