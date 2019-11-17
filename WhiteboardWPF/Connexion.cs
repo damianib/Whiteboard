@@ -50,9 +50,26 @@ namespace WhiteboardWPF
             instructionToSend.Enqueue(str);
         }
 
-        public void start()
+        public void start(String nom, bool first = false)
         {
+
             isActive = true;
+            if (first)
+            {
+                String st = "connect " + nom + " -1";
+                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(st);
+
+                m_tcpClient.GetStream().Write(bytes, 0, bytes.Length);
+                m_tcpClient.GetStream().Read(bytes, 0, bytes.Length);
+            }
+            else
+            {
+                String st = "init " + nom + " -1";
+                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(st);
+
+                m_tcpClient.GetStream().Write(bytes, 0, bytes.Length);
+                m_tcpClient.GetStream().Read(bytes, 0, bytes.Length);
+            }
             theradReception.Start();
             theradEmission.Start();
             threadTreatment.Start();

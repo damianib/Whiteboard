@@ -16,8 +16,11 @@ namespace TCPServeur
         private static void Main(string[] args)
         {
             Console.WriteLine("CECI EST LE SERVEUR");
-            ServeurSimple server = new ServeurSimple();
-            server.demarerServeur();
+            //CommonWhiteBoard server = new CommonWhiteBoard();
+            //server.demarerServeur();
+            Server server = new Server();
+            server.addWB("coucou");
+            server.listen();
         }
        
     }

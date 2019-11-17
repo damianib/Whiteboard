@@ -10,13 +10,13 @@ using System.Collections;
 
 namespace TCPServeur
 {
-    class ServeurSimple
+    class CommonWhiteBoard
     {
 
         private Mutex mutex = new Mutex();
-        //private List<ObjetAffichable> listObject = new List<ObjetAffichable>();
         private Dictionary<int, BoardElement> allBoardElements = new Dictionary<int, BoardElement>();
-        private List<Client> clients = new List<Client>();
+
+        private Dictionary<int, Client> clients = new Dictionary<int, Client>();
 
 
         private int actualID = 0;
@@ -28,6 +28,29 @@ namespace TCPServeur
             th.Start();
             th.Join();
         }
+        public bool hasClient(int id)
+        {
+            return clients.ContainsKey(id);
+        }
+        public void startConnexion(TcpClient client, int idClient = -1)
+        {
+            
+            Monitor.Enter(clients);
+            if(idClient == -1)
+            {
+                idClient = actualIDClient;
+                actualIDClient++;
+            }
+            Client interfaceCl = new Client(client, idClient, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
+            interfaceCl.start();
+
+
+            clients.Add(idClient, interfaceCl);
+            do_reset_client(idClient);
+
+            Monitor.Exit(clients);
+        }
+
         private void select(int idClient, int id)
         {
             Monitor.Enter(clients);
@@ -76,7 +99,7 @@ namespace TCPServeur
             if (clients[idClient].ObjectLocked == id)
             {
                 allBoardElements[id].m_o = "";
-                foreach (Client client in clients)
+                foreach (Client client in clients.Values)
                 {
                     client.send_delet(id);
                 }
@@ -90,7 +113,7 @@ namespace TCPServeur
 
             BoardElement b = ObjectConverter.reconvertElement(actualID, (String)o);
             allBoardElements.Add(actualID, b);
-            foreach (Client client in clients)
+            foreach (Client client in clients.Values)
             {
                 //client.send_add(actualID, o);
                 Console.WriteLine(actualID);
@@ -107,10 +130,14 @@ namespace TCPServeur
             if (clients[idClient].ObjectLocked == id)
             {
                 
-                foreach (Client client in clients)
+                foreach (Client client in clients.Values)
                 {
                     client.send_add(id, b.GetString());
                 }
+            }
+            else
+            {
+                do_reset_client(idClient);
             }
             Monitor.Exit(clients);
         }
@@ -118,11 +145,12 @@ namespace TCPServeur
         private void do_clearAll(int idClient)
         {
             Monitor.Enter(clients);
-            foreach (Client client in clients)
+            foreach (Client client in clients.Values)
             {
                 client.send_clear_all();
             }
             allBoardElements.Clear();
+            actualID = 0;
             Monitor.Exit(clients);
 
         }
@@ -141,7 +169,8 @@ namespace TCPServeur
                 Console.Write("Waiting for a connection... ");
                 TcpClient client = server.AcceptTcpClient();
 
-                Thread th = new Thread(new ParameterizedThreadStart(establishConnection));
+                Thread th = new Thread((Object o)=>{ establishConnection(o); } );//new ParameterizedThreadStart(establishConnection));
+                
                 th.Start(client);
 
             }
@@ -171,7 +200,7 @@ namespace TCPServeur
             interfaceCl.start();
 
 
-            clients.Add(interfaceCl);
+            clients.Add(idClient, interfaceCl);
             do_reset_client(idClient);
             
             Monitor.Exit(clients);
@@ -182,7 +211,7 @@ namespace TCPServeur
             
             Monitor.Enter(clients);
             allBoardElements.Clear();
-            foreach (Client client in clients)
+            foreach (Client client in clients.Values)
             {
                 client.send_clear_all();
                 client.ObjectLocked = -1;
@@ -193,4 +222,3 @@ namespace TCPServeur
         }
     }
 }
-

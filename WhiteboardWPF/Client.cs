@@ -12,9 +12,14 @@ namespace WhiteboardWPF
 {
     class Client
     {
+
+
         public delegate void selector(int id);
         public delegate void addFunction(BoardElement b);
         public delegate void clearFunction();
+
+
+        public string m_nomServer { get; set; }
 
         private selector m_select;
         private selector m_deselect;
@@ -56,7 +61,8 @@ namespace WhiteboardWPF
 
         public void start()
         {
-            connexionServer.start();
+            
+            connexionServer.start(m_nomServer);
         }
         private void runInstruction(String str)
         {
