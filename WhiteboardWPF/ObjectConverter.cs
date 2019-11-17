@@ -29,7 +29,7 @@ namespace WhiteboardWPF
         } */
 
 
-        public static Stroke ReconvertStroke(string locval)
+        public static StrokeElement ReconvertStroke(string locval)
         {
 
             string str = locval;
@@ -73,7 +73,7 @@ namespace WhiteboardWPF
             }
             stroke = new Stroke(collect, attri);
 
-            return stroke;
+            return new StrokeElement(stroke);
         }
 
         public static TextBlockAndCoordinates ReconvertTextblock(string str)
@@ -115,6 +115,9 @@ namespace WhiteboardWPF
 
         public static BoardElement ReconvertElement(string str)
         {
+            
+            
+
             string identifier = str.Substring(0, 3);
             if (identifier.Equals("txt"))
             {
@@ -123,7 +126,7 @@ namespace WhiteboardWPF
             else if (identifier.Equals("str"))
             {
                 
-                return new StrokeElement(ReconvertStroke(str.Substring(3)));
+                return ReconvertStroke(str.Substring(3));
             }
             else if (identifier.Equals("txb"))
             {

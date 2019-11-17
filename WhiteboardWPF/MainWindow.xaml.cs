@@ -20,6 +20,8 @@ namespace WhiteboardWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        TextBlock texting = new TextBlock();
         List<String> availableColorsStr = new List<String>() { "Black", "Red", "Green", "Blue" };
         List<Color> availableColors = new List<Color>() { Color.FromRgb(0, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0),
             Color.FromRgb(0, 0, 255) };
@@ -37,7 +39,7 @@ namespace WhiteboardWPF
             AllocConsole();
             TcpClient tcpClient = new TcpClient();
             tcpClient.Connect("127.0.0.1", 5035);
-            client = new Client(tcpClient, doAdd, doSelectStroke, doDeselectStroke, doDeleteStroke);
+            client = new Client(tcpClient, doAdd, doSelectStroke, doDeselectStroke, doDelete, doEraseAll);
             client.start();
 
             InitializeComponent();
@@ -59,6 +61,8 @@ namespace WhiteboardWPF
 
             inkCanvas.UseCustomCursor = true;
             inkCanvas.DefaultDrawingAttributes.StylusTip = System.Windows.Ink.StylusTip.Ellipse;
+            inkCanvas.Children.Add(texting);
+            texting.Text = "Initial text";
         }
 
 
@@ -169,19 +173,19 @@ namespace WhiteboardWPF
 
         void clickEraseAllButton(object sender, System.EventArgs e) // send erase all
         {
-            Console.WriteLine(inkCanvas.Children);
+            client.ask_clear_all();
         }
 
         void textBoxModified(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("HEY");
             TextBox sourceTextBox = (TextBox)e.Source;
             if (isCreatingATextBox)
             {
-                client.ask_add(new TextBoxElement(sourceTextBox, InkCanvas.GetLeft(sourceTextBox), InkCanvas.GetTop(sourceTextBox)));
+                client.ask_add(new TextBoxElement(sourceTextBox, InkCanvas.GetLeft(sourceTextBox), InkCanvas.GetTop(sourceTextBox),0));
                 inkCanvas.Children.Remove(sourceTextBox);
+                isCreatingATextBox = false;
             }
-            isCreatingATextBox = false;
+            
         }
 
         // -----------------------------------------------------------------------------------------
@@ -189,28 +193,37 @@ namespace WhiteboardWPF
 
         private void doAdd(BoardElement boardElement) // add board element to ink canvas
         {
+            Console.WriteLine("Key " + Convert.ToString(boardElement.id));
             if (allBoardElements.ContainsKey(boardElement.id))
             {
-                doDelete(boardElement);
+                Dispatcher.Invoke(() =>
+                {
+                    texting.Text = Convert.ToString(boardElement.id);
+                }
+                );
+                doDelete(boardElement.id);
             }
             Dispatcher.Invoke(
                 () =>
                 {
-                    
                     boardElement.AddToCanvas(inkCanvas);
                 });
 
             allBoardElements[boardElement.id] = boardElement;
         }
 
-        private void doDelete(BoardElement boardElement) // delete board element from ink canvas
+        private void doDelete(int id) // delete board element from ink canvas
         {
-            Dispatcher.Invoke(
+            if (allBoardElements.ContainsKey(id))
+            {
+                BoardElement boardElement = allBoardElements[id];
+                Dispatcher.Invoke(
                 () =>
                 {
                     boardElement.DeleteFromCanvas(inkCanvas);
                 });
-            allBoardElements.Remove(boardElement.id);
+                allBoardElements.Remove(id);
+            }
         }
 
         private void doAddStroke(int id, object o) // add a new stroke to canvas
@@ -229,7 +242,11 @@ namespace WhiteboardWPF
             Dispatcher.Invoke(
                 () =>
                 {
-                    inkCanvas.Strokes.Clear();
+                    foreach(int key in allBoardElements.Keys)
+                    {
+                        allBoardElements[key].DeleteFromCanvas(inkCanvas);
+                    }
+                    allBoardElements.Clear();
                 });
         }
 

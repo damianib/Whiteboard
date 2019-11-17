@@ -17,14 +17,15 @@ namespace WhiteboardWPF
         public double Height { get; set; }
         public double Width { get; set; }
 
-        public TextBoxElement(TextBox box, double x, double y)
+        public TextBoxElement(TextBox box, double x, double y, int id)
         {
             this.BoxT = box;
             this.X = x;
             this.Y = y;
+            this.id = id;
         }
 
-        public TextBoxElement(double height, double width, string text, double x, double y)
+        public TextBoxElement(double height, double width, string text, double x, double y, int id)
         {
             this.Height = height;
             this.Width = width;
@@ -35,7 +36,7 @@ namespace WhiteboardWPF
 
         public TextBoxElement()
         {
-
+            
         }
 
         public override string GetString()

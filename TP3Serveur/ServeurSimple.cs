@@ -14,7 +14,7 @@ namespace TCPServeur
     {
 
         private Mutex mutex = new Mutex();
-        private List<ObjetAffichable> listObject = new List<ObjetAffichable>();
+        //private List<ObjetAffichable> listObject = new List<ObjetAffichable>();
         private Dictionary<int, BoardElement> allBoardElements = new Dictionary<int, BoardElement>();
         private List<Client> clients = new List<Client>();
 
@@ -34,19 +34,19 @@ namespace TCPServeur
             int idLock = clients[idClient].ObjectLocked;
             if(idLock != -1)
             {
-                listObject[idLock].m_clientLocker = -1; //Unselect the object
+                allBoardElements[idLock].m_clientLocker = -1; //Unselect the object
                 clients[idClient].ObjectLocked = -1; // Telle the client the object have been unselected
                 clients[idClient].send_deselect(idLock);
-                clients[idClient].send_add(idLock, listObject[idLock]);
+                clients[idClient].send_add(idLock, allBoardElements[idLock]);
             }
             
-            if(id<listObject.Count && id>= 0)
+            if(allBoardElements.ContainsKey(id))
             {
 
-                if (listObject[id].m_clientLocker == -1)
+                if (allBoardElements[id].m_clientLocker == -1)
                 {
-                    
-                    listObject[id].m_clientLocker = idClient;
+
+                    allBoardElements[id].m_clientLocker = idClient;
                     clients[idClient].ObjectLocked = id;
                     clients[idClient].send_select(id);
 
@@ -62,10 +62,10 @@ namespace TCPServeur
             int idLock = clients[idClient].ObjectLocked;
             if (idLock != -1)
             {
-                listObject[idLock].m_clientLocker = -1; //Unselect the object
+                allBoardElements[idLock].m_clientLocker = -1; //Unselect the object
                 clients[idClient].ObjectLocked = -1; // Telle the client the object have been unselected
                 clients[idClient].send_deselect(idLock);
-                clients[idClient].send_add(idLock, listObject[idLock]);
+                clients[idClient].send_add(idLock, allBoardElements[idLock]);
             }
 
             Monitor.Exit(clients);
@@ -75,7 +75,7 @@ namespace TCPServeur
             Monitor.Enter(clients);
             if (clients[idClient].ObjectLocked == id)
             {
-                listObject[id].m_o = "";
+                allBoardElements[id].m_o = "";
                 foreach (Client client in clients)
                 {
                     client.send_delet(id);
@@ -89,11 +89,11 @@ namespace TCPServeur
             Monitor.Enter(clients);
 
             BoardElement b = ObjectConverter.reconvertElement(actualID, (String)o);
-            listObject.Add(new ObjetAffichable(actualID,o));
             allBoardElements.Add(actualID, b);
             foreach (Client client in clients)
             {
                 //client.send_add(actualID, o);
+                Console.WriteLine(actualID);
                 client.send_add(b.m_id, b.GetString());
             }
             actualID++;
@@ -121,7 +121,6 @@ namespace TCPServeur
             foreach (Client client in clients)
             {
                 client.send_clear_all();
-        
             }
             allBoardElements.Clear();
             Monitor.Exit(clients);
@@ -148,22 +147,33 @@ namespace TCPServeur
             }
         }
 
+
+        private void do_reset_client(int idClient)
+        {
+            Monitor.Enter(clients);
+            clients[idClient].send_clear_all();
+            foreach(int key in allBoardElements.Keys)
+            {
+                clients[idClient].send_add(key, allBoardElements[key].GetString());
+            }   
+            Monitor.Exit(clients);
+        }
+
         private void establishConnection(Object o)
         {
             
             TcpClient client = (TcpClient) o;
             Monitor.Enter(clients);
-            
-            Client interfaceCl = new Client(client, actualIDClient, do_add, select, do_deselect, do_delete, do_modif, do_clearAll);
+
+            int idClient = actualIDClient;
             actualIDClient++;
-
-
+            Client interfaceCl = new Client(client, idClient, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
             interfaceCl.start();
+
+
             clients.Add(interfaceCl);
-            foreach(ObjetAffichable oo in listObject)
-            {
-                interfaceCl.send_add(oo.m_id, oo.m_o);
-            }
+            do_reset_client(idClient);
+            
             Monitor.Exit(clients);
         }
 
@@ -171,14 +181,13 @@ namespace TCPServeur
         {
             
             Monitor.Enter(clients);
-            listObject = new List<ObjetAffichable>();
+            allBoardElements.Clear();
             foreach (Client client in clients)
             {
                 client.send_clear_all();
                 client.ObjectLocked = -1;
             }
 
-            listObject.Clear();
             actualID = 0;
             Monitor.Exit(clients);
         }

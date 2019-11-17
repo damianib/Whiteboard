@@ -107,6 +107,10 @@ namespace WhiteboardWPF
                 int id = int.Parse(str.Substring(3, i - 3));
                 m_delete(id);
             }
+            if (instructionName.Equals("CLR"))
+            {
+                m_clear_all();
+            }
             /*if (instructionName.Equals("MOD"))
             {
                 int i = 3;
@@ -145,6 +149,7 @@ namespace WhiteboardWPF
 
         public void ask_clear_all()
         {
+            Console.WriteLine("Coucou");
             connexionServer.addInstruction("CLR");
         }
     }

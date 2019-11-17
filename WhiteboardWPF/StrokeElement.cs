@@ -31,6 +31,12 @@ namespace WhiteboardWPF
             this.Strokeat = stroke;
         }
 
+        public StrokeElement(Stroke stroke, int id)
+        {
+            this.Strokeat = stroke;
+            this.id = id;
+        }
+
         public Stroke GetStroke()
         {
             return Strokeat;
