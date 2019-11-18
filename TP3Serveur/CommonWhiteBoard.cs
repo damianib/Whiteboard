@@ -22,6 +22,13 @@ namespace TCPServeur
         private int actualID = 0;
         private int actualIDClient = 0;
 
+        private String name;
+
+        public CommonWhiteBoard(String name)
+        {
+            this.name = name;
+        }
+
         public void demarerServeur()
         {
             Thread th = new Thread(new ThreadStart(listen));
@@ -36,19 +43,43 @@ namespace TCPServeur
         {
             
             Monitor.Enter(clients);
-            if(idClient == -1)
+            int id = idClient;
+            if (id == -1)
             {
-                idClient = actualIDClient;
+                id = actualIDClient;
                 actualIDClient++;
             }
-            Client interfaceCl = new Client(client, idClient, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
-            interfaceCl.start();
-
-
-            clients.Add(idClient, interfaceCl);
-            do_reset_client(idClient);
-
+            if (!clients.ContainsKey(id))
+            {
+                Client interfaceCl = new Client(client, id, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
+                clients.Add(id, interfaceCl);
+            }
+            
+            clients[id].start();
+            do_reset_client(id);
             Monitor.Exit(clients);
+            
+        }
+
+        public void startConnexion(TcpClient client, int idClient, String nameWB)
+        {
+
+            Monitor.Enter(clients);
+            int id = idClient;
+            if (id == -1)
+            {
+                id = actualIDClient;
+                actualIDClient++;
+            }
+            if (!clients.ContainsKey(id))
+            {
+                Client interfaceCl = new Client(client, id, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
+                clients.Add(id, interfaceCl);
+            }
+            clients[id].start();
+            do_reset_client(id);
+            Monitor.Exit(clients);
+
         }
 
         private void select(int idClient, int id)

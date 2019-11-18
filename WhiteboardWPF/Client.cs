@@ -20,6 +20,7 @@ namespace WhiteboardWPF
 
 
         public string m_nomServer { get; set; }
+        public int idConnexion { get; set; }
 
         private selector m_select;
         private selector m_deselect;
@@ -116,6 +117,12 @@ namespace WhiteboardWPF
             if (instructionName.Equals("CLR"))
             {
                 m_clear_all();
+            }
+            if (instructionName.Equals("INF"))
+            {
+                String[] infos = str.Substring(3).Split(' ');
+                idConnexion = Convert.ToInt32(infos[0]);
+                m_nomServer = infos[1];
             }
             /*if (instructionName.Equals("MOD"))
             {

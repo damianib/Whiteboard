@@ -29,9 +29,10 @@ namespace WhiteboardWPF
         private int sizeLeft = 0;
 
         public bool isActive { private set; get; }
+        public int id { private set; get; }
         public Connexion(TcpClient tcpClient, executer executor, Char limitor = '\n')
         {
-            isActive = true;
+            isActive = false;
 
             m_tcpClient = tcpClient;
             m_executor = executor;
@@ -52,24 +53,25 @@ namespace WhiteboardWPF
 
         public void start(String nom, bool first = false)
         {
-
+            String[] r;
+            String sending = "";
             isActive = true;
-            if (first)
+            if (!first)
             {
-                String st = "connect " + nom + " -1";
-                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(st);
-
-                m_tcpClient.GetStream().Write(bytes, 0, bytes.Length);
-                m_tcpClient.GetStream().Read(bytes, 0, bytes.Length);
+                sending = "connect " + nom + " -1";
+            }
+            else if(!nom.Equals(""))
+            {
+                sending = "init " + nom + " -1";
             }
             else
             {
-                String st = "init " + nom + " -1";
-                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(st);
-
-                m_tcpClient.GetStream().Write(bytes, 0, bytes.Length);
-                m_tcpClient.GetStream().Read(bytes, 0, bytes.Length);
+                String st = "init " + "r" + " -1";
             }
+
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(sending);
+            m_tcpClient.GetStream().Write(bytes, 0, bytes.Length);
+
             theradReception.Start();
             theradEmission.Start();
             threadTreatment.Start();
