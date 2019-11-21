@@ -36,7 +36,7 @@ namespace WhiteboardWPF
             AllocConsole();
             TcpClient tcpClient = new TcpClient();
             tcpClient.Connect("127.0.0.1", 5035);
-            client = new Client(tcpClient, doAdd, doSelectStroke, doDeselectStroke, doDelete, doEraseAll);
+            client = new Client(tcpClient, doAdd, doSelect, doDeselect, doDelete, doEraseAll);
             client.m_nomServer = "coucou";
             client.start();
 
@@ -174,7 +174,7 @@ namespace WhiteboardWPF
             client.ask_clear_all();
         }
 
-        void textBoxModified(object sender, RoutedEventArgs e)
+        public void textBoxModified(object sender, RoutedEventArgs e)
         {
             TextBox sourceTextBox = (TextBox)e.Source;
             if (isCreatingATextBox)
@@ -191,6 +191,7 @@ namespace WhiteboardWPF
 
         private void doAdd(BoardElement boardElement) // add board element to ink canvas
         {
+            
             if (allBoardElements.ContainsKey(boardElement.id))
             {
                 Dispatcher.Invoke(() =>
@@ -203,7 +204,7 @@ namespace WhiteboardWPF
             Dispatcher.Invoke(
                 () =>
                 {
-                    boardElement.AddToCanvas(inkCanvas);
+                    boardElement.AddToCanvas(this, inkCanvas);
                 });
 
             allBoardElements[boardElement.id] = boardElement;
@@ -217,23 +218,13 @@ namespace WhiteboardWPF
                 Dispatcher.Invoke(
                 () =>
                 {
-                    boardElement.DeleteFromCanvas(inkCanvas);
+                    boardElement.DeleteFromCanvas(this, inkCanvas);
                 });
                 allBoardElements.Remove(id);
             }
         }
 
-        private void doAddStroke(int id, object o) // add a new stroke to canvas
-        {
-            BoardElement b = (BoardElement)o;
-            Dispatcher.Invoke(
-                () =>
-                {
-                    b.AddToCanvas(inkCanvas);
-                }
-                );
-        }
-
+     
         void doEraseAll() // clear ink from canvas
         {
             Dispatcher.Invoke(
@@ -241,33 +232,13 @@ namespace WhiteboardWPF
                 {
                     foreach(int key in allBoardElements.Keys)
                     {
-                        allBoardElements[key].DeleteFromCanvas(inkCanvas);
+                        allBoardElements[key].DeleteFromCanvas(this, inkCanvas);
                     }
                     allBoardElements.Clear();
                 });
         }
-
-        void doAddTextBox(string text, double x, double y) // add a new text box to canvas
-        {
-            Dispatcher.Invoke(
-                () =>
-                {
-                    
-                });
-        }
-
-        private void doDeleteStroke(int id) // delete given stroke from canvas
-        {
-            Dispatcher.Invoke(
-                () =>
-                {
-                    inkCanvas.Strokes.Remove(inkCanvas.Strokes[id]);
-                });
-        }
-
-        private void doSelectStroke(int id) { }
-        private void doDeselectStroke(int id) { }
-        private void doModifStroke(int id, object o) { }
+        private void doSelect(int id) { }
+        private void doDeselect(int id) { }
 
 
         // -----------------------------------------------------------------------------------------
