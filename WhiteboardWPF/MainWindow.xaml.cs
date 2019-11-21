@@ -196,13 +196,15 @@ namespace WhiteboardWPF
         void selectionChanging(object sender, System.EventArgs e)
         {
             ReadOnlyCollection<UIElement> selectedElements = inkCanvas.GetSelectedElements();
-            long selectedObjectId = objectIDGenerator.GetId(selectedElements[0]);
-            client.ask_select(allBoardElements[objectIdToBoardId[;
+            int boardId = getBoardIdFromObject(selectedElements[0]);
+            client.ask_select(boardId);
 
+            inkCanvas.Select(null, null);
         }
 
         void selectionChanged(object sender, System.EventArgs e)
         {
+
         }
 
         // -----------------------------------------------------------------------------------------
