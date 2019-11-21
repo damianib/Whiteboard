@@ -17,6 +17,7 @@ namespace WhiteboardWPF
         public abstract void AddToCanvas(MainWindow window, InkCanvas ink);
         public abstract void DeleteFromCanvas(MainWindow window, InkCanvas ink);
 
+        public abstract void selectInCanvas(MainWindow window, InkCanvas ink);
         public abstract Object getElement();
     }
 }

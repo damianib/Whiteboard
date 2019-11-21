@@ -71,5 +71,11 @@ namespace WhiteboardWPF
         {
             return this.Strokeat;
         }
+
+        public override void selectInCanvas(MainWindow window, InkCanvas ink)
+        {
+            StrokeCollection strokeCollection = new StrokeCollection(new List<Stroke>{ this.Strokeat });
+            ink.Select(strokeCollection, null);
+        }
     }
 }
