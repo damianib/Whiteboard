@@ -12,29 +12,47 @@ namespace TCPServeur
 {
     class CommonWhiteBoard
     {
-
-        private Mutex mutex = new Mutex();
+        /// <summary>
+        /// Dictionnary that contains all the element on the board, indexed by they IDs
+        /// </summary>
         private Dictionary<int, BoardElement> allBoardElements = new Dictionary<int, BoardElement>();
 
-        private Dictionary<int, Client> clients = new Dictionary<int, Client>();
+        /// <summary>
+        /// Dictionnary that contains all the client that are interacting with this board, indexed by their IDs
+        /// </summary>
+        private Dictionary<int, ClientInterface> clients = new Dictionary<int, ClientInterface>();
 
-
+        /// <summary>
+        /// actual minimal id not atributed to any object
+        /// </summary>
         private int actualID = 0;
+
+        /// <summary>
+        /// actual minimal id not atributed to any client
+        /// </summary>
         private int actualIDClient = 0;
 
+        /// <summary>
+        /// Name of the whiteboard
+        /// </summary>
         private String name;
 
+        /// <summary>
+        /// Create a whiteboard
+        /// </summary>
+        /// <param name="name">Whiteboard's name</param>
         public CommonWhiteBoard(String name)
         {
             this.name = name;
         }
 
+        /*
         public void demarerServeur()
         {
             Thread th = new Thread(new ThreadStart(listen));
             th.Start();
             th.Join();
-        }
+        }*/
         public bool hasClient(int id)
         {
             return clients.ContainsKey(id);
@@ -51,7 +69,7 @@ namespace TCPServeur
             }
             if (!clients.ContainsKey(id))
             {
-                Client interfaceCl = new Client(client, id, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
+                ClientInterface interfaceCl = new ClientInterface(client, id, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
                 clients.Add(id, interfaceCl);
             }
             
@@ -73,7 +91,7 @@ namespace TCPServeur
             }
             if (!clients.ContainsKey(id))
             {
-                Client interfaceCl = new Client(client, id, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
+                ClientInterface interfaceCl = new ClientInterface(client, id, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
                 clients.Add(id, interfaceCl);
             }
             clients[id].start();
@@ -131,7 +149,7 @@ namespace TCPServeur
             {
                 //allBoardElements[id].m_o = "";
                 allBoardElements.Remove(id);
-                foreach (Client client in clients.Values)
+                foreach (ClientInterface client in clients.Values)
                 {
                     client.send_delet(id);
                 }
@@ -145,11 +163,11 @@ namespace TCPServeur
 
             BoardElement b = ObjectConverter.reconvertElement(actualID, str);
             allBoardElements.Add(actualID, b);
-            foreach (Client client in clients.Values)
+            foreach (ClientInterface client in clients.Values)
             {
                 //client.send_add(actualID, o);
                 Console.WriteLine(actualID);
-                client.send_add(b.m_id, b.GetString());
+                client.send_add(b.m_id, b);
             }
             actualID++;
             Monitor.Exit(clients);
@@ -162,9 +180,9 @@ namespace TCPServeur
             if (clients[idClient].ObjectLocked == id)
             {
                 
-                foreach (Client client in clients.Values)
+                foreach (ClientInterface client in clients.Values)
                 {
-                    client.send_add(id, b.GetString());
+                    client.send_add(id, b);
                 }
             }
             else
@@ -177,7 +195,7 @@ namespace TCPServeur
         private void do_clearAll(int idClient)
         {
             Monitor.Enter(clients);
-            foreach (Client client in clients.Values)
+            foreach (ClientInterface client in clients.Values)
             {
                 client.send_clear_all();
             }
@@ -186,6 +204,8 @@ namespace TCPServeur
             Monitor.Exit(clients);
 
         }
+
+        /*
         private void listen()
         {
             Console.WriteLine("Préparation à l'écoute...");
@@ -207,7 +227,7 @@ namespace TCPServeur
 
             }
         }
-
+        */
 
         private void do_reset_client(int idClient)
         {
@@ -215,7 +235,7 @@ namespace TCPServeur
             clients[idClient].send_clear_all();
             foreach(int key in allBoardElements.Keys)
             {
-                clients[idClient].send_add(key, allBoardElements[key].GetString());
+                clients[idClient].send_add(key, allBoardElements[key]);
             }   
             Monitor.Exit(clients);
         }
@@ -228,7 +248,7 @@ namespace TCPServeur
 
             int idClient = actualIDClient;
             actualIDClient++;
-            Client interfaceCl = new Client(client, idClient, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
+            ClientInterface interfaceCl = new ClientInterface(client, idClient, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
             interfaceCl.start();
 
 
@@ -243,7 +263,7 @@ namespace TCPServeur
             
             Monitor.Enter(clients);
             allBoardElements.Clear();
-            foreach (Client client in clients.Values)
+            foreach (ClientInterface client in clients.Values)
             {
                 client.send_clear_all();
                 client.ObjectLocked = -1;
