@@ -192,7 +192,7 @@ namespace WhiteboardWPF
                 inkCanvas.Children.Remove(sourceTextBox);
                 isCreatingATextBox = false;
             }
-            
+            texting.Text = "HALP";
         }
 
         void selectionChanged(object sender, System.EventArgs e)
@@ -217,6 +217,12 @@ namespace WhiteboardWPF
             }
 
             texting.Text = "CHANGED";
+        }
+
+
+        void selectionMoving(object sender, InkCanvasSelectionEditingEventArgs e)
+        {
+
         }
 
         // -----------------------------------------------------------------------------------------

@@ -58,6 +58,7 @@ namespace WhiteboardWPF
             BoxT.Height = this.Height;
             InkCanvas.SetTop(BoxT, this.Y);
             InkCanvas.SetLeft(BoxT, this.X);
+            BoxT.LostFocus += new RoutedEventHandler(window.textBoxModified);
             ink.Children.Add(BoxT);
         }
 
