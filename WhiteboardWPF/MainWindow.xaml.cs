@@ -26,6 +26,7 @@ namespace WhiteboardWPF
             Color.FromRgb(0, 0, 255) };
         string currentMode = "ink"; // possible values : ink, text
         bool isCreatingATextBox = false;
+        bool isSelectionFromServer = false;
 
         Client client;
 
@@ -194,31 +195,6 @@ namespace WhiteboardWPF
             
         }
 
-        void selectionChanging(object sender, InkCanvasSelectionChangingEventArgs e)
-        {
-            //ReadOnlyCollection<UIElement> selectedElements = e.GetSelectedElements();
-            //StrokeCollection selectedStrokes = e.GetSelectedStrokes();
-            //int boardId = -1; 
-
-            //if (selectedElements.Count > 0)
-            //{
-            //    boardId = getBoardIdFromObject(selectedElements[0]);
-            //}
-            //else if (selectedStrokes.Count > 0)
-            //{
-            //    boardId = getBoardIdFromObject(selectedStrokes[0]);
-            //}
-
-            //if (boardId != -1)
-            //{
-            //    client.ask_select(boardId);
-            //    inkCanvas.Select(null, null);
-            //}
-
-            //texting.Text = "CHANGING";
-            
-        }
-
         void selectionChanged(object sender, System.EventArgs e)
         {
             ReadOnlyCollection<UIElement> selectedElements = inkCanvas.GetSelectedElements();
@@ -234,7 +210,7 @@ namespace WhiteboardWPF
                 boardId = getBoardIdFromObject(selectedStrokes[0]);
             }
 
-            if (boardId != -1)
+            if ((boardId != -1) && (isSelectionFromServer == false))
             {
                 client.ask_select(boardId);
                 inkCanvas.Select(null, null);
@@ -303,7 +279,9 @@ namespace WhiteboardWPF
             Dispatcher.Invoke(
                 () =>
                 {
+                    isSelectionFromServer = true;
                     allBoardElements[id].selectInCanvas(this, inkCanvas);
+                    isSelectionFromServer = false;
                 });
         }
         private void doDeselect() 

@@ -8,8 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <InkCanvas x:Name="inkCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0, 0, 0, 40" 
-                   StrokeCollected="strokeCollected" MouseDown="clickCanvas" SelectionChanging="selectionChanging"
-                   SelectionChanged="selectionChanged"></InkCanvas>
+                   StrokeCollected="strokeCollected" MouseDown="clickCanvas" SelectionChanged="selectionChanged"></InkCanvas>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="40">
             <ComboBox x:Name="penStyleBox" HorizontalAlignment="Left" SelectionChanged="selectedPenStyle"/>
             <ComboBox x:Name="colorBox" HorizontalAlignment="Left" SelectionChanged="selectedColor"/>
