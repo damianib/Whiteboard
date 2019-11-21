@@ -23,18 +23,19 @@ namespace TCPServeur
         private addFunction m_add;
         private modifFunction m_modif;
         private clearFunction m_clear_all;
+        private clearFunction m_reset;
         private char m_limitor;
 
         private Connexion connexionClient;
 
         public int ObjectLocked = -1;
         public int idClient { get; private set; }
-        public Client(TcpClient tcpClient, int id, addFunction addI, selector selectI, selector deselectI, selector deleteI, modifFunction modifI)
+        public Client(TcpClient tcpClient, int id, addFunction addI, selector selectI, selector deselectI, selector deleteI, modifFunction modifI, clearFunction clearI, clearFunction resetI)
         {
 
             m_limitor = '\n';
 
-            m_limitor = Convert.ToChar(Int16.Parse("feff001e"));
+            //m_limitor = Convert.ToChar(Int16.Parse("feff001e"));
             idClient = id;
             connexionClient = new Connexion(tcpClient, runInstruction, m_limitor);
             m_add = addI;
@@ -42,9 +43,11 @@ namespace TCPServeur
             m_deselect = deselectI;
             m_delete = deleteI;
             m_modif = modifI;
+            m_clear_all = clearI;
+            m_reset = resetI;
         }
 
-        public Client(TcpClient tcpClient, int id, addFunction addI, selector selectI, selector deselectI, selector deleteI, modifFunction modifI, clearFunction clearI, string limitor = "\n")
+        public Client(TcpClient tcpClient, int id, addFunction addI, selector selectI, selector deselectI, selector deleteI, modifFunction modifI, clearFunction clearI, clearFunction resetI,string limitor = "\n")
         {
 
             Console.WriteLine("ERREUR LAAAAAAA");
@@ -58,6 +61,7 @@ namespace TCPServeur
             m_delete = deleteI;
             m_modif = modifI;
             m_clear_all = clearI;
+            m_reset = resetI;
         }
         public void start()
         {

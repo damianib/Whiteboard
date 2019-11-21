@@ -32,7 +32,7 @@ namespace TCPServeur
         public bool isActive { private set; get; }
         public Connexion(TcpClient tcpClient, executer executor, Char limitor = '\n')
         {
-            isActive = true;
+            isActive = false;
 
             m_tcpClient = tcpClient;
             m_executor = executor;
@@ -52,10 +52,14 @@ namespace TCPServeur
 
         public void start()
         {
-            isActive = true;
-            theradReception.Start();
-            theradEmission.Start();
-            threadTreatment.Start();
+            if(isActive == false)
+            {
+                isActive = true;
+                theradReception.Start();
+                theradEmission.Start();
+                threadTreatment.Start();
+            }
+            
         }
 
         public void stop()

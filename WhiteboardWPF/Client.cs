@@ -12,9 +12,15 @@ namespace WhiteboardWPF
 {
     class Client
     {
+
+
         public delegate void selector(int id);
         public delegate void addFunction(BoardElement b);
         public delegate void clearFunction();
+
+
+        public string m_nomServer { get; set; }
+        public int idConnexion { get; set; }
 
         private selector m_select;
         private selector m_deselect;
@@ -56,7 +62,8 @@ namespace WhiteboardWPF
 
         public void start()
         {
-            connexionServer.start();
+            
+            connexionServer.start(m_nomServer);
         }
         private void runInstruction(String str)
         {
@@ -107,6 +114,16 @@ namespace WhiteboardWPF
                 int id = int.Parse(str.Substring(3, i - 3));
                 m_delete(id);
             }
+            if (instructionName.Equals("CLR"))
+            {
+                m_clear_all();
+            }
+            if (instructionName.Equals("INF"))
+            {
+                String[] infos = str.Substring(3).Split(' ');
+                idConnexion = Convert.ToInt32(infos[0]);
+                m_nomServer = infos[1];
+            }
             /*if (instructionName.Equals("MOD"))
             {
                 int i = 3;
@@ -145,6 +162,7 @@ namespace WhiteboardWPF
 
         public void ask_clear_all()
         {
+            Console.WriteLine("Coucou");
             connexionServer.addInstruction("CLR");
         }
     }

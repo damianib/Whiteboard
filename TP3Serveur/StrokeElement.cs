@@ -31,6 +31,8 @@ namespace TCPServeur
         double Width;
         public StrokeElement(int id, string locval)
         {
+            this.m_id = id;
+
             string str = locval;
             
             string[] strlst = locval.Split('#');
