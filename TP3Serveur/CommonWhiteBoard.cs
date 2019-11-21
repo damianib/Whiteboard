@@ -90,7 +90,7 @@ namespace TCPServeur
             {
                 allBoardElements[idLock].m_clientLocker = -1; //Unselect the object
                 clients[idClient].ObjectLocked = -1; // Telle the client the object have been unselected
-                clients[idClient].send_deselect(idLock);
+                clients[idClient].send_deselect();
                 clients[idClient].send_add(idLock, allBoardElements[idLock]);
             }
             
@@ -110,7 +110,7 @@ namespace TCPServeur
             Monitor.Exit(clients);
             
         }
-        private void do_deselect(int idClient, int id)
+        private void do_deselect(int idClient)
         {
             Monitor.Enter(clients);
             int idLock = clients[idClient].ObjectLocked;
@@ -118,7 +118,7 @@ namespace TCPServeur
             {
                 allBoardElements[idLock].m_clientLocker = -1; //Unselect the object
                 clients[idClient].ObjectLocked = -1; // Telle the client the object have been unselected
-                clients[idClient].send_deselect(idLock);
+                clients[idClient].send_deselect();
                 clients[idClient].send_add(idLock, allBoardElements[idLock]);
             }
 
@@ -129,7 +129,8 @@ namespace TCPServeur
             Monitor.Enter(clients);
             if (clients[idClient].ObjectLocked == id)
             {
-                allBoardElements[id].m_o = "";
+                //allBoardElements[id].m_o = "";
+                allBoardElements.Remove(id);
                 foreach (Client client in clients.Values)
                 {
                     client.send_delet(id);
@@ -137,12 +138,12 @@ namespace TCPServeur
             }
             Monitor.Exit(clients);
         }
-        private void do_add(int idClient, Object o)
+        private void do_add(int idClient, String str)
         {
             
             Monitor.Enter(clients);
 
-            BoardElement b = ObjectConverter.reconvertElement(actualID, (String)o);
+            BoardElement b = ObjectConverter.reconvertElement(actualID, str);
             allBoardElements.Add(actualID, b);
             foreach (Client client in clients.Values)
             {
@@ -153,11 +154,11 @@ namespace TCPServeur
             actualID++;
             Monitor.Exit(clients);
         }
-        private void do_modif(int idClient, int id, Object o)
+        private void do_modif(int idClient, int id, String str)
         {
             
             Monitor.Enter(clients);
-            BoardElement b = ObjectConverter.reconvertElement(id, (String)o);
+            BoardElement b = ObjectConverter.reconvertElement(id, str);
             if (clients[idClient].ObjectLocked == id)
             {
                 

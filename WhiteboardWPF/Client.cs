@@ -23,17 +23,17 @@ namespace WhiteboardWPF
         public int idConnexion { get; set; }
 
         private selector m_select;
-        private selector m_deselect;
         private selector m_delete;
         private addFunction m_add;
         private clearFunction m_clear_all;
-        
+        private clearFunction m_deselect;
+
 
         private Char m_limitor;
 
         Connexion connexionServer;
 
-        public Client(TcpClient tcpClient, addFunction add_recieve, selector select_recieve, selector deselect_recieve, selector delete_recieve)
+        public Client(TcpClient tcpClient, addFunction add_recieve, selector select_recieve, clearFunction deselect_recieve, selector delete_recieve)
         {
             m_limitor = '\n';
 
@@ -46,7 +46,7 @@ namespace WhiteboardWPF
             m_delete = delete_recieve;
         }
 
-        public Client(TcpClient tcpClient, addFunction add_recieve, selector select_recieve, selector deselect_recieve, selector delete_recieve, clearFunction clear_receive)
+        public Client(TcpClient tcpClient, addFunction add_recieve, selector select_recieve, clearFunction deselect_recieve, selector delete_recieve, clearFunction clear_receive)
         {
             m_limitor = '\n';
 
@@ -96,13 +96,7 @@ namespace WhiteboardWPF
             }
             if (instructionName.Equals("DES"))
             {
-                int i = 3;
-                while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
-                {
-                    i++;
-                }
-                int id = int.Parse(str.Substring(3, i - 3));
-                m_deselect(id);
+                m_deselect();
             }
             if (instructionName.Equals("DEL"))
             {
@@ -147,9 +141,9 @@ namespace WhiteboardWPF
             connexionServer.addInstruction("SEL" + Convert.ToString(id));
 
         }
-        public void ask_deselect(int id)
+        public void ask_deselect()
         {
-            connexionServer.addInstruction("DES" + Convert.ToString(id));
+            connexionServer.addInstruction("DES");
         }
         public void ask_delete(int id)
         {
