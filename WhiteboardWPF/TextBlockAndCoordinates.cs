@@ -60,5 +60,11 @@ namespace WhiteboardWPF
         {
             return BlockT;
         }
+
+
+        public override void selectInCanvas(MainWindow window, InkCanvas ink)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

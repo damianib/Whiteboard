@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -193,12 +194,20 @@ namespace WhiteboardWPF
             
         }
 
-        void selectionChanging(object sender, System.EventArgs e)
+        void selectionChanging(object sender, InkCanvasSelectionChangingEventArgs e)
         {
-            ReadOnlyCollection<UIElement> selectedElements = inkCanvas.GetSelectedElements();
-            int boardId = getBoardIdFromObject(selectedElements[0]);
+            ReadOnlyCollection<UIElement> selectedElements = e.GetSelectedElements();
+            StrokeCollection selectedStrokes = e.GetSelectedStrokes();
+            int boardId; 
+            if (selectedElements.Count > 0)
+            {
+                boardId = getBoardIdFromObject(selectedElements[0]);
+            }
+            else
+            {
+                boardId = getBoardIdFromObject(selectedStrokes[0]);
+            }
             client.ask_select(boardId);
-
             inkCanvas.Select(null, null);
         }
 
@@ -262,8 +271,22 @@ namespace WhiteboardWPF
                     allBoardElements.Clear();
                 });
         }
-        private void doSelect(int id) { }
-        private void doDeselect() { }
+        private void doSelect(int id) 
+        {
+            Dispatcher.Invoke(
+                () =>
+                {
+                    allBoardElements[id].selectInCanvas(this, inkCanvas);
+                });
+        }
+        private void doDeselect() 
+        {
+            Dispatcher.Invoke(
+                () =>
+                {
+                    inkCanvas.Select(null, null);
+                });
+        }
 
 
         // -----------------------------------------------------------------------------------------

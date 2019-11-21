@@ -70,5 +70,11 @@ namespace WhiteboardWPF
         {
             return this.BoxT;
         }
+
+        public override void selectInCanvas(MainWindow window, InkCanvas ink)
+        {
+            List<UIElement> uIElements = new List<UIElement> { this.BoxT };
+            ink.Select(null, uIElements);
+        }
     }
 }
