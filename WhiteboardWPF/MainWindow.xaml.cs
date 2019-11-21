@@ -191,7 +191,6 @@ namespace WhiteboardWPF
 
         private void doAdd(BoardElement boardElement) // add board element to ink canvas
         {
-            Console.WriteLine("Key " + Convert.ToString(boardElement.id));
             if (allBoardElements.ContainsKey(boardElement.id))
             {
                 Dispatcher.Invoke(() =>
