@@ -44,14 +44,14 @@ namespace WhiteboardWPF
             return str;
         }
 
-        public override void AddToCanvas(InkCanvas ink)
+        public override void AddToCanvas(MainWindow window, InkCanvas ink)
         {
             Canvas.SetTop(BlockT, X);
             Canvas.SetLeft(BlockT, Y);
             ink.Children.Add(BlockT);
         }
 
-        public override void DeleteFromCanvas(InkCanvas ink)
+        public override void DeleteFromCanvas(MainWindow window, InkCanvas ink)
         {
             ink.Children.Remove(BlockT);
         }

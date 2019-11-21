@@ -57,12 +57,12 @@ namespace WhiteboardWPF
             return "str"+locval;
         }
 
-        public override void AddToCanvas(InkCanvas ink)
+        public override void AddToCanvas(MainWindow window, InkCanvas ink)
         {
             ink.Strokes.Add(Strokeat);
         }
 
-        public override void DeleteFromCanvas(InkCanvas ink)
+        public override void DeleteFromCanvas(MainWindow window, InkCanvas ink)
         {
             ink.Strokes.Remove(Strokeat);
         }

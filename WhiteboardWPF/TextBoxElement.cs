@@ -49,7 +49,7 @@ namespace WhiteboardWPF
             return str;
         }
 
-        public override void AddToCanvas(InkCanvas ink)
+        public override void AddToCanvas(MainWindow window, InkCanvas ink)
         {
             BoxT = new TextBox();
             BoxT.Text = this.Text;
@@ -60,7 +60,7 @@ namespace WhiteboardWPF
             ink.Children.Add(BoxT);
         }
 
-        public override void DeleteFromCanvas(InkCanvas ink)
+        public override void DeleteFromCanvas(MainWindow window, InkCanvas ink)
         {
             ink.Children.Remove(BoxT);
         }
