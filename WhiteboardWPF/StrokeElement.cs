@@ -66,5 +66,10 @@ namespace WhiteboardWPF
         {
             ink.Strokes.Remove(Strokeat);
         }
+
+        public override object getElement()
+        {
+            return this.Strokeat;
+        }
     }
 }

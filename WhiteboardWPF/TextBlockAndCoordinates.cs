@@ -55,5 +55,10 @@ namespace WhiteboardWPF
         {
             ink.Children.Remove(BlockT);
         }
+
+        public override object getElement()
+        {
+            return BlockT;
+        }
     }
 }

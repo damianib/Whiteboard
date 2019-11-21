@@ -65,5 +65,10 @@ namespace WhiteboardWPF
         {
             ink.Children.Remove(BoxT);
         }
+
+        public override object getElement()
+        {
+            return this.BoxT;
+        }
     }
 }

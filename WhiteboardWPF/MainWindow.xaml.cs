@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
@@ -29,7 +30,13 @@ namespace WhiteboardWPF
 
         ObjectIDGenerator objectIDGenerator = new ObjectIDGenerator();
         Dictionary<int, BoardElement> allBoardElements = new Dictionary<int, BoardElement>();
-        Dictionary<int, int> objectIdToBoardId = new Dictionary<int, int>();
+        Dictionary<long, int> objectIdToBoardId = new Dictionary<long, int>();
+        public int getBoardIdFromObject(Object obj)
+        {
+            bool firstTime = false;
+            long objectId = objectIDGenerator.GetId(obj, out firstTime);
+            return objectIdToBoardId[objectId];
+        }
 
         public MainWindow()
         {
@@ -186,6 +193,18 @@ namespace WhiteboardWPF
             
         }
 
+        void selectionChanging(object sender, System.EventArgs e)
+        {
+            ReadOnlyCollection<UIElement> selectedElements = inkCanvas.GetSelectedElements();
+            long selectedObjectId = objectIDGenerator.GetId(selectedElements[0]);
+            client.ask_select(allBoardElements[objectIdToBoardId[;
+
+        }
+
+        void selectionChanged(object sender, System.EventArgs e)
+        {
+        }
+
         // -----------------------------------------------------------------------------------------
         // FUNCTIONS CALLED FROM CLIENT
 
@@ -201,13 +220,17 @@ namespace WhiteboardWPF
                 );
                 doDelete(boardElement.id);
             }
+
             Dispatcher.Invoke(
                 () =>
                 {
                     boardElement.AddToCanvas(this, inkCanvas);
+                    allBoardElements[boardElement.id] = boardElement;
+                    bool firstTime = true;
+                    long objectid = objectIDGenerator.GetId(boardElement.getElement(), out firstTime);
+                    objectIdToBoardId.Add(objectid, boardElement.id);
+                    texting.Text = objectid.ToString();
                 });
-
-            allBoardElements[boardElement.id] = boardElement;
         }
 
         private void doDelete(int id) // delete board element from ink canvas
@@ -238,7 +261,7 @@ namespace WhiteboardWPF
                 });
         }
         private void doSelect(int id) { }
-        private void doDeselect(int id) { }
+        private void doDeselect() { }
 
 
         // -----------------------------------------------------------------------------------------
