@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace WhiteboardWPF
@@ -55,6 +56,7 @@ namespace WhiteboardWPF
             BoxT.Text = this.Text;
             BoxT.Width = this.Width;
             BoxT.Height = this.Height;
+            BoxT.LostFocus += new RoutedEventHandler(window.textBoxModified);
             InkCanvas.SetTop(BoxT, this.Y);
             InkCanvas.SetLeft(BoxT, this.X);
             ink.Children.Add(BoxT);

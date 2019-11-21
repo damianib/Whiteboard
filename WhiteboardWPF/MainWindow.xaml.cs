@@ -177,7 +177,7 @@ namespace WhiteboardWPF
             client.ask_clear_all();
         }
 
-        void textBoxModified(object sender, RoutedEventArgs e)
+        public void textBoxModified(object sender, RoutedEventArgs e)
         {
             TextBox sourceTextBox = (TextBox)e.Source;
             if (isCreatingATextBox)
