@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardElement.cs" />
-    <Compile Include="Client.cs" />
+    <Compile Include="ClientInterface.cs" />
     <Compile Include="Connexion.cs" />
     <Compile Include="ObjectConverter.cs" />
     <Compile Include="ObjetAffichable.cs" />
