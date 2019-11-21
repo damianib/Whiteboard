@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
-using Microsoft.VisualBasic;
 
 
 namespace WhiteboardWPF
@@ -67,11 +64,11 @@ namespace WhiteboardWPF
 
         void selectedPenStyle(object sender, System.EventArgs e) //switch between pen and eraser
         {
-            if (penStyleBox.SelectedItem == "Pen")
+            if ((string)penStyleBox.SelectedItem == "Pen")
             {
                 inkCanvas.DefaultDrawingAttributes.Color = availableColors[colorBox.SelectedIndex];
             }
-            else if (penStyleBox.SelectedItem == "Eraser")
+            else if ((string)penStyleBox.SelectedItem == "Eraser")
             {
                 inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(255, 255, 255);
             }
@@ -79,7 +76,7 @@ namespace WhiteboardWPF
 
         void selectedColor(object sender, System.EventArgs e) // change pen color
         {
-            if (penStyleBox.SelectedItem == "Pen")
+            if ((string)penStyleBox.SelectedItem == "Pen")
             {
                 inkCanvas.DefaultDrawingAttributes.Color = availableColors[colorBox.SelectedIndex];
             }
