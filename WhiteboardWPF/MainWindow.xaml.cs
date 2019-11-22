@@ -274,9 +274,18 @@ namespace WhiteboardWPF
         }
 
 
-        void selectionMoving(object sender, InkCanvasSelectionEditingEventArgs e)
+        void selectionChanging(object sender, InkCanvasSelectionChangingEventArgs e)
         {
-
+            StrokeCollection selectedStrokes = e.GetSelectedStrokes();
+            StrokeCollection actuallySelectedStrokes = new StrokeCollection();
+            foreach (Stroke stroke in selectedStrokes)
+            {
+                if (stroke.DrawingAttributes.Color != Color.FromRgb(255, 255, 255))
+                {
+                    actuallySelectedStrokes.Add(stroke);
+                }
+            }
+            e.SetSelectedStrokes(actuallySelectedStrokes);
         }
 
         // -----------------------------------------------------------------------------------------
