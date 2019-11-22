@@ -22,6 +22,7 @@
             <Button x:Name="textButton" Click="clickTextButton" Padding="10">Text</Button>
             <Button x:Name="selectButton" Click="clickSelectButton" Padding="10">Selection</Button>
             <Button x:Name="saveButton" Click="clickSaveButton" Padding="10">Sauvegarder</Button>
+            <TextBlock x:Name="texting" Padding="10"></TextBlock>
         </StackPanel>
     </Grid>
 </Window>

@@ -22,7 +22,6 @@ namespace WhiteboardWPF
     public partial class MainWindow : Window
     {
         
-        TextBlock texting = new TextBlock();
         List<String> availableColorsStr = new List<String>() { "Black", "Red", "Green", "Blue" };
         List<Color> availableColors = new List<Color>() { Color.FromRgb(0, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0),
             Color.FromRgb(0, 0, 255) };
@@ -72,7 +71,6 @@ namespace WhiteboardWPF
 
             inkCanvas.UseCustomCursor = true;
             inkCanvas.DefaultDrawingAttributes.StylusTip = System.Windows.Ink.StylusTip.Ellipse;
-            inkCanvas.Children.Add(texting);
             this.inkCanvas.KeyUp += new KeyEventHandler(ink_KeyUp);
             texting.Text = "Initial text";
         }
