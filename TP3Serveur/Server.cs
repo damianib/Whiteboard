@@ -77,7 +77,7 @@ namespace TCPServeur
                         {
                             whiteBoards.Add(nomWhiteBoard, new CommonWhiteBoard(nomWhiteBoard));
                             Monitor.Exit(whiteBoards);
-                            whiteBoards[nomWhiteBoard].startConnexion(client, idConnection, nomWhiteBoard);
+                            whiteBoards[nomWhiteBoard].startConnexion(client, idConnection);
                             
                         }
                         else
@@ -97,7 +97,7 @@ namespace TCPServeur
                             {
                                 whiteBoards.Add(nomWhiteBoard, new CommonWhiteBoard(nomWhiteBoard));
                                 Monitor.Exit(whiteBoards);
-                                whiteBoards[nomWhiteBoard].startConnexion(client, idConnection, "");
+                                whiteBoards[nomWhiteBoard].startConnexion(client, idConnection);
                                 found = true;
                             }
                             else

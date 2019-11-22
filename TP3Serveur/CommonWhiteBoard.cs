@@ -46,81 +46,80 @@ namespace TCPServeur
             this.name = name;
         }
 
-        /*
-        public void demarerServeur()
-        {
-            Thread th = new Thread(new ThreadStart(listen));
-            th.Start();
-            th.Join();
-        }*/
+        /// <summary>
+        /// Ask if a client existes
+        /// </summary>
+        /// <param name="id">Id of the client</param>
+        /// <returns>true if the client with of id "id" exists</returns>
         public bool hasClient(int id)
         {
             return clients.ContainsKey(id);
         }
+
+        /// <summary>
+        /// Establish connexion with a client
+        /// </summary>
+        /// <param name="client">TCP connexion with the client</param>
+        /// <param name="idClient">ID assigned to the client (-1 means the whiteboard has to attribute the id)</param>
         public void startConnexion(TcpClient client, int idClient = -1)
         {
             
+            //We do not want to client to access to the "clients" list at the same time
             Monitor.Enter(clients);
-            int id = idClient;
-            if (id == -1)
+            int id = idClient; //Id that will be assigned to the client
+            if (id == -1) //If no specific ID is asked, we assign a new ID to the client
             {
                 id = actualIDClient;
                 actualIDClient++;
             }
-            if (!clients.ContainsKey(id))
+            if (!clients.ContainsKey(id))//If the client does not already exists, we add it to the board
             {
                 ClientInterface interfaceCl = new ClientInterface(client, id, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
                 clients.Add(id, interfaceCl);
             }
             
+            //Starting the client
             clients[id].start();
+
+            //Seting up all initial inforamtions
             do_reset_client(id);
+
+            //Other client can access the "clients" list
             Monitor.Exit(clients);
             
         }
-
-        public void startConnexion(TcpClient client, int idClient, String nameWB)
-        {
-
-            Monitor.Enter(clients);
-            int id = idClient;
-            if (id == -1)
-            {
-                id = actualIDClient;
-                actualIDClient++;
-            }
-            if (!clients.ContainsKey(id))
-            {
-                ClientInterface interfaceCl = new ClientInterface(client, id, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
-                clients.Add(id, interfaceCl);
-            }
-            clients[id].start();
-            do_reset_client(id);
-            Monitor.Exit(clients);
-
-        }
-
+        
+        /// <summary>
+        /// Client select an object
+        /// </summary>
+        /// <param name="idClient">Client issuing the request</param>
+        /// <param name="id">Object to be selected</param>
         private void select(int idClient, int id)
         {
+            //One client at a time accesses "clients"
             Monitor.Enter(clients);
+
+            //Actual object locked
             int idLock = clients[idClient].ObjectLocked;
-            if(idLock != -1)
+
+            if(idLock != -1)//If the client is already locking an object
             {
-                allBoardElements[idLock].m_clientLocker = -1; //Unselect the object
-                clients[idClient].ObjectLocked = -1; // Telle the client the object have been unselected
-                clients[idClient].send_deselect();
-                clients[idClient].send_add(idLock, allBoardElements[idLock]);
+                allBoardElements[idLock].m_clientLocker = -1; //Set the object to free
+                clients[idClient].ObjectLocked = -1; //Tell the client it's not selecting an object anymore
+                clients[idClient].send_deselect(); // Tell the client the object have been unselected
+                clients[idClient].send_add(idLock, allBoardElements[idLock]); //If the client was trying to modify it's selected object
+                                                                               //We ensure it has an up-to-date object by sending the actual version
             }
             
-            if(allBoardElements.ContainsKey(id))
+            if(allBoardElements.ContainsKey(id)) //If the object does exists
             {
 
-                if (allBoardElements[id].m_clientLocker == -1)
+                if (allBoardElements[id].m_clientLocker == -1) //If no one else is lockig the object
                 {
 
-                    allBoardElements[id].m_clientLocker = idClient;
-                    clients[idClient].ObjectLocked = id;
-                    clients[idClient].send_select(id);
+                    allBoardElements[id].m_clientLocker = idClient; //The object is selected by the client
+                    clients[idClient].ObjectLocked = id; //The client is selectig the object
+                    clients[idClient].send_select(id); //Tell the client it has selected the object
 
 
                 }
@@ -128,149 +127,150 @@ namespace TCPServeur
             Monitor.Exit(clients);
             
         }
+
+        /// <summary>
+        /// Client deselect an object
+        /// </summary>
+        /// <param name="idClient"></param>
         private void do_deselect(int idClient)
         {
+            //One client at a time access "clients"
             Monitor.Enter(clients);
+
             int idLock = clients[idClient].ObjectLocked;
-            if (idLock != -1)
+            if (idLock != -1)//If we actually have a selected object
             {
-                allBoardElements[idLock].m_clientLocker = -1; //Unselect the object
+                allBoardElements[idLock].m_clientLocker = -1; //Set the object to free
                 clients[idClient].ObjectLocked = -1; // Telle the client the object have been unselected
-                clients[idClient].send_deselect();
-                clients[idClient].send_add(idLock, allBoardElements[idLock]);
+                clients[idClient].send_deselect(); // Tell the client the object have been unselected
+                clients[idClient].send_add(idLock, allBoardElements[idLock]);//If the client was trying to modify it's selected object
+                                                                             //We ensure it has an up-to-date object by sending the actual version
             }
 
             Monitor.Exit(clients);
         }
+
+        /// <summary>
+        /// Client delete an object
+        /// </summary>
+        /// <param name="idClient">Id of the client</param>
+        /// <param name="id">Object to be deleted</param>
         private void do_delete(int idClient, int id)
         {
+
+            //One client at a time access "clients"
             Monitor.Enter(clients);
-            if (clients[idClient].ObjectLocked == id)
+            if (clients[idClient].ObjectLocked == id) //If the client has a lock on the object
             {
-                //allBoardElements[id].m_o = "";
-                allBoardElements.Remove(id);
+                allBoardElements.Remove(id); //We remove the object
                 foreach (ClientInterface client in clients.Values)
                 {
+                    //We tell all client the object has been deleted
                     client.send_delet(id);
                 }
             }
             Monitor.Exit(clients);
         }
+
+        /// <summary>
+        /// Client add an object
+        /// </summary>
+        /// <param name="idClient">Id of the client</param>
+        /// <param name="str">String representing the object</param>
         private void do_add(int idClient, String str)
         {
-            
+            //One client at a time access "clients"
             Monitor.Enter(clients);
 
+            //Creating an object with id acutalID from string str
             BoardElement b = ObjectConverter.reconvertElement(actualID, str);
+
+            //Adding the object
             allBoardElements.Add(actualID, b);
             foreach (ClientInterface client in clients.Values)
             {
-                //client.send_add(actualID, o);
-                Console.WriteLine(actualID);
+                //telling all clients to add the object
                 client.send_add(b.m_id, b);
             }
+
+            //The minimum unatributed ID is increasing
             actualID++;
             Monitor.Exit(clients);
         }
+
+        /// <summary>
+        /// Client want to modify an object
+        /// </summary>
+        /// <param name="idClient">Id of the client</param>
+        /// <param name="id">Id of the object to be modified</param>
+        /// <param name="str">String representation of the new version of the object</param>
         private void do_modif(int idClient, int id, String str)
         {
-            
+            //One client at a time access "clients"
             Monitor.Enter(clients);
+
+            //Cerating the new version of the object from str
             BoardElement b = ObjectConverter.reconvertElement(id, str);
-            if (clients[idClient].ObjectLocked == id)
+
+            if (clients[idClient].ObjectLocked == id) //If the client has the lock on the object
             {
                 
                 foreach (ClientInterface client in clients.Values)
                 {
+                    //We update the value for each client
                     client.send_add(id, b);
                 }
             }
             else
             {
+                //Strange things happens, a client tried to access forbidden data
+                //to avoid any missunderstanding, we resend all information to the client
                 do_reset_client(idClient);
             }
             Monitor.Exit(clients);
         }
 
+        /// <summary>
+        /// Client want to clear the whole board
+        /// </summary>
+        /// <param name="idClient"></param>
         private void do_clearAll(int idClient)
         {
+            //One client at a time access "clients"
             Monitor.Enter(clients);
             foreach (ClientInterface client in clients.Values)
             {
+                //Deselect every selected object
+                client.ObjectLocked = -1;
+                client.send_deselect();
+                //Tell all client the board has ben reseted
                 client.send_clear_all();
             }
+
+            //Reset the board
             allBoardElements.Clear();
             actualID = 0;
             Monitor.Exit(clients);
 
         }
 
-        /*
-        private void listen()
-        {
-            Console.WriteLine("Préparation à l'écoute...");
-
-            //On crée le serveur en lui spécifiant le port sur lequel il devra écouter.
-            IPAddress localAddr = IPAddress.Parse("127.0.0.1");
-            TcpListener server = new TcpListener(localAddr, 5035);
-
-            server.Start();
-
-            while (true)
-            {
-                Console.Write("Waiting for a connection... ");
-                TcpClient client = server.AcceptTcpClient();
-
-                Thread th = new Thread((Object o)=>{ establishConnection(o); } );//new ParameterizedThreadStart(establishConnection));
-                
-                th.Start(client);
-
-            }
-        }
-        */
-
+        /// <summary>
+        /// Reset all information of a client (deleting and re-addign everything from a client point of view)
+        /// </summary>
+        /// <param name="idClient">Id of the client</param>
         private void do_reset_client(int idClient)
         {
+
+            //One client at a time access "clients"
             Monitor.Enter(clients);
-            clients[idClient].send_clear_all();
+            clients[idClient].send_clear_all(); //Tell the client to clear its board
             foreach(int key in allBoardElements.Keys)
             {
+                //Give him again all the informations
                 clients[idClient].send_add(key, allBoardElements[key]);
             }   
             Monitor.Exit(clients);
         }
 
-        private void establishConnection(Object o)
-        {
-            
-            TcpClient client = (TcpClient) o;
-            Monitor.Enter(clients);
-
-            int idClient = actualIDClient;
-            actualIDClient++;
-            ClientInterface interfaceCl = new ClientInterface(client, idClient, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
-            interfaceCl.start();
-
-
-            clients.Add(idClient, interfaceCl);
-            do_reset_client(idClient);
-            
-            Monitor.Exit(clients);
-        }
-
-        private void clear_all()
-        {
-            
-            Monitor.Enter(clients);
-            allBoardElements.Clear();
-            foreach (ClientInterface client in clients.Values)
-            {
-                client.send_clear_all();
-                client.ObjectLocked = -1;
-            }
-
-            actualID = 0;
-            Monitor.Exit(clients);
-        }
     }
 }
