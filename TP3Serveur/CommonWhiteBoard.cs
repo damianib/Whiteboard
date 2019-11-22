@@ -163,6 +163,7 @@ namespace TCPServeur
             if (clients[idClient].ObjectLocked == id) //If the client has a lock on the object
             {
                 allBoardElements.Remove(id); //We remove the object
+                clients[idClient].ObjectLocked = -1;
                 foreach (ClientInterface client in clients.Values)
                 {
                     //We tell all client the object has been deleted
