@@ -214,11 +214,11 @@ namespace TCPServeur
 
             if (clients[idClient].ObjectLocked == id) //If the client has the lock on the object
             {
-                
+                allBoardElements[id] = b;
                 foreach (ClientInterface client in clients.Values)
                 {
                     //We update the value for each client
-                    client.send_add(id, b);
+                    client.send_add(id, allBoardElements[id]);
                 }
             }
             else

@@ -77,5 +77,12 @@ namespace WhiteboardWPF
             List<UIElement> uIElements = new List<UIElement> { this.BoxT };
             ink.Select(null, uIElements);
         }
+
+        internal override void updatePosition(InkCanvas inkCanvas)
+        {
+            Point relativeLocation = BoxT.TranslatePoint(new Point(0, 0), inkCanvas);
+            this.X = relativeLocation.X;
+            this.Y = relativeLocation.Y;
+        }
     }
 }

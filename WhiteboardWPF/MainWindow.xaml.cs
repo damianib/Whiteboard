@@ -28,6 +28,8 @@ namespace WhiteboardWPF
         bool isCreatingATextBox = false;
         bool isSelectionFromServer = false;
 
+        int selectedObject = -1;
+
         Client client;
 
         ObjectIDGenerator objectIDGenerator = new ObjectIDGenerator();
@@ -151,6 +153,12 @@ namespace WhiteboardWPF
         DateTime lastClick = DateTime.Now;
         void clickCanvas(object sender, MouseButtonEventArgs e)
         {
+            if(selectedObject != -1)
+            {
+                allBoardElements[selectedObject].updatePosition(inkCanvas);
+                client.ask_modif(selectedObject, allBoardElements[selectedObject]);
+            }
+
             if ((currentMode == "text") && ((DateTime.Now - lastClick) > new TimeSpan(0, 0, 1)))
             {
                 TextBox newTextBox = new TextBox
@@ -186,13 +194,20 @@ namespace WhiteboardWPF
         public void textBoxModified(object sender, RoutedEventArgs e)
         {
             TextBox sourceTextBox = (TextBox)e.Source;
+            
             if (isCreatingATextBox)
             {
                 client.ask_add(new TextBoxElement(sourceTextBox, InkCanvas.GetLeft(sourceTextBox), InkCanvas.GetTop(sourceTextBox),0));
                 inkCanvas.Children.Remove(sourceTextBox);
                 isCreatingATextBox = false;
             }
-            texting.Text = "HALP";
+           /* else
+            {
+                bool alredyModified = true;
+                int boardID = objectIdToBoardId[objectIDGenerator.GetId(sourceTextBox, out alredyModified)];
+                client.ask_modif(boardID,  new TextBoxElement(sourceTextBox, InkCanvas.GetLeft(sourceTextBox), InkCanvas.GetTop(sourceTextBox), boardID));
+                inkCanvas.Children.Remove(sourceTextBox);
+            } */
         }
 
         void selectionChanged(object sender, System.EventArgs e)
@@ -210,13 +225,20 @@ namespace WhiteboardWPF
                 boardId = getBoardIdFromObject(selectedStrokes[0]);
             }
 
+            
+
             if ((boardId != -1) && (isSelectionFromServer == false))
             {
+                if (selectedObject != -1)
+                {
+                    texting.Text = Convert.ToString(selectedObject) + allBoardElements[selectedObject].GetString();
+                    client.ask_modif(selectedObject, allBoardElements[selectedObject]);
+                }
                 client.ask_select(boardId);
                 inkCanvas.Select(null, null);
             }
 
-            texting.Text = "CHANGED";
+            //texting.Text = "CHANGED";
         }
 
 
@@ -230,27 +252,30 @@ namespace WhiteboardWPF
 
         private void doAdd(BoardElement boardElement) // add board element to ink canvas
         {
-            
-            if (allBoardElements.ContainsKey(boardElement.id))
+            if (selectedObject != boardElement.id)
             {
-                Dispatcher.Invoke(() =>
+                if (allBoardElements.ContainsKey(boardElement.id) && selectedObject != boardElement.id)
                 {
-                    texting.Text = Convert.ToString(boardElement.id);
+                    
+                    Dispatcher.Invoke(() =>
+                    {
+                        texting.Text = "ICI";
+                        //texting.Text = Convert.ToString(boardElement.id);
+                    }
+                    );
+                    doDelete(boardElement.id);
                 }
-                );
-                doDelete(boardElement.id);
+                Dispatcher.Invoke(
+                    () =>
+                    {
+                        boardElement.AddToCanvas(this, inkCanvas);
+                        allBoardElements[boardElement.id] = boardElement;
+                        bool firstTime = true;
+                        long objectid = objectIDGenerator.GetId(boardElement.getElement(), out firstTime);
+                        objectIdToBoardId.Add(objectid, boardElement.id);
+                    });
+                
             }
-
-            Dispatcher.Invoke(
-                () =>
-                {
-                    boardElement.AddToCanvas(this, inkCanvas);
-                    allBoardElements[boardElement.id] = boardElement;
-                    bool firstTime = true;
-                    long objectid = objectIDGenerator.GetId(boardElement.getElement(), out firstTime);
-                    objectIdToBoardId.Add(objectid, boardElement.id);
-                    texting.Text = objectid.ToString();
-                });
         }
 
         private void doDelete(int id) // delete board element from ink canvas
@@ -285,6 +310,7 @@ namespace WhiteboardWPF
             Dispatcher.Invoke(
                 () =>
                 {
+                    selectedObject = id;
                     isSelectionFromServer = true;
                     allBoardElements[id].selectInCanvas(this, inkCanvas);
                     isSelectionFromServer = false;
@@ -295,6 +321,7 @@ namespace WhiteboardWPF
             Dispatcher.Invoke(
                 () =>
                 {
+                    selectedObject = -1;
                     inkCanvas.Select(null, null);
                 });
         }

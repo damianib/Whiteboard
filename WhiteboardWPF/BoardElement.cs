@@ -19,5 +19,6 @@ namespace WhiteboardWPF
 
         public abstract void selectInCanvas(MainWindow window, InkCanvas ink);
         public abstract Object getElement();
+        internal abstract void updatePosition(InkCanvas inkCanvas);
     }
 }

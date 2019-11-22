@@ -66,5 +66,10 @@ namespace WhiteboardWPF
         {
             throw new NotImplementedException();
         }
+
+        internal override void updatePosition(InkCanvas inkCanvas)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

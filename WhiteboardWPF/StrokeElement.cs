@@ -77,5 +77,10 @@ namespace WhiteboardWPF
             StrokeCollection strokeCollection = new StrokeCollection(new List<Stroke>{ this.Strokeat });
             ink.Select(strokeCollection, null);
         }
+
+        internal override void updatePosition(InkCanvas inkCanvas)
+        {
+            
+        }
     }
 }
