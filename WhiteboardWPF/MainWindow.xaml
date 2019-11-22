@@ -9,7 +9,7 @@
     <Grid>
         <InkCanvas x:Name="inkCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0, 0, 0, 40" 
                    StrokeCollected="strokeCollected" MouseDown="clickCanvas" SelectionChanged="selectionChanged"
-                   SelectionMoving="selectionMoving"></InkCanvas>
+                   SelectionMoving="selectionMoving" PreviewKeyDown="previewKeyDown"></InkCanvas>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="40">
             <ComboBox x:Name="penStyleBox" HorizontalAlignment="Left" SelectionChanged="selectedPenStyle"/>
             <ComboBox x:Name="colorBox" HorizontalAlignment="Left" SelectionChanged="selectedColor"/>
@@ -21,6 +21,7 @@
             </StackPanel>
             <Button x:Name="textButton" Click="clickTextButton" Padding="10">Text</Button>
             <Button x:Name="selectButton" Click="clickSelectButton" Padding="10">Selection</Button>
+            <Button x:Name="saveButton" Click="clickSaveButton" Padding="10">Sauvegarder</Button>
         </StackPanel>
     </Grid>
 </Window>

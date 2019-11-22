@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
@@ -9,7 +10,8 @@ using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
-
+using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 
 namespace WhiteboardWPF
 {
@@ -174,6 +176,42 @@ namespace WhiteboardWPF
                 newTextBox.Focus();
                 isCreatingATextBox = true;
                 lastClick = DateTime.Now;
+            }
+        }
+
+
+        void previewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Delete)
+            {
+                e.Handled = true;
+            }
+        }
+
+
+        void clickSaveButton(object sender, System.EventArgs e)
+        {
+            Stream myStream;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            saveFileDialog.Filter = "jpg files (*.jpg)|*.jpg";
+            saveFileDialog.RestoreDirectory = true;
+            saveFileDialog.ShowDialog();
+
+            try
+            {
+                myStream = saveFileDialog.OpenFile();
+                texting.Text = myStream.ToString();
+                RenderTargetBitmap rtb = new RenderTargetBitmap((int)inkCanvas.ActualWidth, (int)inkCanvas.ActualHeight, 96d, 96d, PixelFormats.Default);
+                rtb.Render(inkCanvas);
+                JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(rtb));
+                encoder.Save(myStream);
+                myStream.Close();
+            }
+            catch (System.InvalidOperationException)
+            {
+                texting.Text = "no file";
             }
         }
 
