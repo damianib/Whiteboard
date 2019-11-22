@@ -21,7 +21,7 @@ namespace WhiteboardWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        
         TextBlock texting = new TextBlock();
         List<String> availableColorsStr = new List<String>() { "Black", "Red", "Green", "Blue" };
         List<Color> availableColors = new List<Color>() { Color.FromRgb(0, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0),
@@ -73,6 +73,7 @@ namespace WhiteboardWPF
             inkCanvas.UseCustomCursor = true;
             inkCanvas.DefaultDrawingAttributes.StylusTip = System.Windows.Ink.StylusTip.Ellipse;
             inkCanvas.Children.Add(texting);
+            this.inkCanvas.KeyUp += new KeyEventHandler(ink_KeyUp);
             texting.Text = "Initial text";
         }
 
@@ -239,13 +240,6 @@ namespace WhiteboardWPF
                 inkCanvas.Children.Remove(sourceTextBox);
                 isCreatingATextBox = false;
             }
-           /* else
-            {
-                bool alredyModified = true;
-                int boardID = objectIdToBoardId[objectIDGenerator.GetId(sourceTextBox, out alredyModified)];
-                client.ask_modif(boardID,  new TextBoxElement(sourceTextBox, InkCanvas.GetLeft(sourceTextBox), InkCanvas.GetTop(sourceTextBox), boardID));
-                inkCanvas.Children.Remove(sourceTextBox);
-            } */
         }
 
         void selectionChanged(object sender, System.EventArgs e)
@@ -267,11 +261,11 @@ namespace WhiteboardWPF
 
             if ((boardId != -1) && (isSelectionFromServer == false))
             {
-                if (selectedObject != -1)
+                /*if (selectedObject != -1)
                 {
                     texting.Text = Convert.ToString(selectedObject) + allBoardElements[selectedObject].GetString();
                     client.ask_modif(selectedObject, allBoardElements[selectedObject]);
-                }
+                } */
                 client.ask_select(boardId);
                 inkCanvas.Select(null, null);
             }
@@ -287,7 +281,7 @@ namespace WhiteboardWPF
 
         // -----------------------------------------------------------------------------------------
         // FUNCTIONS CALLED FROM CLIENT
-
+        
         private void doAdd(BoardElement boardElement) // add board element to ink canvas
         {
             if (selectedObject != boardElement.id)
@@ -320,13 +314,17 @@ namespace WhiteboardWPF
         {
             if (allBoardElements.ContainsKey(id))
             {
-                BoardElement boardElement = allBoardElements[id];
+                
                 Dispatcher.Invoke(
                 () =>
                 {
+                    bool obol;
+                    BoardElement boardElement = allBoardElements[id];
                     boardElement.DeleteFromCanvas(this, inkCanvas);
+                    objectIdToBoardId.Remove(objectIDGenerator.GetId(allBoardElements[id].getElement(),out obol));
+                    allBoardElements.Remove(id);
                 });
-                allBoardElements.Remove(id);
+                
             }
         }
 
@@ -341,6 +339,8 @@ namespace WhiteboardWPF
                         allBoardElements[key].DeleteFromCanvas(this, inkCanvas);
                     }
                     allBoardElements.Clear();
+                    objectIdToBoardId.Clear();
+                    selectedObject = -1;
                 });
         }
         private void doSelect(int id) 
@@ -362,6 +362,16 @@ namespace WhiteboardWPF
                     selectedObject = -1;
                     inkCanvas.Select(null, null);
                 });
+        }
+
+        void ink_KeyUp(object sender, KeyEventArgs e)
+        {
+            
+            if (e.Key == Key.Delete && selectedObject != -1)
+            {
+                client.ask_delete(selectedObject);
+                selectedObject = -1;
+            }
         }
 
 
