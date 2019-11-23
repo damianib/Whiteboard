@@ -22,13 +22,13 @@
             </StackPanel>
             <Button x:Name="textButton" Click="clickTextButton" Padding="10">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="pack://application:,,,/icons/textIcon.jpg" Stretch="Uniform" />
+                    <Image Source="icons/textIcon.png" Stretch="Uniform"/>
                     <TextBlock>Text</TextBlock>
                 </StackPanel>
             </Button>
             <Button x:Name="selectButton" Click="clickSelectButton" Padding="10">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="icons/selectIcon.jpg" Stretch="Uniform" />
+                    <Image Source="icons/selectIcon.png" Stretch="Uniform" />
                     <TextBlock>Selection</TextBlock>
                 </StackPanel>
             </Button>

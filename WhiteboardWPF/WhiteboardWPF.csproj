@@ -103,15 +103,23 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="icons\selectIcon.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="icons\saveIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icons\selectIcon.jpg" />
+    <Resource Include="icons\textIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icons\textIcon.jpg" />
+    <Resource Include="icons\clearIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\eraseIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\penIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
