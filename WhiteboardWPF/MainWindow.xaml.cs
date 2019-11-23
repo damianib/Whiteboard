@@ -214,6 +214,12 @@ namespace WhiteboardWPF
             }
         }
 
+
+        void selectionResizing(object sender, InkCanvasSelectionEditingEventArgs e)
+        {
+            e.Cancel = true;
+        }
+
         // -----------------------------------------------------------------------------------------
         // EVENTS SENT TO CLIENT
 
