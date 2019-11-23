@@ -105,13 +105,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="icons\saveIcon.png" />
+    <Resource Include="icons\saveIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="icons\selectIcon.jpg" />
+    <Resource Include="icons\selectIcon.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="icons\textIcon.jpg" />
+    <Resource Include="icons\textIcon.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
