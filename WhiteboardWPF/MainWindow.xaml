@@ -20,9 +20,24 @@
                         Orientation="Horizontal" Width="100" Minimum="1" Maximum="10" ValueChanged="selectedStylusWidth"/>
                 <TextBlock HorizontalAlignment="Center">Width</TextBlock>
             </StackPanel>
-            <Button x:Name="textButton" Click="clickTextButton" Padding="10">Text</Button>
-            <Button x:Name="selectButton" Click="clickSelectButton" Padding="10">Selection</Button>
-            <Button x:Name="saveButton" Click="clickSaveButton" Padding="10">Sauvegarder</Button>
+            <Button x:Name="textButton" Click="clickTextButton" Padding="10">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="pack://application:,,,/icons/textIcon.jpg" Stretch="Uniform" />
+                    <TextBlock>Text</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="selectButton" Click="clickSelectButton" Padding="10">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="icons/selectIcon.jpg" Stretch="Uniform" />
+                    <TextBlock>Selection</TextBlock>
+                </StackPanel>
+            </Button>
+            <Button x:Name="saveButton" Click="clickSaveButton" Padding="10">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="icons/saveIcon.png" Stretch="Uniform" />
+                    <TextBlock>Sauvegarder</TextBlock>
+                </StackPanel>
+            </Button>
             <TextBlock x:Name="texting" Padding="10"></TextBlock>
         </StackPanel>
     </Grid>

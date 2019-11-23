@@ -107,7 +107,20 @@ namespace WhiteboardWPF
 
         void changeMode(string newMode) // handle all operations related to changing mode between ink, text, selection etc...
         {
-            SolidColorBrush selectedButtonColor = new SolidColorBrush(Color.FromRgb(100, 100, 100));
+            SolidColorBrush selectedButtonColor = new SolidColorBrush(Color.FromRgb(255, 100, 100));
+
+            if (currentMode == "text") // put last mode button in correct color
+            {
+                textButton.ClearValue(Button.BackgroundProperty);
+            }
+            else if (currentMode == "select")
+            {
+                selectButton.ClearValue(Button.BackgroundProperty);
+            }
+            else if (currentMode == "ink")
+            {
+                penStyleBox.ClearValue(ComboBox.BackgroundProperty);
+            }
 
             if (newMode == currentMode) // if a mode is selected two times in a row, go back to ink (deselect button)
             {
@@ -117,6 +130,7 @@ namespace WhiteboardWPF
             if (newMode == "ink") // change inkcanvas editing mode and button color
             {
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
+                penStyleBox.Background = selectedButtonColor;
             }
             else if (newMode == "text")
             {
@@ -127,15 +141,6 @@ namespace WhiteboardWPF
             {
                 inkCanvas.EditingMode = InkCanvasEditingMode.Select;
                 selectButton.Background = selectedButtonColor;
-            }
-
-            if (currentMode == "text") // put last mode button in correct color
-            {
-                textButton.ClearValue(Button.BackgroundProperty);
-            }
-            else if (currentMode == "select")
-            {
-                selectButton.ClearValue(Button.BackgroundProperty);
             }
 
             currentMode = newMode;
