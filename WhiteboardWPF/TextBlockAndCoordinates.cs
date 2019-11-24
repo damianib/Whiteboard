@@ -71,5 +71,10 @@ namespace WhiteboardWPF
         {
             throw new NotImplementedException();
         }
+
+        public override bool isContained(InkCanvas ink)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

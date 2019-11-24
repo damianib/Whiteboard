@@ -64,7 +64,8 @@ namespace WhiteboardWPF
 
         public override void DeleteFromCanvas(MainWindow window, InkCanvas ink)
         {
-            ink.Strokes.Remove(Strokeat);
+            if(ink.Strokes.Contains(Strokeat))
+                ink.Strokes.Remove(Strokeat);
         }
 
         public override object getElement()
@@ -81,6 +82,11 @@ namespace WhiteboardWPF
         internal override void updatePosition(InkCanvas inkCanvas)
         {
             
+        }
+
+        public override bool isContained(InkCanvas ink)
+        {
+            return ink.Strokes.Contains(this.Strokeat);
         }
     }
 }

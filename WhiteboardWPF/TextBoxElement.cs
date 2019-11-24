@@ -64,7 +64,8 @@ namespace WhiteboardWPF
 
         public override void DeleteFromCanvas(MainWindow window, InkCanvas ink)
         {
-            ink.Children.Remove(BoxT);
+            if (ink.Children.Contains(BoxT))
+                ink.Children.Remove(BoxT);
         }
 
         public override object getElement()
@@ -83,6 +84,11 @@ namespace WhiteboardWPF
             Point relativeLocation = BoxT.TranslatePoint(new Point(0, 0), inkCanvas);
             this.X = relativeLocation.X;
             this.Y = relativeLocation.Y;
+        }
+
+        public override bool isContained(InkCanvas ink)
+        {
+            return ink.Children.Contains(this.BoxT);
         }
     }
 }

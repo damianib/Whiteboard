@@ -29,7 +29,9 @@ namespace WhiteboardWPF
         bool isSelectionFromServer = false;
 
         int selectedObject = -1;
-
+        int previousSelected = -1;
+        int objectToDelete = -1;
+        
         Client client;
 
         ObjectIDGenerator objectIDGenerator = new ObjectIDGenerator();
@@ -50,7 +52,7 @@ namespace WhiteboardWPF
             client = new Client(tcpClient, doAdd, doSelect, doDeselect, doDelete, doEraseAll);
             client.m_nomServer = "coucou";
             client.start();
-
+            
             InitializeComponent();
             inkCanvas.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(clickCanvas), true);
 
@@ -71,8 +73,10 @@ namespace WhiteboardWPF
             inkCanvas.UseCustomCursor = true;
             inkCanvas.DefaultDrawingAttributes.StylusTip = System.Windows.Ink.StylusTip.Ellipse;
             inkCanvas.Children.Add(texting);
+            this.KeyDown += new KeyEventHandler(Window_KeyDown);
+            this.KeyUp += new KeyEventHandler(Window_KeyDown);
             this.inkCanvas.KeyUp += new KeyEventHandler(ink_KeyUp);
-            texting.Text = "Initial text";
+            //this.inkCanvas.KeyDown += new KeyEventHandler(Window_KeyDown);
         }
 
 
@@ -154,7 +158,7 @@ namespace WhiteboardWPF
         DateTime lastClick = DateTime.Now;
         void clickCanvas(object sender, MouseButtonEventArgs e)
         {
-            if(selectedObject != -1)
+            if(selectedObject != -1 && allBoardElements.ContainsKey(selectedObject))
             {
                 allBoardElements[selectedObject].updatePosition(inkCanvas);
                 client.ask_modif(selectedObject, allBoardElements[selectedObject]);
@@ -204,8 +208,23 @@ namespace WhiteboardWPF
             }
         }
 
+        void selectionChanging(object sender, System.EventArgs e)
+        {
+            
+
+        }
+
         void selectionChanged(object sender, System.EventArgs e)
         {
+
+
+
+            if(allBoardElements.ContainsKey(selectedObject) && Keyboard.IsKeyDown(Key.Delete))
+            {
+                texting.Text += "GOOD";
+                client.ask_delete(selectedObject);
+            }
+
             ReadOnlyCollection<UIElement> selectedElements = inkCanvas.GetSelectedElements();
             StrokeCollection selectedStrokes = inkCanvas.GetSelectedStrokes();
             int boardId = -1;
@@ -218,21 +237,13 @@ namespace WhiteboardWPF
             {
                 boardId = getBoardIdFromObject(selectedStrokes[0]);
             }
-
             
-
-            if ((boardId != -1) && (isSelectionFromServer == false))
+            if (allBoardElements.ContainsKey(boardId) && (isSelectionFromServer == false))
             {
-                /*if (selectedObject != -1)
-                {
-                    texting.Text = Convert.ToString(selectedObject) + allBoardElements[selectedObject].GetString();
-                    client.ask_modif(selectedObject, allBoardElements[selectedObject]);
-                } */
                 client.ask_select(boardId);
                 inkCanvas.Select(null, null);
             }
 
-            //texting.Text = "CHANGED";
         }
 
 
@@ -253,8 +264,7 @@ namespace WhiteboardWPF
                     
                     Dispatcher.Invoke(() =>
                     {
-                        texting.Text = "ICI";
-                        //texting.Text = Convert.ToString(boardElement.id);
+                        
                     }
                     );
                     doDelete(boardElement.id);
@@ -285,6 +295,11 @@ namespace WhiteboardWPF
                     boardElement.DeleteFromCanvas(this, inkCanvas);
                     objectIdToBoardId.Remove(objectIDGenerator.GetId(allBoardElements[id].getElement(),out obol));
                     allBoardElements.Remove(id);
+                    if(selectedObject == id)
+                    {
+                        inkCanvas.Select(null, null);
+                        selectedObject = -1;
+                    }
                 });
                 
             }
@@ -329,13 +344,22 @@ namespace WhiteboardWPF
         void ink_KeyUp(object sender, KeyEventArgs e)
         {
             
-            if (e.Key == Key.Delete && selectedObject != -1)
+            /*if (e.Key == Key.Delete && selectedObject != -1)
             {
-                client.ask_delete(selectedObject);
-                selectedObject = -1;
-            }
+                client.ask_delete(objectToDelete);
+                objectToDelete = -1;
+            } */
         }
 
+        void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            texting.Text = "Coucou";
+            /*if (e.Key == Key.Delete)
+            {
+                MessageBox.Show("delete pressed");
+                e.Handled = true;
+            }*/
+        } 
 
         // -----------------------------------------------------------------------------------------
         // CONSOLE
@@ -344,4 +368,6 @@ namespace WhiteboardWPF
 
         [DllImport("Kernel32")] public static extern void FreeConsole();
     }
+
+
 }
