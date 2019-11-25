@@ -93,6 +93,16 @@ namespace WhiteboardWPF.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap restartIcon {
+            get {
+                object obj = ResourceManager.GetObject("restartIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap saveIcon {
             get {
                 object obj = ResourceManager.GetObject("saveIcon", resourceCulture);
