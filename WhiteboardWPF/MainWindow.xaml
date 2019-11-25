@@ -12,35 +12,49 @@
                    SelectionChanging="selectionChanging" PreviewKeyDown="previewKeyDown"
                    SelectionResizing="selectionResizing"></InkCanvas>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="40">
-            <ComboBox x:Name="penStyleBox" HorizontalAlignment="Left" SelectionChanged="selectedPenStyle"/>
+            <ComboBox x:Name="penStyleBox" HorizontalAlignment="Left" SelectionChanged="selectedPenStyle">
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="15" Margin="2" Source="icons/penIcon.png" Stretch="Uniform"/>
+                    <TextBlock>Pen</TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="15" Margin="2" Source="icons/eraseIcon.png" Stretch="Uniform"/>
+                    <TextBlock>Eraser</TextBlock>
+                </StackPanel>
+            </ComboBox>
             <ComboBox x:Name="colorBox" HorizontalAlignment="Left" SelectionChanged="selectedColor"/>
-            <Button x:Name="eraseAllButton" Content="Erase All" HorizontalAlignment="Right" Padding="10" Click="clickEraseAllButton"/>
             <StackPanel>
                 <Slider x:Name="widthSlider" Margin="5, 0, 5, 0" HorizontalAlignment="Left" Height="20" 
-                        Orientation="Horizontal" Width="100" Minimum="1" Maximum="10" ValueChanged="selectedStylusWidth"/>
+                        Orientation="Horizontal" Width="80" Minimum="1" Maximum="10" ValueChanged="selectedStylusWidth"/>
                 <TextBlock HorizontalAlignment="Center">Width</TextBlock>
             </StackPanel>
+            <Button x:Name="selectButton" Click="clickSelectButton" Padding="10">
+                <StackPanel Orientation="Horizontal">
+                    <Image Margin="2" Source="icons/selectIcon.png" Stretch="Uniform" />
+                    <TextBlock>Selection</TextBlock>
+                </StackPanel>
+            </Button>
             <Button x:Name="textButton" Click="clickTextButton" Padding="10">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="icons/textIcon.png" Stretch="Uniform"/>
+                    <Image Margin="2" Source="icons/textIcon.png" Stretch="Uniform"/>
                     <TextBlock>Text</TextBlock>
                 </StackPanel>
             </Button>
-            <Button x:Name="selectButton" Click="clickSelectButton" Padding="10">
+            <Button x:Name="eraseAllButton" HorizontalAlignment="Right" Padding="10" Click="clickEraseAllButton">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="icons/selectIcon.png" Stretch="Uniform" />
-                    <TextBlock>Selection</TextBlock>
+                    <Image Margin="2" Source="icons/clearIcon.png" Stretch="Uniform"/>
+                    <TextBlock>Clear all</TextBlock>
                 </StackPanel>
             </Button>
             <Button x:Name="saveButton" Click="clickSaveButton" Padding="10">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="icons/saveIcon.png" Stretch="Uniform" />
-                    <TextBlock>Sauvegarder</TextBlock>
+                    <Image Margin="2" Source="icons/saveIcon.png" Stretch="Uniform" />
+                    <TextBlock>Save</TextBlock>
                 </StackPanel>
             </Button>
             <Button x:Name="restartButton" Click="clickRestart" Padding="10">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="icons/saveIcon.png" Stretch="Uniform" />
+                    <Image Margin="2" Source="icons/restartIcon.png" Stretch="Uniform" />
                     <TextBlock>Restart</TextBlock>
                 </StackPanel>
             </Button>
