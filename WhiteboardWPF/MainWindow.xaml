@@ -38,6 +38,12 @@
                     <TextBlock>Sauvegarder</TextBlock>
                 </StackPanel>
             </Button>
+            <Button x:Name="restartButton" Click="clickRestart" Padding="10">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="icons/saveIcon.png" Stretch="Uniform" />
+                    <TextBlock>Restart</TextBlock>
+                </StackPanel>
+            </Button>
             <TextBlock x:Name="texting" Padding="10"></TextBlock>
         </StackPanel>
     </Grid>

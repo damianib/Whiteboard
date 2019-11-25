@@ -12,6 +12,9 @@ namespace WhiteboardWPF
 {
     class Connexion
     {
+
+        private String m_ip;
+
         private TcpClient m_tcpClient;
         private String instruction = "";
         private Mutex mut = new Mutex();
@@ -30,11 +33,12 @@ namespace WhiteboardWPF
 
         public bool isActive { private set; get; }
         public int id { private set; get; }
-        public Connexion(TcpClient tcpClient, executer executor, Char limitor = '\n')
+        public Connexion(String ip, executer executor, Char limitor = '\n')
         {
-            isActive = false;
 
-            m_tcpClient = tcpClient;
+            isActive = false;
+            m_ip = ip;
+            //m_tcpClient = tcpClient;
             m_executor = executor;
             m_limitor = limitor;
 
@@ -51,10 +55,26 @@ namespace WhiteboardWPF
             instructionToSend.Enqueue(str);
         }
 
-        public void start(String nom, bool first = false)
+        public bool start(String nom, bool first = false)
         {
-            String[] r;
-            String sending = "";
+            
+            if (isActive)
+            {
+                stop();
+            }
+
+            
+            theradReception = new Thread(new ThreadStart(receive));
+            theradEmission = new Thread(new ThreadStart(broadcast));
+            threadTreatment = new Thread(new ThreadStart(treatInstruction));
+
+
+
+            m_tcpClient = new TcpClient();
+            m_tcpClient.Connect(m_ip, 5035);
+            
+
+            string sending = "";
             isActive = true;
             if (!first)
             {
@@ -66,23 +86,25 @@ namespace WhiteboardWPF
             }
             else
             {
-                String st = "init " + "r" + " -1";
+                sending = "initNoName r -1";
             }
 
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(sending);
             m_tcpClient.GetStream().Write(bytes, 0, bytes.Length);
-
             theradReception.Start();
             theradEmission.Start();
             threadTreatment.Start();
+
+            return true;
         }
 
         public void stop()
         {
             isActive = false;
-            theradReception.Join();
-            theradEmission.Join();
-            threadTreatment.Join();
+            m_tcpClient.Close();
+            theradReception.Abort();
+            theradEmission.Abort();
+            threadTreatment.Abort();
         }
         private void treatString(string newData)
         {
@@ -132,42 +154,62 @@ namespace WhiteboardWPF
 
         private void treatInstruction()
         {
-            while (isActive)
+            try
             {
-                String str = "";
-                if (instructionToTreat.TryDequeue(out str))
+                while (isActive)
                 {
-                    treatString(str);
+                    String str = "";
+                    if (instructionToTreat.TryDequeue(out str))
+                    {
+                        treatString(str);
+                    }
                 }
+            }
+            catch(Exception e)
+            {
+                isActive = false;
             }
         }
 
         private void receive()
         {
-            NetworkStream stream = m_tcpClient.GetStream();
-            int i = 0;
-            int j = 0;
-            byte[] bytes = new byte[2048];
-            while ((i = stream.Read(bytes, 0, bytes.Length)) != 0 && isActive)
+            try
             {
-                string temp = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
-                instructionToTreat.Enqueue(temp);
+                NetworkStream stream = m_tcpClient.GetStream();
+                int i = 0;
+                int j = 0;
+                byte[] bytes = new byte[2048];
+                while (isActive && (i = stream.Read(bytes, 0, bytes.Length)) != 0)
+                {
+                    string temp = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
+                    instructionToTreat.Enqueue(temp);
+                }
             }
+            catch(Exception e)
+            {
+                isActive = false;
+            }
+            
         }
 
         private void broadcast()
         {
-            NetworkStream stream = m_tcpClient.GetStream();
-            String str = "";
-            while (isActive)
-            {
-                if (instructionToSend.TryDequeue(out str))
+            try {
+                NetworkStream stream = m_tcpClient.GetStream();
+                String str = "";
+                while (isActive)
                 {
-                    byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str.Length.ToString() +" " + str);
-                    stream.Write(bytes, 0, bytes.Length);
+                    if (instructionToSend.TryDequeue(out str))
+                    {
+                        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str.Length.ToString() +" " + str);
+                        stream.Write(bytes, 0, bytes.Length);
+                    }
                 }
             }
-
-        }
+            catch(Exception e)
+            {
+                isActive = false;
+            }
+}
     }
 }

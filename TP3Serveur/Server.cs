@@ -40,6 +40,7 @@ namespace TCPServeur
 
         public void establishConnection(TcpClient client)
         {
+            
             try { 
                 //TcpClient client = (TcpClient)o;
                 NetworkStream stream = client.GetStream();
@@ -52,7 +53,7 @@ namespace TCPServeur
                     String instruction = infos[0];
                     String nomWhiteBoard = infos[1];
                     int idConnection = Convert.ToInt32(infos[2]);
-
+                    Console.WriteLine("inst " + instruction);
                     if (instruction.Equals("connect"))
                     {
                         
@@ -88,6 +89,7 @@ namespace TCPServeur
                     }
                     else if (instruction.Equals("initNoName"))
                     {
+                        
                         bool found = false;
                         while( !found)
                         {
@@ -99,6 +101,7 @@ namespace TCPServeur
                                 Monitor.Exit(whiteBoards);
                                 whiteBoards[nomWhiteBoard].startConnexion(client, idConnection);
                                 found = true;
+                                
                             }
                             else
                             {

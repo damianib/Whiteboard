@@ -33,11 +33,11 @@ namespace WhiteboardWPF
 
         Connexion connexionServer;
 
-        public Client(TcpClient tcpClient, addFunction add_recieve, selector select_recieve, clearFunction deselect_recieve, selector delete_recieve)
+        public Client(String ip, addFunction add_recieve, selector select_recieve, clearFunction deselect_recieve, selector delete_recieve)
         {
             m_limitor = '\n';
 
-            connexionServer = new Connexion(tcpClient, runInstruction, m_limitor);
+            connexionServer = new Connexion(ip, runInstruction, m_limitor);
             
             
             m_add = add_recieve;
@@ -46,11 +46,11 @@ namespace WhiteboardWPF
             m_delete = delete_recieve;
         }
 
-        public Client(TcpClient tcpClient, addFunction add_recieve, selector select_recieve, clearFunction deselect_recieve, selector delete_recieve, clearFunction clear_receive)
+        public Client(String ip, addFunction add_recieve, selector select_recieve, clearFunction deselect_recieve, selector delete_recieve, clearFunction clear_receive)
         {
             m_limitor = '\n';
 
-            connexionServer = new Connexion(tcpClient, runInstruction, m_limitor);
+            connexionServer = new Connexion(ip, runInstruction, m_limitor);
 
 
             m_add = add_recieve;
@@ -60,10 +60,22 @@ namespace WhiteboardWPF
             m_clear_all = clear_receive;
         }
 
-        public void start()
+        /*public void start()
         {
-            
             connexionServer.start(m_nomServer);
+        }*/
+
+        public void createBoard()
+        {
+            connexionServer.start("", true);
+        }
+        public void createBoard(String stringNom)
+        {
+            connexionServer.start(stringNom, true);
+        }
+        public void joinBoard(String stringNom)
+        {
+            connexionServer.start(stringNom);
         }
         private void runInstruction(String str)
         {

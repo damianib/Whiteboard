@@ -115,7 +115,7 @@ namespace TCPServeur
         /// <param name="deleteD">Function do invoke on deletion demand</param>
         /// <param name="modifD">Fucntion to invoke on mofification demand</param>
         /// <param name="clearD">Function to invoke on clearing demand</param>
-        /// <param name="resetD">Function to invoke on reseting connexion demand</param>
+        /// <param name="resetD">Function to invoke on reseting connexion or demand</param>
         public ClientInterface(TcpClient tcpClient, int id, addFunction addD, selector selectD, clearFunction deselectD, selector deleteD, modifFunction modifD, clearFunction clearD, clearFunction resetD)
         {
 
@@ -213,6 +213,10 @@ namespace TCPServeur
             {
                 //We ask the server to clear the whole board
                 m_clear_all(idClient);
+            }
+            if (instructionName.Equals("EXT")) //If we have an exiting instruction
+            {
+
             }
         }
 

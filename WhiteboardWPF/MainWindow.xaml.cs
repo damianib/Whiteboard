@@ -46,11 +46,44 @@ namespace WhiteboardWPF
         public MainWindow()
         {
             AllocConsole();
-            TcpClient tcpClient = new TcpClient();
-            tcpClient.Connect("127.0.0.1", 5035);
-            client = new Client(tcpClient, doAdd, doSelect, doDeselect, doDelete, doEraseAll);
-            client.m_nomServer = "coucou";
-            client.start();
+            //TcpClient tcpClient = new TcpClient();
+            //tcpClient.Connect("127.0.0.1", 5035);
+            String ip = "127.0.0.1";
+            client = new Client(ip, doAdd, doSelect, doDeselect, doDelete, doEraseAll);
+            client.m_nomServer = "";
+            client.createBoard("");
+
+            InitializeComponent();
+            inkCanvas.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(clickCanvas), true);
+
+            penStyleBox.Items.Add("Pen");
+            penStyleBox.Items.Add("Eraser");
+
+            for (int i = 0; i < availableColors.Count; i++)
+            {
+                var textBlockColor = new TextBlock();
+                textBlockColor.Foreground = new SolidColorBrush(availableColors[i]);
+                textBlockColor.Text = availableColorsStr[i];
+                colorBox.Items.Add(textBlockColor);
+            }
+
+            colorBox.SelectedIndex = 0;
+            penStyleBox.SelectedIndex = 0;
+
+            inkCanvas.UseCustomCursor = true;
+            inkCanvas.DefaultDrawingAttributes.StylusTip = System.Windows.Ink.StylusTip.Ellipse;
+            this.inkCanvas.KeyUp += new KeyEventHandler(ink_KeyUp);
+            texting.Text = "Initial text";
+        }
+
+        public MainWindow(String ipAdress, String nomServer, bool isNew = true)
+        {
+            AllocConsole();
+            //TcpClient tcpClient = new TcpClient();
+            //tcpClient.Connect(ipAdress, 5035);
+            client = new Client(ipAdress, doAdd, doSelect, doDeselect, doDelete, doEraseAll);
+            //client.m_nomServer = nomServer;
+            client.createBoard("coucouCaVa");
 
             InitializeComponent();
             inkCanvas.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(clickCanvas), true);
@@ -188,6 +221,11 @@ namespace WhiteboardWPF
         {
             if (e.Key == System.Windows.Input.Key.Delete)
             {
+                if (allBoardElements.ContainsKey(selectedObject))
+                {
+                    client.ask_delete(selectedObject);
+                    selectedObject = -1;
+                }
                 e.Handled = true;
             }
         }
@@ -238,7 +276,10 @@ namespace WhiteboardWPF
         {
             client.ask_clear_all();
         }
-
+        void clickRestart(object sender, System.EventArgs e)
+        {
+            client.createBoard();
+        }
         public void textBoxModified(object sender, RoutedEventArgs e)
         {
             TextBox sourceTextBox = (TextBox)e.Source;
@@ -282,7 +323,7 @@ namespace WhiteboardWPF
             //texting.Text = "CHANGED";
         }
 
-
+        
         void selectionChanging(object sender, InkCanvasSelectionChangingEventArgs e)
         {
             StrokeCollection selectedStrokes = e.GetSelectedStrokes();
@@ -382,14 +423,11 @@ namespace WhiteboardWPF
                 });
         }
 
+        
         void ink_KeyUp(object sender, KeyEventArgs e)
         {
             
-            if (e.Key == Key.Delete && selectedObject != -1)
-            {
-                client.ask_delete(selectedObject);
-                selectedObject = -1;
-            }
+            
         }
 
 
