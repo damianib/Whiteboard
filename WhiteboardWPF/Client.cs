@@ -143,6 +143,7 @@ namespace WhiteboardWPF
             {
                 string text = str.Substring(3);
                 Console.WriteLine("Erreur :" + text);
+                mainWindow.doShowError(text);
 
             }
             /*if (instructionName.Equals("MOD"))

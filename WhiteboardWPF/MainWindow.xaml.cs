@@ -446,6 +446,10 @@ namespace WhiteboardWPF
                 });
         }
 
+        public void doShowError(String error)
+        {
+            MessageBox.Show("Error:\n" + error);
+        }
         
         void ink_KeyUp(object sender, KeyEventArgs e)
         {
