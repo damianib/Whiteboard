@@ -122,7 +122,7 @@ namespace WhiteboardWPF
 
         void selectedColor(object sender, System.EventArgs e) // change pen color
         {
-            if ((string)penStyleBox.SelectedItem == "Pen")
+            if (penStyleBox.SelectedIndex == 0)
             {
                 inkCanvas.DefaultDrawingAttributes.Color = availableColors[colorBox.SelectedIndex];
             }
