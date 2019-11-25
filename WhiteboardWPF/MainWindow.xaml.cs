@@ -49,7 +49,7 @@ namespace WhiteboardWPF
             //TcpClient tcpClient = new TcpClient();
             //tcpClient.Connect("127.0.0.1", 5035);
             String ip = "127.0.0.1";
-            client = new Client(ip, doAdd, doSelect, doDeselect, doDelete, doEraseAll);
+            client = new Client(ip, this);
             client.m_nomServer = "";
             client.createBoard("");
 
@@ -72,7 +72,6 @@ namespace WhiteboardWPF
 
             inkCanvas.UseCustomCursor = true;
             inkCanvas.DefaultDrawingAttributes.StylusTip = System.Windows.Ink.StylusTip.Ellipse;
-            this.inkCanvas.KeyUp += new KeyEventHandler(ink_KeyUp);
             texting.Text = "Initial text";
         }
 
@@ -81,7 +80,7 @@ namespace WhiteboardWPF
             AllocConsole();
             //TcpClient tcpClient = new TcpClient();
             //tcpClient.Connect(ipAdress, 5035);
-            client = new Client(ipAdress, doAdd, doSelect, doDeselect, doDelete, doEraseAll);
+            client = new Client(ipAdress, this);
             //client.m_nomServer = nomServer;
             client.createBoard("coucouCaVa");
 
@@ -104,7 +103,6 @@ namespace WhiteboardWPF
 
             inkCanvas.UseCustomCursor = true;
             inkCanvas.DefaultDrawingAttributes.StylusTip = System.Windows.Ink.StylusTip.Ellipse;
-            this.inkCanvas.KeyUp += new KeyEventHandler(ink_KeyUp);
             texting.Text = "Initial text";
         }
 
@@ -112,7 +110,7 @@ namespace WhiteboardWPF
         // -----------------------------------------------------------------------------------------
         // LOCAL CHANGES
 
-        void selectedPenStyle(object sender, System.EventArgs e) //switch between pen and eraser
+        public void selectedPenStyle(object sender, System.EventArgs e) //switch between pen and eraser
         {
             if ((string)penStyleBox.SelectedItem == "Pen")
             {
@@ -276,10 +274,27 @@ namespace WhiteboardWPF
         {
             client.ask_clear_all();
         }
-        void clickRestart(object sender, System.EventArgs e)
+
+        void clickRestart(object sender, System.EventArgs e) // send erase all
         {
-            client.createBoard();
+            Popup pop = new Popup(this);
+            pop.Show();
         }
+
+        public void doRestart(bool newBoard, bool newAleaBoard, String ip, String boardName)
+        {
+            client.changeIP(ip);
+            if (newBoard)
+                client.createBoard(boardName);
+            else if (newAleaBoard)
+                client.createBoard();
+            else
+                client.joinBoard(boardName);
+
+        }
+
+
+
         public void textBoxModified(object sender, RoutedEventArgs e)
         {
             TextBox sourceTextBox = (TextBox)e.Source;
@@ -340,8 +355,8 @@ namespace WhiteboardWPF
 
         // -----------------------------------------------------------------------------------------
         // FUNCTIONS CALLED FROM CLIENT
-        
-        private void doAdd(BoardElement boardElement) // add board element to ink canvas
+
+        public void doAdd(BoardElement boardElement) // add board element to ink canvas
         {
             if (selectedObject != boardElement.id)
             {
@@ -369,7 +384,7 @@ namespace WhiteboardWPF
             }
         }
 
-        private void doDelete(int id) // delete board element from ink canvas
+        public void doDelete(int id) // delete board element from ink canvas
         {
             if (allBoardElements.ContainsKey(id))
             {
@@ -387,8 +402,8 @@ namespace WhiteboardWPF
             }
         }
 
-     
-        void doEraseAll() // clear ink from canvas
+
+        public void doClearAll() // clear ink from canvas
         {
             Dispatcher.Invoke(
                 () =>
@@ -402,7 +417,7 @@ namespace WhiteboardWPF
                     selectedObject = -1;
                 });
         }
-        private void doSelect(int id) 
+        public void doSelect(int id) 
         {
             Dispatcher.Invoke(
                 () =>
@@ -413,7 +428,7 @@ namespace WhiteboardWPF
                     isSelectionFromServer = false;
                 });
         }
-        private void doDeselect() 
+        public void doDeselect() 
         {
             Dispatcher.Invoke(
                 () =>
@@ -430,7 +445,17 @@ namespace WhiteboardWPF
             
         }
 
+        
 
+        public void changeIP(String ip)
+        {
+            client.changeIP(ip);
+        }
+
+        public string getIp()
+        {
+            return client.getIp();
+        }
         // -----------------------------------------------------------------------------------------
         // CONSOLE
 

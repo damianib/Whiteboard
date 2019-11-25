@@ -10,7 +10,7 @@ namespace WhiteboardWPF
 {
 
     
-    abstract class BoardElement
+    public abstract class BoardElement
     {
         public int id;
         public abstract string GetString();

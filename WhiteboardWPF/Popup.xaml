@@ -1,0 +1,24 @@
+﻿<Window x:Class="WhiteboardWPF.Popup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WhiteboardWPF"
+        mc:Ignorable="d"
+        Title="Parameters" Height="190" Width="200">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <ComboBox x:Name="penStyleBox" VerticalAlignment="Top" Height="22" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="textChoiceIp" VerticalAlignment="Top" Text="Enter the server IP" Margin="0,27,0,0" Height="16" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="choiceIp" VerticalAlignment="Top" Focusable ="True" Text="127.0.0.0" Margin="0,48,0,0" Height="19" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="textChoiceName" VerticalAlignment="Top" Text="Enter the board name" Margin="0,72,0,0" Height="16" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="choiceName" VerticalAlignment="Top" Focusable ="True" Text="" Margin="0,93,0,0" Height="18" Grid.ColumnSpan="2"/>
+        <Button x:Name="Connect" Content="Connect" Padding="10" Click="clickConnect" Margin="0,116,30,0"/>
+        <Button x:Name="Cancel" Content="Cancel" Padding="10" Click="clickCancel" Margin="100,116,0,0" Grid.ColumnSpan="2"/>
+
+    </Grid>
+</Window>

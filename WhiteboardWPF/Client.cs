@@ -22,31 +22,23 @@ namespace WhiteboardWPF
         public string m_nomServer { get; set; }
         public int idConnexion { get; set; }
 
-        private selector m_select;
+        private MainWindow mainWindow;
+
+        /*private selector m_select;
         private selector m_delete;
         private addFunction m_add;
         private clearFunction m_clear_all;
-        private clearFunction m_deselect;
+        private clearFunction m_deselect; */
 
 
         private Char m_limitor;
 
         Connexion connexionServer;
 
-        public Client(String ip, addFunction add_recieve, selector select_recieve, clearFunction deselect_recieve, selector delete_recieve)
-        {
-            m_limitor = '\n';
+        
+        
 
-            connexionServer = new Connexion(ip, runInstruction, m_limitor);
-            
-            
-            m_add = add_recieve;
-            m_select = select_recieve;
-            m_deselect = deselect_recieve;
-            m_delete = delete_recieve;
-        }
-
-        public Client(String ip, addFunction add_recieve, selector select_recieve, clearFunction deselect_recieve, selector delete_recieve, clearFunction clear_receive)
+        /*public Client(String ip, addFunction add_recieve, selector select_recieve, clearFunction deselect_recieve, selector delete_recieve, clearFunction clear_receive)
         {
             m_limitor = '\n';
 
@@ -58,6 +50,17 @@ namespace WhiteboardWPF
             m_deselect = deselect_recieve;
             m_delete = delete_recieve;
             m_clear_all = clear_receive;
+        } */
+
+        public Client(String ip, MainWindow mainWindow)
+        {
+            this.mainWindow = mainWindow;
+            m_limitor = '\n';
+
+            connexionServer = new Connexion(ip, runInstruction, m_limitor);
+
+
+            
         }
 
         /*public void start()
@@ -94,7 +97,7 @@ namespace WhiteboardWPF
                 int id = int.Parse(str.Substring(3, i - 3));
                 BoardElement b = ObjectConverter.ReconvertElement(str.Substring(i + 1));
                 b.id = id;
-                m_add(b);
+                mainWindow.doAdd(b);
             }
             if (instructionName.Equals("SEL"))
             {
@@ -104,11 +107,11 @@ namespace WhiteboardWPF
                     i++;
                 }
                 int id = int.Parse(str.Substring(3, i - 3));
-                m_select(id);
+                mainWindow.doSelect(id);
             }
             if (instructionName.Equals("DES"))
             {
-                m_deselect();
+                mainWindow.doDeselect();
             }
             if (instructionName.Equals("DEL"))
             {
@@ -118,17 +121,23 @@ namespace WhiteboardWPF
                     i++;
                 }
                 int id = int.Parse(str.Substring(3, i - 3));
-                m_delete(id);
+                mainWindow.doDelete(id);
             }
             if (instructionName.Equals("CLR"))
             {
-                m_clear_all();
+                mainWindow.doClearAll();
             }
             if (instructionName.Equals("INF"))
             {
                 String[] infos = str.Substring(3).Split(' ');
                 idConnexion = Convert.ToInt32(infos[0]);
                 m_nomServer = infos[1];
+            }
+            if (instructionName.Equals("EXT"))
+            {
+                mainWindow.doClearAll();
+                connexionServer.stop();
+
             }
             /*if (instructionName.Equals("MOD"))
             {
@@ -146,7 +155,6 @@ namespace WhiteboardWPF
         public void ask_add (BoardElement b)
         {
             connexionServer.addInstruction("ADD" + b.GetString());
-
         }
         public void ask_select(int id)
         {
@@ -168,8 +176,17 @@ namespace WhiteboardWPF
 
         public void ask_clear_all()
         {
-            Console.WriteLine("Coucou");
             connexionServer.addInstruction("CLR");
+        }
+
+        public void changeIP(String ip)
+        {
+            connexionServer.m_ip = ip;
+        }
+
+        public string getIp()
+        {
+            return connexionServer.m_ip;
         }
     }
 }

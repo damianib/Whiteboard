@@ -74,7 +74,7 @@ namespace TCPServeur
             }
             if (!clients.ContainsKey(id))//If the client does not already exists, we add it to the board
             {
-                ClientInterface interfaceCl = new ClientInterface(client, id, do_add, select, do_deselect, do_delete, do_modif, do_clearAll, do_reset_client);
+                ClientInterface interfaceCl = new ClientInterface(client, id, this);
                 clients.Add(id, interfaceCl);
             }
             
@@ -94,7 +94,7 @@ namespace TCPServeur
         /// </summary>
         /// <param name="idClient">Client issuing the request</param>
         /// <param name="id">Object to be selected</param>
-        private void select(int idClient, int id)
+        public void do_select(int idClient, int id)
         {
             //One client at a time accesses "clients"
             Monitor.Enter(clients);
@@ -132,7 +132,7 @@ namespace TCPServeur
         /// Client deselect an object
         /// </summary>
         /// <param name="idClient"></param>
-        private void do_deselect(int idClient)
+        public void do_deselect(int idClient)
         {
             //One client at a time access "clients"
             Monitor.Enter(clients);
@@ -155,7 +155,7 @@ namespace TCPServeur
         /// </summary>
         /// <param name="idClient">Id of the client</param>
         /// <param name="id">Object to be deleted</param>
-        private void do_delete(int idClient, int id)
+        public void do_delete(int idClient, int id)
         {
 
             //One client at a time access "clients"
@@ -178,7 +178,7 @@ namespace TCPServeur
         /// </summary>
         /// <param name="idClient">Id of the client</param>
         /// <param name="str">String representing the object</param>
-        private void do_add(int idClient, String str)
+        public void do_add(int idClient, String str)
         {
             //One client at a time access "clients"
             Monitor.Enter(clients);
@@ -205,7 +205,7 @@ namespace TCPServeur
         /// <param name="idClient">Id of the client</param>
         /// <param name="id">Id of the object to be modified</param>
         /// <param name="str">String representation of the new version of the object</param>
-        private void do_modif(int idClient, int id, String str)
+        public void do_modif(int idClient, int id, String str)
         {
             //One client at a time access "clients"
             Monitor.Enter(clients);
@@ -235,7 +235,7 @@ namespace TCPServeur
         /// Client want to clear the whole board
         /// </summary>
         /// <param name="idClient"></param>
-        private void do_clearAll(int idClient)
+        public void do_clearAll(int idClient)
         {
             //One client at a time access "clients"
             Monitor.Enter(clients);
@@ -259,7 +259,7 @@ namespace TCPServeur
         /// Reset all information of a client (deleting and re-addign everything from a client point of view)
         /// </summary>
         /// <param name="idClient">Id of the client</param>
-        private void do_reset_client(int idClient)
+        public void do_reset_client(int idClient)
         {
             Console.WriteLine("LALAL");
             //One client at a time access "clients"

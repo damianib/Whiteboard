@@ -13,7 +13,7 @@ namespace WhiteboardWPF
     class Connexion
     {
 
-        private String m_ip;
+        public String m_ip { set; get; }
 
         private TcpClient m_tcpClient;
         private String instruction = "";
@@ -51,8 +51,10 @@ namespace WhiteboardWPF
 
         public void addInstruction(string str)
         {
-            
-            instructionToSend.Enqueue(str);
+            if (isActive)
+            {
+                instructionToSend.Enqueue(str);
+            }
         }
 
         public bool start(String nom, bool first = false)
@@ -60,7 +62,7 @@ namespace WhiteboardWPF
             
             if (isActive)
             {
-                stop();
+                exit();
             }
 
             
@@ -100,19 +102,50 @@ namespace WhiteboardWPF
 
         public void stop()
         {
+
+
             isActive = false;
-            m_tcpClient.Close();
             theradReception.Abort();
-            theradEmission.Abort();
             threadTreatment.Abort();
+            theradEmission.Abort();
+            if (m_tcpClient.Connected)
+            {
+                m_tcpClient.Close();
+            }
+            
+            instruction = "";
+            instructionToSend = new ConcurrentQueue<String>();
+            instructionToTreat = new ConcurrentQueue<String>();
         }
+
+        public void exit()
+        {
+            
+            theradReception.Abort();
+            threadTreatment.Abort();
+            while (instructionToSend.Count > 0) ;
+            isActive = false;
+            theradEmission.Join();
+            
+            if (m_tcpClient.Connected && isActive)
+            {
+                m_tcpClient.Close();
+            }
+
+            instruction = "";
+            instructionToSend = new ConcurrentQueue<String>();
+            instructionToTreat = new ConcurrentQueue<String>();
+        }
+
+
         private void treatString(string newData)
         {
-
+            
             mut.WaitOne();
             int pos = 0;
             while (pos < newData.Length)
             {
+                
                 if (sizeLeft == 0)
                 {
                     while (pos < newData.Length && newData[pos] != ' ')
@@ -122,12 +155,11 @@ namespace WhiteboardWPF
                     }
                     if (pos < newData.Length)
                     {
-
+                        
                         pos += 1;
                         sizeLeft = int.Parse(instruction);
                         instruction = "";
-
-
+                        
                     }
                 }
                 else if (sizeLeft <= newData.Length - pos)
@@ -146,7 +178,6 @@ namespace WhiteboardWPF
                     pos = newData.Length;
                 }
             }
-
             mut.ReleaseMutex();
         }
 
@@ -158,6 +189,7 @@ namespace WhiteboardWPF
             {
                 while (isActive)
                 {
+                    
                     String str = "";
                     if (instructionToTreat.TryDequeue(out str))
                     {
@@ -165,8 +197,14 @@ namespace WhiteboardWPF
                     }
                 }
             }
+            catch (ThreadAbortException e)
+            {
+
+            }
             catch(Exception e)
             {
+                Console.WriteLine(e.StackTrace);
+                Console.WriteLine("treat "+e.Message);
                 isActive = false;
             }
         }
@@ -185,8 +223,13 @@ namespace WhiteboardWPF
                     instructionToTreat.Enqueue(temp);
                 }
             }
-            catch(Exception e)
+            catch (ThreadAbortException e)
             {
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
                 isActive = false;
             }
             
@@ -206,10 +249,16 @@ namespace WhiteboardWPF
                     }
                 }
             }
-            catch(Exception e)
+            catch (ThreadAbortException e)
             {
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                Console.WriteLine("broadCast "+e.Message);
                 isActive = false;
             }
-}
+        }
     }
 }

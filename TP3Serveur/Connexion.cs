@@ -65,13 +65,17 @@ namespace TCPServeur
         public void stop()
         {
             isActive = false;
-            theradReception.Join();
-            theradEmission.Join();
-            threadTreatment.Join();
+            theradReception.Abort();
+            theradEmission.Abort();
+            threadTreatment.Abort();
+            if (m_tcpClient.Connected)
+            {
+                m_tcpClient.Close();
+            }
         }
         private void treatString(string newData)
         {
-
+            
             mut.WaitOne();
             int pos = 0;
             while (pos < newData.Length)
@@ -89,8 +93,6 @@ namespace TCPServeur
                         pos += 1;
                         sizeLeft = int.Parse(instruction);
                         instruction = "";
-
-                        
                     }
                 }
                 else if(sizeLeft <= newData.Length-pos)
@@ -129,16 +131,18 @@ namespace TCPServeur
 
         private void receive()
         {
-            NetworkStream stream = m_tcpClient.GetStream();
-            int i = 0;
-            int j = 0;
-            byte[] bytes = new byte[2048];
+            
+            
             try
             {
+                NetworkStream stream = m_tcpClient.GetStream();
+                int i = 0;
+                int j = 0;
+                byte[] bytes = new byte[2048];
                 while (isActive && (i = stream.Read(bytes, 0, bytes.Length)) != 0)
                 {
-                
-                        string temp = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
+                    Console.WriteLine("la ici");
+                    string temp = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
                         instructionToTreat.Enqueue(temp);
                 
                 }
@@ -155,14 +159,18 @@ namespace TCPServeur
 
         private void broadcast()
         {
-            NetworkStream stream = m_tcpClient.GetStream();
-            String str = "";
+
+            Console.WriteLine("la et la");
             try
             {
+                NetworkStream stream = m_tcpClient.GetStream();
+                String str = "";
                 while (isActive)
                 {
+                    
                     if (instructionToSend.TryDequeue(out str))
                     {
+                        
                         byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str.Length.ToString()+" "+ str);
                         stream.Write(bytes, 0, bytes.Length);
                     }
