@@ -139,6 +139,12 @@ namespace WhiteboardWPF
                 connexionServer.stop();
 
             }
+            if (instructionName.Equals("ERR"))
+            {
+                string text = str.Substring(3);
+                Console.WriteLine("Erreur :" + text);
+
+            }
             /*if (instructionName.Equals("MOD"))
             {
                 int i = 3;

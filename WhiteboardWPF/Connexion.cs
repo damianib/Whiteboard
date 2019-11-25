@@ -147,7 +147,6 @@ namespace WhiteboardWPF
 
         private void treatString(string newData)
         {
-            
             mut.WaitOne();
             int pos = 0;
             while (pos < newData.Length)

@@ -152,7 +152,7 @@ namespace TCPServeur
                 byte[] bytes = new byte[2048];
                 while (isActive && (i = stream.Read(bytes, 0, bytes.Length)) != 0)
                 {
-                    Console.WriteLine("la ici");
+                    
                     string temp = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
                         instructionToTreat.Enqueue(temp);
                 
@@ -172,7 +172,6 @@ namespace TCPServeur
         private void broadcast()
         {
 
-            Console.WriteLine("la et la");
             try
             {
                 NetworkStream stream = m_tcpClient.GetStream();

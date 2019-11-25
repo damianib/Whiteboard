@@ -69,6 +69,9 @@ namespace TCPServeur
                         }
                         else
                         {
+                            string error = "ERRNo such whiteboard : " + nomWhiteBoard;
+                            byte[] fBytes = System.Text.Encoding.UTF8.GetBytes(error.Length.ToString() +" "+ error);
+                            client.GetStream().Write(fBytes, 0, fBytes.Length);
                             client.Close();
                         }
                     }

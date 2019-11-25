@@ -138,7 +138,6 @@ namespace TCPServeur
             }
             if (instructionName.Equals("EXT")) //If we have an exiting instruction
             {
-                Console.WriteLine("HEDQODPDISOPDIDPSOIQPSOISDPOISDPOSidpoIDpoipoqidpoqsidposqid");
                 stop();
             }
         }
