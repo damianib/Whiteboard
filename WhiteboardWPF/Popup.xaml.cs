@@ -45,11 +45,12 @@ namespace WhiteboardWPF
             {
                 window.doRestart(false, false, choiceIp.Text, choiceName.Text);
             }
-            
+
+            this.Close();
         }
         public void clickCancel(object sender, System.EventArgs e)
         {
-
+            this.Close();
         }
     }
 }
