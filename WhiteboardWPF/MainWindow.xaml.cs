@@ -56,9 +56,6 @@ namespace WhiteboardWPF
             InitializeComponent();
             inkCanvas.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(clickCanvas), true);
 
-            penStyleBox.Items.Add("Pen");
-            penStyleBox.Items.Add("Eraser");
-
             for (int i = 0; i < availableColors.Count; i++)
             {
                 var textBlockColor = new TextBlock();
@@ -112,11 +109,12 @@ namespace WhiteboardWPF
 
         public void selectedPenStyle(object sender, System.EventArgs e) //switch between pen and eraser
         {
-            if ((string)penStyleBox.SelectedItem == "Pen")
+            changeMode("ink");
+            if (penStyleBox.SelectedIndex == 0)
             {
                 inkCanvas.DefaultDrawingAttributes.Color = availableColors[colorBox.SelectedIndex];
             }
-            else if ((string)penStyleBox.SelectedItem == "Eraser")
+            else if (penStyleBox.SelectedIndex == 1)
             {
                 inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(255, 255, 255);
             }
@@ -138,7 +136,7 @@ namespace WhiteboardWPF
 
         void changeMode(string newMode) // handle all operations related to changing mode between ink, text, selection etc...
         {
-            SolidColorBrush selectedButtonColor = new SolidColorBrush(Color.FromRgb(255, 100, 100));
+            SolidColorBrush selectedButtonColor = new SolidColorBrush(Color.FromRgb(100, 100, 100));
 
             if (currentMode == "text") // put last mode button in correct color
             {
@@ -211,6 +209,8 @@ namespace WhiteboardWPF
                 newTextBox.Focus();
                 isCreatingATextBox = true;
                 lastClick = DateTime.Now;
+
+                changeMode("select");
             }
         }
 
