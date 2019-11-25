@@ -201,5 +201,9 @@ namespace TCPServeur
             //                              Clear the board
         }
 
+        internal void send_info()
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

@@ -81,6 +81,8 @@ namespace TCPServeur
             //Starting the client
             clients[id].start();
 
+            
+
             //Seting up all initial inforamtions
             do_reset_client(id);
 
@@ -261,7 +263,7 @@ namespace TCPServeur
         /// <param name="idClient">Id of the client</param>
         public void do_reset_client(int idClient)
         {
-            Console.WriteLine("LALAL");
+            
             //One client at a time access "clients"
             Monitor.Enter(clients);
             clients[idClient].send_clear_all(); //Tell the client to clear its board
@@ -269,7 +271,8 @@ namespace TCPServeur
             {
                 //Give him again all the informations
                 clients[idClient].send_add(key, allBoardElements[key]);
-            }   
+            }
+            clients[idClient].send_info();
             Monitor.Exit(clients);
         }
 

@@ -58,6 +58,12 @@
                     <TextBlock>Restart</TextBlock>
                 </StackPanel>
             </Button>
+            <Button x:Name="infoButton" Click="clickInfo" Padding="10">
+                <StackPanel Orientation="Horizontal">
+                    <Image Margin="2" Source="icons/restartIcon.png" Stretch="Uniform" />
+                    <TextBlock>Restart</TextBlock>
+                </StackPanel>
+            </Button>
             <TextBlock x:Name="texting" Padding="10"></TextBlock>
         </StackPanel>
     </Grid>

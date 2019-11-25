@@ -129,6 +129,7 @@ namespace WhiteboardWPF
             }
             if (instructionName.Equals("INF"))
             {
+                Console.WriteLine("HEREEEE");
                 String[] infos = str.Substring(3).Split(' ');
                 idConnexion = Convert.ToInt32(infos[0]);
                 m_nomServer = infos[1];
