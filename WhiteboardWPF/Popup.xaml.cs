@@ -25,7 +25,7 @@ namespace WhiteboardWPF
             InitializeComponent();
             this.window = window;
             penStyleBox.Items.Add("Create new random board");
-            penStyleBox.Items.Add("Create board whit name");
+            penStyleBox.Items.Add("Create board whith name");
             penStyleBox.Items.Add("Join board");
             choiceIp.Text = window.getIp();
             penStyleBox.SelectedIndex = 0;
@@ -35,18 +35,17 @@ namespace WhiteboardWPF
             Console.WriteLine(textChoiceIp.Text);
             if(penStyleBox.SelectedItem.Equals("Create new random board"))
             {
-                window.doRestart(true, true, choiceIp.Text, choiceName.Text);
+                window.doRestart(false, true, choiceIp.Text, choiceName.Text);
             }
-            else if (penStyleBox.SelectedItem.Equals("Create board whit name"))
+            else if (penStyleBox.SelectedItem.Equals("Create board whith name"))
             {
-                window.doRestart(true, false, choiceIp.Text, choiceName.Text);
+                window.doRestart(true, true, choiceIp.Text, choiceName.Text);
             }
             else if (penStyleBox.SelectedItem.Equals("Join board"))
             {
                 window.doRestart(false, false, choiceIp.Text, choiceName.Text);
             }
             
-            window.doRestart(true, false, choiceIp.Text, choiceName.Text);
         }
         public void clickCancel(object sender, System.EventArgs e)
         {

@@ -45,7 +45,10 @@ namespace WhiteboardWPF
             theradReception = new Thread(new ThreadStart(receive));
             theradEmission = new Thread(new ThreadStart(broadcast));
             threadTreatment = new Thread(new ThreadStart(treatInstruction));
-        }
+
+            instructionToSend = new ConcurrentQueue<String>();
+            instructionToTreat = new ConcurrentQueue<String>();
+    }
 
         
 
@@ -64,11 +67,14 @@ namespace WhiteboardWPF
             {
                 exit();
             }
-
+            Console.WriteLine("Name " + nom + " isFirst " + first);
             
             theradReception = new Thread(new ThreadStart(receive));
             theradEmission = new Thread(new ThreadStart(broadcast));
             threadTreatment = new Thread(new ThreadStart(treatInstruction));
+
+            instructionToSend = new ConcurrentQueue<String>();
+            instructionToTreat = new ConcurrentQueue<String>();
 
 
 
@@ -120,10 +126,11 @@ namespace WhiteboardWPF
 
         public void exit()
         {
-            
+
+            instructionToSend.Enqueue("EXT");
             theradReception.Abort();
             threadTreatment.Abort();
-            while (instructionToSend.Count > 0) ;
+            while (isActive && instructionToSend.Count > 0) ;
             isActive = false;
             theradEmission.Join();
             

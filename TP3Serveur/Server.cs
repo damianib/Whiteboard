@@ -56,9 +56,11 @@ namespace TCPServeur
                     Console.WriteLine("inst " + instruction);
                     if (instruction.Equals("connect"))
                     {
-                        
+                        Console.WriteLine("Connecting to " + nomWhiteBoard);
                         if (whiteBoards.ContainsKey(nomWhiteBoard))
                         {
+                            Console.WriteLine(nomWhiteBoard + "exits");
+                            Console.WriteLine("Server exists !!!!!!!");
                             //bytes = System.Text.Encoding.UTF8.GetBytes(Convert.ToString(idConnection));
                             //stream.Write(bytes, 0, bytes.Length);
                             whiteBoards[nomWhiteBoard].startConnexion(client, idConnection);
@@ -76,6 +78,7 @@ namespace TCPServeur
                         Monitor.Enter(whiteBoards);
                         if (!whiteBoards.ContainsKey(nomWhiteBoard))
                         {
+                            Console.WriteLine(nomWhiteBoard + "created");
                             whiteBoards.Add(nomWhiteBoard, new CommonWhiteBoard(nomWhiteBoard));
                             Monitor.Exit(whiteBoards);
                             whiteBoards[nomWhiteBoard].startConnexion(client, idConnection);
@@ -97,6 +100,7 @@ namespace TCPServeur
                             Monitor.Enter(whiteBoards);
                             if (!whiteBoards.ContainsKey(nomWhiteBoard))
                             {
+                                Console.WriteLine(nomWhiteBoard + "created");
                                 whiteBoards.Add(nomWhiteBoard, new CommonWhiteBoard(nomWhiteBoard));
                                 Monitor.Exit(whiteBoards);
                                 whiteBoards[nomWhiteBoard].startConnexion(client, idConnection);

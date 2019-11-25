@@ -68,6 +68,7 @@ namespace TCPServeur
             theradReception.Abort();
             theradEmission.Abort();
             threadTreatment.Abort();
+            Console.WriteLine("stoped");
             if (m_tcpClient.Connected)
             {
                 m_tcpClient.Close();
@@ -119,14 +120,24 @@ namespace TCPServeur
 
         private void treatInstruction()
         {
-            while (isActive)
+            try
             {
-                String str = "";
-                if (instructionToTreat.TryDequeue(out str))
+                while (isActive)
                 {
-                    treatString(str);
+                    String str = "";
+                    if (instructionToTreat.TryDequeue(out str))
+                    {
+                        treatString(str);
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                
+            }
+            isActive = false;
+            stop();
         }
 
         private void receive()
@@ -150,9 +161,10 @@ namespace TCPServeur
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                isActive = false;
-                stop();
+                
             }
+            isActive = false;
+            stop();
         }
             
 
@@ -179,9 +191,9 @@ namespace TCPServeur
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                isActive = false;
-                stop();
             }
+            isActive = false;
+            stop();
 
         }
     }

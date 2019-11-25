@@ -75,7 +75,7 @@ namespace WhiteboardWPF
             texting.Text = "Initial text";
         }
 
-        public MainWindow(String ipAdress, String nomServer, bool isNew = true)
+        /*public MainWindow(String ipAdress, String nomServer, bool isNew = true)
         {
             AllocConsole();
             //TcpClient tcpClient = new TcpClient();
@@ -104,7 +104,7 @@ namespace WhiteboardWPF
             inkCanvas.UseCustomCursor = true;
             inkCanvas.DefaultDrawingAttributes.StylusTip = System.Windows.Ink.StylusTip.Ellipse;
             texting.Text = "Initial text";
-        }
+        } */
 
 
         // -----------------------------------------------------------------------------------------
@@ -285,11 +285,19 @@ namespace WhiteboardWPF
         {
             client.changeIP(ip);
             if (newBoard)
+            {
                 client.createBoard(boardName);
+            }
             else if (newAleaBoard)
+            {
                 client.createBoard();
+            }
             else
+            {
                 client.joinBoard(boardName);
+            }
+            
+                
 
         }
 
