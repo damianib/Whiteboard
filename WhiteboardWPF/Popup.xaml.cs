@@ -25,7 +25,7 @@ namespace WhiteboardWPF
             InitializeComponent();
             this.window = window;
             penStyleBox.Items.Add("Create new random board");
-            penStyleBox.Items.Add("Create board whith name");
+            penStyleBox.Items.Add("Create board with name");
             penStyleBox.Items.Add("Join board");
             choiceIp.Text = window.getIp();
             penStyleBox.SelectedIndex = 0;
