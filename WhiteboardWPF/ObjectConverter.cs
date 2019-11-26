@@ -20,7 +20,10 @@ using System.Diagnostics;
 
 namespace WhiteboardWPF
 {
-    class ObjectConverter //Objet gérant la conversion des strings reçus du serveur en BoardElement
+    /// <summary>
+    /// ObjectConverter gère la reconversion des string reçus du serveur en BoardElement
+    /// </summary>
+    class ObjectConverter 
     {
         /*public static Object getObject(String str)
         {
@@ -28,9 +31,12 @@ namespace WhiteboardWPF
             return se.GetStroke();
         } */
 
-
-        public static StrokeElement ReconvertStroke(string locval) //Transforme en StrokeElement
-            //Récupère les attributs séparés selon a convention et renvoi le StrokeElement correspondant
+        /// <summary>
+        /// Transforme le String en StrokeElement
+        /// </summary>
+        /// <param name="locval"></param>
+        /// <returns></returns>StrokeElement correspondant aux atttibuts reçus
+        public static StrokeElement ReconvertStroke(string locval)
         {
 
             string str = locval;
@@ -77,6 +83,11 @@ namespace WhiteboardWPF
             return new StrokeElement(stroke);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
        public static TextBlockAndCoordinates ReconvertTextblock(string str)
         {
             TextBlock block = new TextBlock();

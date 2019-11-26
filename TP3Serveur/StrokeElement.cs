@@ -7,6 +7,9 @@ using System.Windows;
 
 namespace TCPServeur
 {
+    /// <summary>
+    /// Classe correspondant au StrokeElement du client
+    /// </summary>
     class StrokeElement : BoardElement
     {
         struct Point
@@ -70,6 +73,11 @@ namespace TCPServeur
 
 
         }
+
+        /// <summary>
+        /// Renvoie le StrokeElement sous forme de string pour transmission au client
+        /// </summary>
+        /// <returns></returns>String représentant l'objet
         public override string GetString()
         {
             string locval;
