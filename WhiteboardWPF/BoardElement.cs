@@ -51,6 +51,11 @@ namespace WhiteboardWPF
         /// </summary>
         /// <returns>Contenu sous forme Object</returns>
         public abstract Object getElement();
+
+        /// <summary>
+        /// Update the position of the object
+        /// </summary>
+        /// <param name="inkCanvas">The ink canvas in which the object is placed</param>
         internal abstract void updatePosition(InkCanvas inkCanvas);
     }
 }
