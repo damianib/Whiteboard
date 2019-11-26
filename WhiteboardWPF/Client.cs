@@ -76,9 +76,9 @@ namespace WhiteboardWPF
         {
             connexionServer.start(stringNom, true);
         }
-        public void joinBoard(String stringNom)
+        public void joinBoard(String stringNom, bool canCreate)
         {
-            connexionServer.start(stringNom);
+            connexionServer.start(stringNom, false, canCreate);
         }
         private void runInstruction(String str)
         {

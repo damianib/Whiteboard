@@ -543,10 +543,16 @@ namespace WhiteboardWPF
             }
             else
             {
-                client.joinBoard(boardName);
+                client.joinBoard(boardName, false);
             }
 
 
+
+        }
+        public void doRestart(String ip, String boardName)
+        {
+            
+            client.joinBoard(boardName, true);
 
         }
 

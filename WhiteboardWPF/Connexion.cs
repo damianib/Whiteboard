@@ -60,7 +60,7 @@ namespace WhiteboardWPF
             }
         }
 
-        public bool start(String nom, bool first = false)
+        public bool start(String nom, bool first = false, bool canCreate = false)
         {
             
             if (isActive)
@@ -84,9 +84,13 @@ namespace WhiteboardWPF
 
             string sending = "";
             isActive = true;
-            if (!first)
+            if (!first && !canCreate)
             {
                 sending = "connect " + nom + " -1";
+            }
+            else if (!first && canCreate)
+            {
+                sending = "createOrJoin " + nom + " -1";
             }
             else if(!nom.Equals(""))
             {

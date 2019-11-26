@@ -123,6 +123,23 @@ namespace TCPServeur
                         }
                         
                     }
+                    else if (instruction.Equals("createOrJoin"))
+                    {
+                        Monitor.Enter(whiteBoards);
+                        if (!whiteBoards.ContainsKey(nomWhiteBoard))
+                        {
+                            Console.WriteLine(nomWhiteBoard + "created");
+                            whiteBoards.Add(nomWhiteBoard, new CommonWhiteBoard(nomWhiteBoard));
+                            Monitor.Exit(whiteBoards);
+                            whiteBoards[nomWhiteBoard].startConnexion(client, idConnection);
+
+                        }
+                        else
+                        {
+                            Monitor.Exit(whiteBoards);
+                            whiteBoards[nomWhiteBoard].startConnexion(client, idConnection);
+                        }
+                    }
 
                 }
             }
