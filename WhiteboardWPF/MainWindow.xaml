@@ -29,11 +29,25 @@
                     <Image Height="15" Margin="2" Source="icons/textIcon.png" Stretch="Uniform"/>
                     <TextBlock>Text</TextBlock>
                 </StackPanel>
-                <TextBlock>Shape</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="15" Margin="2" Source="icons/shapeIcon.png" Stretch="Uniform"/>
+                    <TextBlock>Shape</TextBlock>
+                </StackPanel>
             </ComboBox>
             
             <ComboBox x:Name="shapeBox" HorizontalAlignment="Left" SelectionChanged="selectedShape" Visibility="Collapsed">
-                <ComboBoxItem>Circle</ComboBoxItem>
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="15" Margin="2" Source="icons/circleIcon.png" Stretch="Uniform"/>
+                    <TextBlock>Circle</TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="15" Margin="2" Source="icons/squareIcon.png" Stretch="Uniform"/>
+                    <TextBlock>Square</TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="15" Margin="2" Source="icons/triangleIcon.png" Stretch="Uniform"/>
+                    <TextBlock>Triangle</TextBlock>
+                </StackPanel>
             </ComboBox>
             
             <ComboBox x:Name="colorBox" HorizontalAlignment="Left" SelectionChanged="selectedColor"/>
