@@ -40,16 +40,16 @@ namespace WhiteboardWPF
             this.id = id;
         }
 
-        public StrokeElement(String shape, int x, int y)
+        public StrokeElement(String shape, double x, double y)
         {
             if (shape.Equals("Circle"))
             {
                 double r = 10;
                 List<StylusPoint> listStylusPoint = new List<StylusPoint>();
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 101; i++)
                 {
-                    double newX = x + r * Math.Cos((double)i * 2 * Math.PI / 200);
-                    double newY = x + r * Math.Sin((double)i * 2 * Math.PI / 200);
+                    double newX = x + r * Math.Cos((double)i * 2 * Math.PI / 100);
+                    double newY = y + r * Math.Sin((double)i * 2 * Math.PI / 100);
                     listStylusPoint.Add(new StylusPoint(newX, newY));
                 }
                 StylusPointCollection pointsCollection = new StylusPointCollection(listStylusPoint);
@@ -72,16 +72,16 @@ namespace WhiteboardWPF
             }
         }
 
-        public StrokeElement(String shape, int x, int y, int x2, int y2)
+        public StrokeElement(String shape, double x, double y, double x2, double y2)
         {
             if (shape.Equals("Circle"))
             {
                 double r = Math.Sqrt((x2 - x)* (x2 - x) + (y2-y)*(y2-y));
                 List<StylusPoint> listStylusPoint = new List<StylusPoint>();
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 101; i++)
                 {
-                    double newX = x + r * Math.Cos((double)i * 2 * Math.PI / 200);
-                    double newY = x + r * Math.Sin((double)i * 2 * Math.PI / 200);
+                    double newX = x + r * Math.Cos((double)i * 2 * Math.PI / 100);
+                    double newY = y + r * Math.Sin((double)i * 2 * Math.PI / 100);
                     listStylusPoint.Add(new StylusPoint(newX, newY));
                 }
                 StylusPointCollection pointsCollection = new StylusPointCollection(listStylusPoint);

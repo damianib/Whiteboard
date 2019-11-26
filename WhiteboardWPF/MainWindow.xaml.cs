@@ -21,7 +21,12 @@ namespace WhiteboardWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+
+        double xCliked = 0;
+        double yCliked = 0;
+
+        bool isWritigShape = false;
+
         List<String> availableColorsStr = new List<String>() { "Black", "Red", "Green", "Blue" };
         List<Color> availableColors = new List<Color>() { Color.FromRgb(0, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0),
             Color.FromRgb(0, 0, 255) };
@@ -56,6 +61,7 @@ namespace WhiteboardWPF
 
             InitializeComponent();
             inkCanvas.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(clickCanvas), true);
+            inkCanvas.AddHandler(InkCanvas.MouseUpEvent, new MouseButtonEventHandler(unClickCanvas), true);
 
             for (int i = 0; i < availableColors.Count; i++) // create color combo box
             {
@@ -72,6 +78,8 @@ namespace WhiteboardWPF
             inkCanvas.DefaultDrawingAttributes.StylusTip = System.Windows.Ink.StylusTip.Ellipse;
             texting.Text = "Initial text";
         }
+
+        
 
         // -----------------------------------------------------------------------------------------
         // LOCAL CHANGES
@@ -226,12 +234,23 @@ namespace WhiteboardWPF
                 lastClick = DateTime.Now;
                 changeMode("select");
             }
-
+            xCliked = e.GetPosition(inkCanvas).X;
+            yCliked = e.GetPosition(inkCanvas).Y;
             if ((currentMode == "shape") && ((DateTime.Now - lastClick) > new TimeSpan(0, 0, 1)))
             {
-                CircleElement circle = new CircleElement(e.GetPosition(inkCanvas).X, e.GetPosition(inkCanvas).Y);
-                client.ask_add(circle);
+
+                isWritigShape = true;
+                
                 lastClick = DateTime.Now;
+            }
+        }
+
+        private void unClickCanvas(object sender, MouseButtonEventArgs e)
+        {
+            if (isWritigShape)
+            {
+                //double actualX = e.GetPosition(inkCanvas).X;
+                client.ask_add(new StrokeElement("Circle", xCliked, yCliked, e.GetPosition(inkCanvas).X, e.GetPosition(inkCanvas).Y));
             }
         }
 
