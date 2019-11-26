@@ -1,0 +1,19 @@
+﻿<Window x:Class="WhiteboardWPF.Info"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WhiteboardWPF"
+        mc:Ignorable="d"
+        Title="Informations" Height="200" Width="300">
+    <Grid>
+        <StackPanel Margin="5">
+            <TextBlock>IP adress : </TextBlock>
+            <TextBlock x:Name="ipAdressTextBlock" Margin="5"></TextBlock>
+            <Button x:Name="ipAdressButton" HorizontalAlignment="Center" Click="ipClick">Copy IP adress</Button>
+            <TextBlock>Server name : </TextBlock>
+            <TextBlock Margin="5" x:Name="serverNameTextBlock"></TextBlock>
+            <Button x:Name="serverNameButton" HorizontalAlignment="Center" Click="nameClick">Copy server name</Button>
+        </StackPanel>
+    </Grid>
+</Window>

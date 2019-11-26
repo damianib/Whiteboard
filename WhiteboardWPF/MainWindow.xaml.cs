@@ -327,14 +327,8 @@ namespace WhiteboardWPF
         /// <param name="e"></param>
         void clickInfo(object sender, System.EventArgs e) // send erase all
         {
-            MessageBoxResult result = MessageBox.Show("IP adress\n"+getIp()+"\nWhiteboard name:\n"+client.m_nomServer+ "\n\nDo you want to copy the name on the clipboard ","Informations", MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.Yes)
-            {
-                Clipboard.SetText(client.m_nomServer);
-                MessageBox.Show("Name copied to the cliboard");
-            }
-            //infos.Text = "Server name" + client.m_nomServer;
-            
+            Info info = new Info(getIp(), client.m_nomServer);
+            info.Show();
         }
 
         /// <summary>
