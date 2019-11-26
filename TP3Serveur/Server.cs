@@ -13,6 +13,12 @@ namespace TCPServeur
     class Server
     {
         Dictionary<String, CommonWhiteBoard> whiteBoards = new Dictionary<String, CommonWhiteBoard>();
+        String ip = "127.0.0.1";
+
+        public Server(String ip)
+        {
+            this.ip = ip;
+        }
 
         public void addWB(String nom)
         {
@@ -24,7 +30,7 @@ namespace TCPServeur
             Console.WriteLine("Préparation à l'écoute...");
 
             //On crée le serveur en lui spécifiant le port sur lequel il devra écouter.
-            IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+            IPAddress localAddr = IPAddress.Parse(ip);
             TcpListener server = new TcpListener(localAddr, 5035);
 
             server.Start();
