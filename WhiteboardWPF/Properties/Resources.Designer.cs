@@ -63,6 +63,16 @@ namespace WhiteboardWPF.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap circleIcon {
+            get {
+                object obj = ResourceManager.GetObject("circleIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap clearIcon {
             get {
                 object obj = ResourceManager.GetObject("clearIcon", resourceCulture);
@@ -143,9 +153,39 @@ namespace WhiteboardWPF.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap shapeIcon {
+            get {
+                object obj = ResourceManager.GetObject("shapeIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap squareIcon {
+            get {
+                object obj = ResourceManager.GetObject("squareIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap textIcon {
             get {
                 object obj = ResourceManager.GetObject("textIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap triangleIcon {
+            get {
+                object obj = ResourceManager.GetObject("triangleIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

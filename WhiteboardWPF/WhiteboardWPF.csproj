@@ -146,5 +146,17 @@
   <ItemGroup>
     <Resource Include="icons\infoIcon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\circleIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\squareIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\triangleIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\shapeIcon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
