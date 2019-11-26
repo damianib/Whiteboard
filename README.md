@@ -48,3 +48,8 @@ Le bouton (7) efface le contenu entier.
 Le tableau peut être sauvegardé en appuyant sur le bouton Save (8). Une fenêtre s'ouvre pour spécifier l'endroit où enregistrer l'image sous format jpg.
 
 ### Structure du code
+
+Chaque élement tracé implémente la classe abstraite BoardElement, qui donne un cadre aux méthodes d'ajout/suppression/selection sur le tableau et à la conversion en string.
+Les échanges entre l'utilisateur et le serveur peuvent être représentés comme ceci :
+
+![Screenshot](Transmission.PNG)
