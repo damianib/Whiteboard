@@ -67,7 +67,6 @@ namespace WhiteboardWPF
             {
                 exit();
             }
-            Console.WriteLine("Name " + nom + " isFirst " + first);
             
             theradReception = new Thread(new ThreadStart(receive));
             theradEmission = new Thread(new ThreadStart(broadcast));
