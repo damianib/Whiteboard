@@ -25,7 +25,7 @@ namespace WhiteboardWPF
         List<String> availableColorsStr = new List<String>() { "Black", "Red", "Green", "Blue" };
         List<Color> availableColors = new List<Color>() { Color.FromRgb(0, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0),
             Color.FromRgb(0, 0, 255) };
-        string currentMode = "ink"; // possible values : ink, text
+        string currentMode = "ink"; // possible values : ink, text, select, eraser
         bool isCreatingATextBox = false;
         bool isSelectionFromServer = false;
         int selectedObject = -1;
@@ -81,14 +81,14 @@ namespace WhiteboardWPF
         /// <param name="e"></param>
         public void selectedPenStyle(object sender, System.EventArgs e)
         {
-            changeMode("ink");
             if (penStyleBox.SelectedIndex == 0)
             {
+                changeMode("ink");
                 inkCanvas.DefaultDrawingAttributes.Color = availableColors[colorBox.SelectedIndex];
             }
             else if (penStyleBox.SelectedIndex == 1)
             {
-                inkCanvas.DefaultDrawingAttributes.Color = Color.FromRgb(255, 255, 255);
+                changeMode("eraser");
             }
         }
 
@@ -132,10 +132,6 @@ namespace WhiteboardWPF
             {
                 selectButton.ClearValue(Button.BackgroundProperty);
             }
-            else if (currentMode == "ink")
-            {
-                penStyleBox.ClearValue(ComboBox.BackgroundProperty);
-            }
 
             if (newMode == currentMode) // if a mode is selected two times in a row, go back to ink (deselect button)
             {
@@ -145,7 +141,6 @@ namespace WhiteboardWPF
             if (newMode == "ink") // change inkcanvas editing mode and button color
             {
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
-                penStyleBox.Background = selectedButtonColor;
             }
             else if (newMode == "text")
             {
@@ -156,6 +151,10 @@ namespace WhiteboardWPF
             {
                 inkCanvas.EditingMode = InkCanvasEditingMode.Select;
                 selectButton.Background = selectedButtonColor;
+            }
+            else if (newMode == "eraser")
+            {
+                inkCanvas.EditingMode = InkCanvasEditingMode.Select;
             }
 
             currentMode = newMode;
@@ -189,7 +188,7 @@ namespace WhiteboardWPF
         /// <param name="e"></param>
         void clickCanvas(object sender, MouseButtonEventArgs e)
         {
-            if(selectedObject != -1) // update selected object if click somewhere else on the canvas
+            if(allBoardElements.ContainsKey(selectedObject)) // update selected object if click somewhere else on the canvas
             {
                 allBoardElements[selectedObject].updatePosition(inkCanvas);
                 client.ask_modif(selectedObject, allBoardElements[selectedObject]);
@@ -356,29 +355,31 @@ namespace WhiteboardWPF
             StrokeCollection selectedStrokes = inkCanvas.GetSelectedStrokes();
             int boardId = -1;
 
-            if (selectedElements.Count > 0)
+            if (currentMode == "eraser")
             {
-                boardId = getBoardIdFromObject(selectedElements[0]);
-            }
-            else if (selectedStrokes.Count > 0)
-            {
-                boardId = getBoardIdFromObject(selectedStrokes[0]);
-            }
-
-            
-
-            if ((boardId != -1) && (isSelectionFromServer == false))
-            {
-                /*if (selectedObject != -1)
+                foreach (Stroke stroke in selectedStrokes)
                 {
-                    texting.Text = Convert.ToString(selectedObject) + allBoardElements[selectedObject].GetString();
-                    client.ask_modif(selectedObject, allBoardElements[selectedObject]);
-                } */
-                client.ask_select(boardId);
-                inkCanvas.Select(null, null);
+                    int strokeId = getBoardIdFromObject(stroke);
+                    client.ask_select(strokeId);
+                    client.ask_delete(strokeId);
+                }
             }
-
-            //texting.Text = "CHANGED";
+            else
+            {
+                if (selectedElements.Count > 0)
+                {
+                    boardId = getBoardIdFromObject(selectedElements[0]);
+                }
+                else if (selectedStrokes.Count > 0)
+                {
+                    boardId = getBoardIdFromObject(selectedStrokes[0]);
+                }
+                if ((boardId != -1) && (isSelectionFromServer == false))
+                {
+                    client.ask_select(boardId);
+                    inkCanvas.Select(null, null);
+                }
+            }
         }
 
         /// <summary>
