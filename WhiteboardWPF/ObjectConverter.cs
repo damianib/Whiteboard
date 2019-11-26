@@ -20,7 +20,7 @@ using System.Diagnostics;
 
 namespace WhiteboardWPF
 {
-    class ObjectConverter
+    class ObjectConverter //Objet gérant la conversion des strings reçus du serveur en BoardElement
     {
         /*public static Object getObject(String str)
         {
@@ -29,7 +29,8 @@ namespace WhiteboardWPF
         } */
 
 
-        public static StrokeElement ReconvertStroke(string locval)
+        public static StrokeElement ReconvertStroke(string locval) //Transforme en StrokeElement
+            //Récupère les attributs séparés selon a convention et renvoi le StrokeElement correspondant
         {
 
             string str = locval;
@@ -76,7 +77,7 @@ namespace WhiteboardWPF
             return new StrokeElement(stroke);
         }
 
-        public static TextBlockAndCoordinates ReconvertTextblock(string str)
+       public static TextBlockAndCoordinates ReconvertTextblock(string str)
         {
             TextBlock block = new TextBlock();
             char separator = '\u0000';
@@ -91,9 +92,9 @@ namespace WhiteboardWPF
             TextBlockAndCoordinates blockC = new TextBlockAndCoordinates(block, Double.Parse(strlst[3]), Double.Parse(strlst[4]));
 
             return blockC;
-        }
+        } 
 
-        public static TextBoxElement ReconvertTextBox(string str)
+        public static TextBoxElement ReconvertTextBox(string str) //Transforme en TextBoxElement
         {
             TextBoxElement BoxT = new TextBoxElement();
             char separator = '\u0000';
@@ -113,26 +114,27 @@ namespace WhiteboardWPF
         }
 
 
-        public static BoardElement ReconvertElement(string str)
+        public static BoardElement ReconvertElement(string str) //Procédure appelée pour une reconversion
+            //Appelle la bonne procédure selon le code de type (les 3 premiers caractères)
         {
             
             
 
             string identifier = str.Substring(0, 3);
-            if (identifier.Equals("txt"))
+            if (identifier.Equals("txt")) //Pour un TextBlockAndCoordinates (Obsolète)
             {
                 return ReconvertTextblock(str.Substring(3));
             }
-            else if (identifier.Equals("str"))
+            else if (identifier.Equals("str")) //Pour un StrokeElement
             {
                 
                 return ReconvertStroke(str.Substring(3));
             }
-            else if (identifier.Equals("txb"))
+            else if (identifier.Equals("txb")) //Pour un TextBoxElement
             {
                 return ReconvertTextBox(str.Substring(3));
             }
-            else
+            else //Erreur si le code ne correspond pas à un type implémenté
             {
                 throw new NotImplementedException();
             }

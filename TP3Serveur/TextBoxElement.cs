@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TCPServeur
 {
-    class TextBoxElement : BoardElement
+    class TextBoxElement : BoardElement //Classe correspondant au TextBoxElement du Client
     {
         
 
@@ -43,7 +43,7 @@ namespace TCPServeur
             Y = Double.Parse(strlst[4]);
         }
 
-        public override string GetString()
+        public override string GetString() //Renvoie une string représentant l'objet pour transmission au Client
         {
             string str = "";
             char separator = '\u0000';
