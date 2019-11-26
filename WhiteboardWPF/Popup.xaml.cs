@@ -24,6 +24,7 @@ namespace WhiteboardWPF
         {
             InitializeComponent();
             this.window = window;
+            modeBox.Items.Add("Create or join board");
             modeBox.Items.Add("Create new random board");
             modeBox.Items.Add("Create board with name");
             modeBox.Items.Add("Join board");
@@ -44,6 +45,10 @@ namespace WhiteboardWPF
             else if (modeBox.SelectedItem.Equals("Join board"))
             {
                 window.doRestart(false, false, choiceIp.Text, choiceName.Text);
+            }
+            else if(modeBox.SelectedItem.Equals("Create or join board"))
+            {
+                window.doRestart(choiceIp.Text, choiceName.Text);
             }
 
             this.Close();
