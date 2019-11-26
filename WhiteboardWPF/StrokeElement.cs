@@ -17,7 +17,8 @@ using System.Windows.Ink;
 
 namespace WhiteboardWPF
 {
-    class StrokeElement : BoardElement
+    class StrokeElement : BoardElement //Classe contenant un élément Stroke et les méthodes associées
+        //Constructeurs : vide, ou initialisée avec un Stroke ou Stoke et id
     {
         private Stroke Strokeat;
 
@@ -41,7 +42,9 @@ namespace WhiteboardWPF
         {
             return Strokeat;
         }
-        public override string GetString()
+        public override string GetString()  //Renvoie le Stroke sous forme de string pour transmission au serveur, sous la forme : 
+            //strDrawingAttributes.Attribut1#DrawingAttributes.Attribut2...#%Point1.X;Point1.Y%....%Pointn.X;Pointn.Y
+            //Un code de 3 caractères indiquant le type puis la liste des attributs
         {
             string locval;
             DrawingAttributes attri = Strokeat.DrawingAttributes;
@@ -53,16 +56,15 @@ namespace WhiteboardWPF
                 locval += "%" + point.X + ";" + point.Y;
             }
 
-            //locval = "str" + locval;
             return "str"+locval;
         }
 
-        public override void AddToCanvas(MainWindow window, InkCanvas ink)
+        public override void AddToCanvas(MainWindow window, InkCanvas ink) //Ajoute l'élément Stroke contenu sur le InkCanvas
         {
             ink.Strokes.Add(Strokeat);
         }
 
-        public override void DeleteFromCanvas(MainWindow window, InkCanvas ink)
+        public override void DeleteFromCanvas(MainWindow window, InkCanvas ink) //Retire du InkCanvas
         {
             ink.Strokes.Remove(Strokeat);
         }

@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace WhiteboardWPF
 {
-    class TextBoxElement : BoardElement
+    class TextBoxElement : BoardElement //Elément contenant une boîte de texte, les dimensions et les coordonnées
     {
         private TextBox BoxT = null;
         public double X { get; set; }
@@ -40,7 +40,9 @@ namespace WhiteboardWPF
             
         }
 
-        public override string GetString()
+        public override string GetString()//Renvoie les attributs de l'objet sous un string pour transmission au serveur
+            //Format : txb'\u0000'Texte....
+            //Le caractère unicode non affichable
         {
             string str = "";
             char separator = '\u0000';
