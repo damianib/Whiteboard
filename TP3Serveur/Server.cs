@@ -10,6 +10,9 @@ using System.Collections;
 
 namespace TCPServeur
 {
+    /// <summary>
+    /// This class represent the server
+    /// </summary>
     class Server
     {
         Dictionary<String, CommonWhiteBoard> whiteBoards = new Dictionary<String, CommonWhiteBoard>();

@@ -13,14 +13,14 @@ namespace TCPServeur
     public class Program
     {
         
-
+        /// <summary>
+        /// Main program of the server part
+        /// It takes cares of laucnining the server
+        /// 
+        /// </summary>
+        /// <param name="args">Get as an input the IP that will be the server IP, if no argument is passed, the programm will look for available IPV4 adress, and ask the user to choose beetween them</param>
         private static void Main(string[] args)
         {
-            Console.WriteLine("CECI EST LE SERVEUR");
-            //CommonWhiteBoard server = new CommonWhiteBoard();
-            //server.demarerServeur();
-            
-
             
             if (args.Length == 0)
             {
@@ -73,7 +73,11 @@ namespace TCPServeur
                     Console.WriteLine("Exiting");
                 }
             }
-
+            else
+            {
+                Server server = new Server(args[0]);
+                server.listen();
+            }
 
 
         }
