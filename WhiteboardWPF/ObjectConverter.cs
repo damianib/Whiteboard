@@ -34,8 +34,8 @@ namespace WhiteboardWPF
         /// <summary>
         /// Transforme le String en StrokeElement
         /// </summary>
-        /// <param name="locval"></param>
-        /// <returns></returns>StrokeElement correspondant aux atttibuts reçus
+        /// <param name="locval">String contenant les attributs de la Stroke</param>
+        /// <returns>StrokeElement correspondant aux atttibuts reçus</returns>
         public static StrokeElement ReconvertStroke(string locval)
         {
 
@@ -86,9 +86,9 @@ namespace WhiteboardWPF
         /// <summary>
         /// Conversion en TextBlockAndCoordinates. Obsolète
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>TextBlockAndCoordinates
-       public static TextBlockAndCoordinates ReconvertTextblock(string str)
+        /// <param name="str">String contenant les attributs du TextBlock</param>
+        /// <returns>TextBlockAndCoordinates</returns>
+        public static TextBlockAndCoordinates ReconvertTextblock(string str)
         {
             TextBlock block = new TextBlock();
             char separator = '\u0000';
@@ -103,13 +103,13 @@ namespace WhiteboardWPF
             TextBlockAndCoordinates blockC = new TextBlockAndCoordinates(block, Double.Parse(strlst[3]), Double.Parse(strlst[4]));
 
             return blockC;
-        } 
+        }
 
         /// <summary>
         /// Convertit le String en TextBoxElement
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>TextBoxElement correspondant aux attributs transmis dans le String
+        /// <param name="str">String contenant les attributs de la TextBox</param>
+        /// <returns>TextBoxElement correspondant aux attributs transmis dans le String</returns>
         public static TextBoxElement ReconvertTextBox(string str)
         {
             TextBoxElement BoxT = new TextBoxElement();
@@ -136,8 +136,8 @@ namespace WhiteboardWPF
         /// txb : TextBoxElement
         /// Exception si le code ne correspond pas à un type implémenté
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>BoardElement corrspondant
+        /// <param name="str">String contenant le code et les paramètres</param>
+        /// <returns>BoardElement corrspondant</returns>
         public static BoardElement ReconvertElement(string str)
         {
             

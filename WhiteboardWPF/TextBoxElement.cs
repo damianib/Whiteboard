@@ -47,10 +47,10 @@ namespace WhiteboardWPF
         /// <summary>
         /// Constructeur sans dimensions
         /// </summary>
-        /// <param name="box"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="id"></param>
+        /// <param name="box"> TextBox de l'élément</param>
+        /// <param name="x"> Abscisse</param>
+        /// <param name="y">Ordonnées</param>
+        /// <param name="id">ID unique de l'objet</param>
         public TextBoxElement(TextBox box, double x, double y, int id)
         {
             this.BoxT = box;
@@ -62,12 +62,12 @@ namespace WhiteboardWPF
         /// <summary>
         /// Constructeur avec l'ensemble des attributs
         /// </summary>
-        /// <param name="height"></param>
-        /// <param name="width"></param>
-        /// <param name="text"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="id"></param>
+        /// <param name="height">Hauteur de la TextBox</param>
+        /// <param name="width">Largeur</param>
+        /// <param name="text">Texte de la TextBox</param>
+        /// <param name="x">Abscisse</param>
+        /// <param name="y">Ordonnée</param>
+        /// <param name="id">ID unique de l'objet</param>
         public TextBoxElement(double height, double width, string text, double x, double y, int id)
         {
             this.Height = height;
@@ -85,7 +85,7 @@ namespace WhiteboardWPF
         /// <summary>
         /// Renvoir les attributs de l'objet dans un string pour transmission au serveur
         /// </summary>
-        /// <returns></returns> String au format Format : txb'\u0000'Texte....  '\u0000' : séparateur pour les attributs, caractère non affichable
+        /// <returns>String au format Format : txb'\u0000'Texte....  '\u0000' : séparateur pour les attributs, caractère non affichable</returns>
         public override string GetString()
         {
             string str = "";
@@ -99,8 +99,8 @@ namespace WhiteboardWPF
         /// <summary>
         /// Ajoute la TextBox à l'InkCanvas en entrée
         /// </summary>
-        /// <param name="window"></param>
-        /// <param name="ink"></param>
+        /// <param name="window">Fenêtre du Whiteboard</param>
+        /// <param name="ink">InkCanvas cible</param>
         public override void AddToCanvas(MainWindow window, InkCanvas ink)
         {
             BoxT = new TextBox();
@@ -126,7 +126,7 @@ namespace WhiteboardWPF
         /// <summary>
         /// Renvoie la TextBox sous la forme générique Object
         /// </summary>
-        /// <returns></returns> (Object) TextBox
+        /// <returns>(Object) TextBox</returns>
         public override object getElement()
         {
             return this.BoxT;
