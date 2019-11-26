@@ -41,10 +41,21 @@ Il y a quatre modes d'édition sur le tableau utilisables via une liste déroula
 - Selection (3) qui permet de faire du drag-and-drop sur un élement
 - Text (4) qui permet de créer une zone de texte en cliquant sur le tableau
 Vous pouvez modifier la couleur et l'epaisseur des traits à l'aide des boutons (5) et (6).
-- Shape () fait apparaître un nouveau menu déroulant permettant de choisir parmi 3 formes : triangle, carré ou cercle. Selectionnez la forme que vous voulez tracer, cliquez une première fois sur le tableau pour définir le centre puis maintenez jusqu'à un autre point du tableau pour définir le rayon.
+- Shape (11) fait apparaître un nouveau menu déroulant permettant de choisir parmi 3 formes : triangle, carré ou cercle. Selectionnez la forme que vous voulez tracer, cliquez une première fois sur le tableau pour définir le centre puis maintenez jusqu'à un autre point du tableau pour définir le rayon.
 Le bouton (7) efface le contenu entier.
 
 #### Sauvegarder son tableau
 Le tableau peut être sauvegardé en appuyant sur le bouton Save (8). Une fenêtre s'ouvre pour spécifier l'endroit où enregistrer l'image sous format jpg.
 
-### Structure du code
+## Structure du code
+
+### Echanges client-serveur
+
+Chaque élement tracé implémente la classe abstraite BoardElement, qui donne un cadre aux méthodes d'ajout/suppression/selection sur le tableau et à la conversion en string.
+Les échanges entre l'utilisateur et le serveur peuvent être représentés comme ceci :
+
+![Screenshot](Transmission.PNG)
+
+### Gestion du tableau
+
+Le font se base sur WPF, notamment l'objet InkCanvas qui permet de gérer le tracé des traits et la selection. La gestion des évènements permet d'ajouter la communication avec le serveur ainsi que d'étendre les fonctionnalités.
