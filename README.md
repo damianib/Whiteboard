@@ -41,7 +41,7 @@ Il y a quatre modes d'édition sur le tableau utilisables via une liste déroula
 - Selection (3) qui permet de faire du drag-and-drop sur un élement
 - Text (4) qui permet de créer une zone de texte en cliquant sur le tableau
 Vous pouvez modifier la couleur et l'epaisseur des traits à l'aide des boutons (5) et (6).
-- Shape (11) fait apparaître un nouveau menu déroulant permettant de choisir parmi 3 formes : triangle, carré ou cercle. Selectionnez la forme que vous voulez tracer, cliquez une première fois sur le tableau pour définir le centre puis maintenez jusqu'à un autre point du tableau pour définir le rayon.
+- Shape (11) fait apparaître un nouveau menu déroulant permettant de choisir parmi 3 formes : triangle, carré ou cercle. Si vous voulez créer un carré ou un cercle, cliquez une première fois sur le tableau puis maintenez en vous déplaçant pour obtenir la forme souhaitée. Si vous voulez tracer un triangle, cliquez aux points correspondant aux trois sommets.
 Le bouton (7) efface le contenu entier.
 
 #### Sauvegarder son tableau
