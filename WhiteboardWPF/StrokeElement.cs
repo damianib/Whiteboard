@@ -22,7 +22,7 @@ namespace WhiteboardWPF
     /// </summary>
     class StrokeElement : BoardElement
     {
-        private Stroke Strokeat;
+        protected Stroke Strokeat;
 
         public StrokeElement()
         {
