@@ -32,8 +32,8 @@ namespace TCPServeur
         /// <summary>
         /// Constructeur effectuant la conversion String vers TextBoxElement
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="str"></param>
+        /// <param name="id">ID unique de l'objet</param>
+        /// <param name="str">String contenant les attributs de la TextBox</param>
         public TextBoxElement(int id, string str)
         {
             this.m_id = id;
@@ -54,7 +54,7 @@ namespace TCPServeur
         /// <summary>
         /// Renvoie le TextBoxElement sous forme de string pour transmission au client
         /// </summary>
-        /// <returns></returns> String représentant l'objet
+        /// <returns>String représentant l'objet</returns>
         public override string GetString() 
         {
             string str = "";

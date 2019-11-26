@@ -24,9 +24,9 @@ namespace TCPServeur
         /// <summary>
         /// Appelle le constructeur de l'objet qui contient la conversion
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="v"></param>
-        /// <returns></returns> BoardElement correspondant
+        /// <param name="id">ID unique de l'objet</param>
+        /// <param name="v">String contenant les attributs et le code décrivant le type du BoardElement</param>
+        /// <returns> BoardElement correspondant</returns
         public static BoardElement reconvertElement(int id, string v)
         {
             if (v.Substring(0, 3).Equals("str"))

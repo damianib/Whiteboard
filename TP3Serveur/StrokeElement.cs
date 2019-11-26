@@ -36,8 +36,8 @@ namespace TCPServeur
         /// <summary>
         /// Constructeur faisant la conversion String vers StrokeElement
         /// </summary>
-        /// <param name="id"></param>id unique de l'élément
-        /// <param name="locval"></param>String contenant les attributs du Stroke pour conversion
+        /// <param name="id">id unique de l'élément</param>
+        /// <param name="locval">String contenant les attributs du Stroke pour conversion</param>
         public StrokeElement(int id, string locval)
         {
             this.m_id = id;
@@ -83,7 +83,7 @@ namespace TCPServeur
         /// <summary>
         /// Renvoie le StrokeElement sous forme de string pour transmission au client
         /// </summary>
-        /// <returns></returns>String représentant l'objet
+        /// <returns>String représentant l'objet</returns>
         public override string GetString()
         {
             string locval;
