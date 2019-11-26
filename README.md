@@ -1,7 +1,7 @@
 # Whiteboard
 
 ## Introduction
-WhiteboardWPF permet de créer un whiteboard coolaboratif
+WhiteboardWPF permet de créer un whiteboard collaboratif
 
 ## Features principales
 - Connexion à un serveur par nom et adresse IP
@@ -9,4 +9,4 @@ WhiteboardWPF permet de créer un whiteboard coolaboratif
 
 ## Installation
 ###### Installations prérequises
-Notre projet utilise les utilitaires WPF et ASP.Net. Ils sont déjà préinstallés.
+Notre projet utilise les utilitaires WPF et ASP.Net.
