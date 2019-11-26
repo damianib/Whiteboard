@@ -283,7 +283,14 @@ namespace WhiteboardWPF
 
         void clickInfo(object sender, System.EventArgs e) // send erase all
         {
-            MessageBox.Show("IP adress\n"+getIp()+"\nWhiteboard name:\n"+client.m_nomServer);
+            MessageBoxResult result = MessageBox.Show("IP adress\n"+getIp()+"\nWhiteboard name:\n"+client.m_nomServer+ "\n\nDo you want to copy the name on the clipboard ","Informations", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                Clipboard.SetText(client.m_nomServer);
+                MessageBox.Show("Name copied to the cliboard");
+            }
+            //infos.Text = "Server name" + client.m_nomServer;
+            
         }
 
         public void doRestart(bool newBoard, bool newAleaBoard, String ip, String boardName)
