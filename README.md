@@ -1,11 +1,11 @@
 # Whiteboard
 
 ## Introduction
-WhiteboardWPF permet de créer un whiteboard collaboratif
+Whiteboard permet de créer un tableau blanc collaboratif.
 
 ## Features principales
 - Connexion à un serveur par nom et adresse IP
-- Traits et zones de texte
+- Traits, formes et zones de texte
 - Possibilité de paramétrer les traits : couleur, épaisseur
 - Possiblité d'effacer, modifier et déplacer les éléments
 - Sauvegarder le tableau sous format jpg
@@ -17,14 +17,14 @@ Notre projet utilise les utilitaires WPF et ASP.Net. Ils ne sont pas nécessaire
 
 ## Utilisation
 ### Serveur
-Lancez TP3Server.exe pour configurer le serveur. Selectionnez une adresse IP parmi la liste proposée en rentrant l'index associé, et le serveur est prêt.
+Lancez Server.exe pour configurer le serveur. Selectionnez une adresse IP parmi la liste proposée en rentrant l'index associé, et le serveur est prêt.
 
 ### Application
 Lancez WhiteboardWPF.exe pour accèder à l'application. Vous devriez tomber sur une fenêtre blanche avec cette barre à outils :
 
 ![Screenshot](exampleGitHub.png)
 
-#### Créer/Rejoindre un tableau
+#### Créer/Rejoindre un tableau (NECESSAIRE AVANT DE TRACER)
 - Cliquez sur le bouton "Connect" (9), une fenêtre s'affiche.
 - Rentrez l'adresse IP du serveur dans la première case et le nom du tableau dans la deuxième, puis cliquez sur "Connect".
 - Si un tableau a déjà été créé pour cette adresse IP et ce nom, vous rejoindrez le tableau. Sinon, vous créez ce tableau.
@@ -41,8 +41,8 @@ Il y a quatre modes d'édition sur le tableau utilisables via une liste déroula
 - Selection (3) qui permet de faire du drag-and-drop sur un élement
 - Text (4) qui permet de créer une zone de texte en cliquant sur le tableau
 Vous pouvez modifier la couleur et l'epaisseur des traits à l'aide des boutons (5) et (6).
-- Shape (11) fait apparaître un nouveau menu déroulant permettant de choisir parmi 3 formes : triangle, carré ou cercle. Selectionnez la forme que vous voulez tracer, cliquez une première fois sur le tableau pour définir le centre puis maintenez jusqu'à un autre point du tableau pour définir le rayon.
-Le bouton (7) efface le contenu entier.
+- Shape (11) fait apparaître un nouveau menu déroulant permettant de choisir parmi 3 formes : triangle, carré ou cercle. Si vous voulez créer un carré ou un cercle, cliquez une première fois sur le tableau puis maintenez en vous déplaçant pour obtenir la forme souhaitée. Si vous voulez tracer un triangle, cliquez aux points correspondant aux trois sommets.
+- Le bouton (7) efface le contenu entier.
 
 #### Sauvegarder son tableau
 Le tableau peut être sauvegardé en appuyant sur le bouton Save (8). Une fenêtre s'ouvre pour spécifier l'endroit où enregistrer l'image sous format jpg.
@@ -51,7 +51,7 @@ Le tableau peut être sauvegardé en appuyant sur le bouton Save (8). Une fenêt
 
 ### Echanges client-serveur
 
-Chaque élement tracé implémente la classe abstraite BoardElement, qui donne un cadre aux méthodes d'ajout/suppression/selection sur le tableau et à la conversion en string.
+Chaque élement tracé hérite de la classe abstraite BoardElement, qui donne un cadre aux méthodes d'ajout/suppression/selection sur le tableau et à la conversion en string.
 Les échanges entre l'utilisateur et le serveur peuvent être représentés comme ceci :
 
 ![Screenshot](Transmission.PNG)
