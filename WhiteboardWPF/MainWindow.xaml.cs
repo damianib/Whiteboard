@@ -251,7 +251,6 @@ namespace WhiteboardWPF
                 lastClick = DateTime.Now;
                 changeMode("select");
             }
-            
             if ((currentMode == "shape"))
             {
                e.Handled = true;
