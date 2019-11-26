@@ -1,7 +1,7 @@
 # Whiteboard
 
 ## Introduction
-WhiteboardWPF permet de créer un whiteboard collaboratif
+WhiteboardWPF permet de créer un tableau blanc collaboratif.
 
 ## Features principales
 - Connexion à un serveur par nom et adresse IP
