@@ -129,7 +129,6 @@ namespace WhiteboardWPF
             }
             if (instructionName.Equals("INF"))
             {
-                Console.WriteLine("HEREEEE");
                 String[] infos = str.Substring(3).Split(' ');
                 idConnexion = Convert.ToInt32(infos[0]);
                 m_nomServer = infos[1];
@@ -143,21 +142,10 @@ namespace WhiteboardWPF
             if (instructionName.Equals("ERR"))
             {
                 string text = str.Substring(3);
-                Console.WriteLine("Erreur :" + text);
                 mainWindow.doShowError(text);
 
             }
-            /*if (instructionName.Equals("MOD"))
-            {
-                int i = 3;
-                while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
-                {
-                    i++;
-                }
-                int id = int.Parse(str.Substring(3, i - 3));
-                BoardElement b = 
-                m_modif(str.Substring(i + 1));
-            } */
+            
         }
 
         public void ask_add (BoardElement b)
