@@ -40,48 +40,20 @@ namespace WhiteboardWPF
             this.id = id;
         }
 
-        public StrokeElement(String shape, double x, double y)
-        {
-            if (shape.Equals("Circle"))
-            {
-                double r = 10;
-                List<StylusPoint> listStylusPoint = new List<StylusPoint>();
-                for (int i = 0; i < 101; i++)
-                {
-                    double newX = x + r * Math.Cos((double)i * 2 * Math.PI / 100);
-                    double newY = y + r * Math.Sin((double)i * 2 * Math.PI / 100);
-                    listStylusPoint.Add(new StylusPoint(newX, newY));
-                }
-                StylusPointCollection pointsCollection = new StylusPointCollection(listStylusPoint);
-                this.Strokeat = new Stroke(pointsCollection);
-            }
-            if (shape.Equals("Rectangle"))
-            {
-                List<StylusPoint> listStylusPoint = new List<StylusPoint>();
-                listStylusPoint.Add(new StylusPoint(x-5, y-5));
-                listStylusPoint.Add(new StylusPoint(x+5, y-5));
-                listStylusPoint.Add(new StylusPoint(x + 5, y + 5));
-                listStylusPoint.Add(new StylusPoint(x - 5, y + 5));
-                listStylusPoint.Add(new StylusPoint(x - 5, y - 5));
-
-
-                StylusPointCollection pointsCollection = new StylusPointCollection(listStylusPoint);
-                this.Strokeat = new Stroke(pointsCollection);
-                this.Strokeat.DrawingAttributes.FitToCurve = false;
-                
-            }
-        }
 
         public StrokeElement(String shape, double x, double y, double x2, double y2)
         {
             if (shape.Equals("Circle"))
             {
-                double r = Math.Sqrt((x2 - x)* (x2 - x) + (y2-y)*(y2-y));
+                double xCenter = (x + x2) / 2;
+                double yCenter = (y + y2) / 2;
+                double xSize = (x - x2) / 2;
+                double ySize = (y - y2) / 2;
                 List<StylusPoint> listStylusPoint = new List<StylusPoint>();
                 for (int i = 0; i < 101; i++)
                 {
-                    double newX = x + r * Math.Cos((double)i * 2 * Math.PI / 100);
-                    double newY = y + r * Math.Sin((double)i * 2 * Math.PI / 100);
+                    double newX = xCenter + xSize * Math.Cos((double)i * 2 * Math.PI / 100);
+                    double newY = yCenter + ySize * Math.Sin((double)i * 2 * Math.PI / 100);
                     listStylusPoint.Add(new StylusPoint(newX, newY));
                 }
                 StylusPointCollection pointsCollection = new StylusPointCollection(listStylusPoint);
@@ -101,7 +73,19 @@ namespace WhiteboardWPF
                 this.Strokeat.DrawingAttributes.FitToCurve = false;
             }
         }
-
+        
+        public StrokeElement(List<StylusPoint> stylusPoints)
+        {
+            List<StylusPoint> listStylusPoint = new List<StylusPoint>();
+            foreach(StylusPoint st in stylusPoints)
+            {
+                listStylusPoint.Add(st);
+            }
+            listStylusPoint.Add(stylusPoints[0]);
+            StylusPointCollection pointsCollection = new StylusPointCollection(listStylusPoint);
+            this.Strokeat = new Stroke(pointsCollection);
+            this.Strokeat.DrawingAttributes.FitToCurve = false;
+        }
 
         public Stroke GetStroke()
         {
@@ -176,5 +160,62 @@ namespace WhiteboardWPF
         {
             
         }
+
+        public static void changeStroke(Stroke stroke, String shape, double x, double y, double x2, double y2)
+        {
+            {
+                if (shape.Equals("Circle"))
+                {
+                    double xCenter = (x + x2) / 2;
+                    double yCenter = (y + y2) / 2;
+                    double xSize = (x - x2) / 2;
+                    double ySize = (y - y2) / 2;
+                    List<StylusPoint> listStylusPoint = new List<StylusPoint>();
+                    for (int i = 0; i < 101; i++)
+                    {
+                        double newX = xCenter + xSize * Math.Cos((double)i * 2 * Math.PI / 100);
+                        double newY = yCenter + ySize * Math.Sin((double)i * 2 * Math.PI / 100);
+                        listStylusPoint.Add(new StylusPoint(newX, newY));
+                    }
+                    StylusPointCollection pointsCollection = new StylusPointCollection(listStylusPoint);
+                    stroke.StylusPoints = pointsCollection;
+                    stroke.DrawingAttributes.FitToCurve = true;
+                }
+                if (shape.Equals("Rectangle"))
+                {
+                    List<StylusPoint> listStylusPoint = new List<StylusPoint>();
+                    listStylusPoint.Add(new StylusPoint(x, y));
+                    listStylusPoint.Add(new StylusPoint(x, y2));
+                    listStylusPoint.Add(new StylusPoint(x2, y2));
+                    listStylusPoint.Add(new StylusPoint(x2, y));
+                    listStylusPoint.Add(new StylusPoint(x, y));
+
+                    StylusPointCollection pointsCollection = new StylusPointCollection(listStylusPoint);
+                    stroke.StylusPoints = pointsCollection;
+                    stroke.DrawingAttributes.FitToCurve = false;
+                }
+            }
+        }
+
+        public static void changeStroke(Stroke stroke, List<StylusPoint> stylusPoints)
+        {
+            List<StylusPoint> listStylusPoint = new List<StylusPoint>();
+            foreach (StylusPoint st in stylusPoints)
+            {
+                listStylusPoint.Add(st);
+            }
+            //listStylusPoint.Add(stylusPoints[0]);
+            StylusPointCollection pointsCollection = new StylusPointCollection(listStylusPoint);
+
+            stroke.StylusPoints = pointsCollection;
+
+            
+        }
+        public static void emtyStroke(Stroke stroke)
+        {
+            stroke.StylusPoints = new StylusPointCollection();
+        }
+
+
     }
 }

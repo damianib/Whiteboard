@@ -22,6 +22,14 @@ namespace WhiteboardWPF
     public partial class MainWindow : Window
     {
 
+        Stroke strokePreview;
+        int counTriangle = 0;
+
+        List<StylusPoint> stylusPoints = new List<StylusPoint>();
+
+        double xPrevCliked = 0;
+        double yPrevCliked = 0;
+
         double xCliked = 0;
         double yCliked = 0;
 
@@ -58,11 +66,12 @@ namespace WhiteboardWPF
         public MainWindow()
         {
             client = new Client("127.0.0.1", this);
-            
 
+            
             InitializeComponent();
-            inkCanvas.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(clickCanvas), true);
+            inkCanvas.AddHandler(InkCanvas.PreviewMouseDownEvent, new MouseButtonEventHandler(clickCanvas), true);
             inkCanvas.AddHandler(InkCanvas.MouseUpEvent, new MouseButtonEventHandler(unClickCanvas), true);
+            inkCanvas.AddHandler(InkCanvas.MouseMoveEvent, new MouseEventHandler(minuteHand_MouseMove), true);
 
             for (int i = 0; i < availableColors.Count; i++) // create color combo box
             {
@@ -185,25 +194,29 @@ namespace WhiteboardWPF
             penStyleBox.SelectedIndex = indexToMode.FindIndex(a => a == currentMode);
         }
 
-        /*/// <summary>
-        /// Change to text mode if click on text button
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void clickTextButton(object sender, System.EventArgs e)
+       
+
+        void checkPreview()
         {
-            changeMode("text");
+
+            if (!inkCanvas.Strokes.Contains(strokePreview))
+            {
+
+                StylusPointCollection st = new StylusPointCollection();
+                st.Add(new StylusPoint(0.0, 0.0));
+                strokePreview = new Stroke(st);
+                inkCanvas.Strokes.Add(strokePreview);
+                
+            }
         }
 
-        /// <summary>
-        /// Change to select mode if click on select button
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void clickSelectButton(object sender, System.EventArgs e)
+        void resetPreview()
         {
-            changeMode("select");
-        }*/
+            if (inkCanvas.Strokes.Contains(strokePreview))
+            {
+                inkCanvas.Strokes.Remove(strokePreview);
+            }
+        }
 
         DateTime lastClick = DateTime.Now;
         /// <summary>
@@ -213,6 +226,7 @@ namespace WhiteboardWPF
         /// <param name="e"></param>
         void clickCanvas(object sender, MouseButtonEventArgs e)
         {
+            resetPreview();
             if(allBoardElements.ContainsKey(selectedObject)) // update selected object if click somewhere else on the canvas
             {
                 allBoardElements[selectedObject].updatePosition(inkCanvas);
@@ -221,6 +235,7 @@ namespace WhiteboardWPF
 
             if ((currentMode == "text") && ((DateTime.Now - lastClick) > new TimeSpan(0, 0, 1))) //add new text block if text mode
             {
+                e.Handled = true;
                 TextBox newTextBox = new TextBox
                 {
                     Width = 100,
@@ -236,21 +251,62 @@ namespace WhiteboardWPF
                 lastClick = DateTime.Now;
                 changeMode("select");
             }
+            
+            if ((currentMode == "shape"))
+            {
+               e.Handled = true;
+               if (indexToShape[shapeBox.SelectedIndex].Equals("Triangle")){
+                    if (stylusPoints.Count < 2)
+                    {
+                        checkPreview();
+                        
+                        stylusPoints.Add(new StylusPoint(e.GetPosition(inkCanvas).X, e.GetPosition(inkCanvas).Y));
+                        StrokeElement.changeStroke(strokePreview, stylusPoints);
+                        counTriangle++;
+                        
+                    }
+                    else
+                    {
+                        stylusPoints.Add(new StylusPoint(e.GetPosition(inkCanvas).X, e.GetPosition(inkCanvas).Y));
+                        client.ask_add(new StrokeElement(stylusPoints));
+                        stylusPoints = new List<StylusPoint>();
+                    }
+                }
+                else
+                { 
+                    isWritingShape = true;
+                    counTriangle = 0;
+                    stylusPoints = new List<StylusPoint>();
+                }
+                
+            }
+            else
+            {
+                counTriangle = 0;
+            }
+            xPrevCliked = xCliked;
+            yPrevCliked = yCliked;
             xCliked = e.GetPosition(inkCanvas).X;
             yCliked = e.GetPosition(inkCanvas).Y;
-            if ((currentMode == "shape") && ((DateTime.Now - lastClick) > new TimeSpan(0, 0, 1)))
-            {
-
-                isWritingShape = true;
-                
-                lastClick = DateTime.Now;
-            }
+            
         }
-
-        private void unClickCanvas(object sender, MouseButtonEventArgs e)
+        private void minuteHand_MouseMove(object sender, MouseEventArgs e)
         {
+            
             if (isWritingShape)
             {
+                checkPreview();
+                StrokeElement.changeStroke(strokePreview ,indexToShape[shapeBox.SelectedIndex], xCliked, yCliked, e.GetPosition(inkCanvas).X, e.GetPosition(inkCanvas).Y);
+
+            }
+        }
+        private void unClickCanvas(object sender, MouseButtonEventArgs e)
+        {
+            
+            
+            if (isWritingShape)
+            {
+                resetPreview();
                 isWritingShape = false;
                 string shapeType = indexToShape[shapeBox.SelectedIndex];
                 //double actualX = e.GetPosition(inkCanvas).X;
