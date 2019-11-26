@@ -12,62 +12,48 @@ namespace WhiteboardWPF
 {
     class Client
     {
+        
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public string m_nameBoard { get; set; }
 
-        public delegate void selector(int id);
-        public delegate void addFunction(BoardElement b);
-        public delegate void clearFunction();
+        /// <summary>
+        /// Id of the connexion
+        /// </summary>
+        public int m_idCOnnexion { get; set; }
 
-
-        public string m_nomServer { get; set; }
-        public int idConnexion { get; set; }
-
+        /// <summary>
+        /// Reference to the main window
+        /// </summary>
         private MainWindow mainWindow;
 
-        /*private selector m_select;
-        private selector m_delete;
-        private addFunction m_add;
-        private clearFunction m_clear_all;
-        private clearFunction m_deselect; */
-
-
+        /// <summary>
+        /// Limitor for various use
+        /// </summary>
         private Char m_limitor;
 
+        /// <summary>
+        /// Connexion  with the server
+        /// </summary>
         Connexion connexionServer;
 
-        
-        
-
-        /*public Client(String ip, addFunction add_recieve, selector select_recieve, clearFunction deselect_recieve, selector delete_recieve, clearFunction clear_receive)
-        {
-            m_limitor = '\n';
-
-            connexionServer = new Connexion(ip, runInstruction, m_limitor);
-
-
-            m_add = add_recieve;
-            m_select = select_recieve;
-            m_deselect = deselect_recieve;
-            m_delete = delete_recieve;
-            m_clear_all = clear_receive;
-        } */
-
+        /// <summary>
+        /// Create a client that will connect to the given IP
+        /// </summary>
+        /// <param name="ip">The IP to connect to</param>
+        /// <param name="mainWindow">Reference to the main window</param>
         public Client(String ip, MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
             m_limitor = '\n';
-
             connexionServer = new Connexion(ip, runInstruction, m_limitor);
-
-
-            
         }
 
-        /*public void start()
-        {
-            connexionServer.start(m_nomServer);
-        }*/
-
+        /// <summary>
+        /// Create a board with random name
+        /// </summary>
         public void createBoard()
         {
             try
@@ -80,6 +66,11 @@ namespace WhiteboardWPF
             }
             
         }
+
+        /// <summary>
+        /// Create a bo board with given name
+        /// </summary>
+        /// <param name="stringNom">The board the app will try to connect to</param>
         public void createBoard(String stringNom)
         {
             try
@@ -90,7 +81,13 @@ namespace WhiteboardWPF
             {
                 mainWindow.doShowError(e.Message);
             }
-}
+        }
+
+        /// <summary>
+        /// Allow to join an existing board
+        /// </summary>
+        /// <param name="stringNom">The board the user want to connect to</param>
+        /// <param name="canCreate">Tell if the server is allowed to create a new board if the asked one is not found</param>
         public void joinBoard(String stringNom, bool canCreate)
         {
             try
@@ -102,12 +99,17 @@ namespace WhiteboardWPF
                 mainWindow.doShowError(e.Message);
             }
         }
+
+        /// <summary>
+        /// Function that is to be called by the "connexionServer" object when it recieve a full instruction
+        /// </summary>
+        /// <param name="str">The instruction to treat</param>
         private void runInstruction(String str)
         {
 
             String instructionName = str.Substring(0, 3);
 
-            if (instructionName.Equals("ADD"))
+            if (instructionName.Equals("ADD")) //Adding request
             {
 
                 
@@ -121,7 +123,7 @@ namespace WhiteboardWPF
                 b.id = id;
                 mainWindow.doAdd(b);
             }
-            if (instructionName.Equals("SEL"))
+            if (instructionName.Equals("SEL")) //Selecting request
             {
                 int i = 3;
                 while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
@@ -131,11 +133,11 @@ namespace WhiteboardWPF
                 int id = int.Parse(str.Substring(3, i - 3));
                 mainWindow.doSelect(id);
             }
-            if (instructionName.Equals("DES"))
+            if (instructionName.Equals("DES")) //Deselecting request
             {
                 mainWindow.doDeselect();
             }
-            if (instructionName.Equals("DEL"))
+            if (instructionName.Equals("DEL")) //Deletig request
             {
                 int i = 3;
                 while (i < str.Length && str[i] != m_limitor && str[i] != ' ')
@@ -145,23 +147,23 @@ namespace WhiteboardWPF
                 int id = int.Parse(str.Substring(3, i - 3));
                 mainWindow.doDelete(id);
             }
-            if (instructionName.Equals("CLR"))
+            if (instructionName.Equals("CLR")) //Request to clear the board
             {
                 mainWindow.doClearAll();
             }
-            if (instructionName.Equals("INF"))
+            if (instructionName.Equals("INF")) //Give info to the clients
             {
                 String[] infos = str.Substring(3).Split(' ');
-                idConnexion = Convert.ToInt32(infos[0]);
-                m_nomServer = infos[1];
+                m_idCOnnexion = Convert.ToInt32(infos[0]);
+                m_nameBoard = infos[1];
             }
-            if (instructionName.Equals("EXT"))
+            if (instructionName.Equals("EXT")) //Tell the client to exit
             {
                 mainWindow.doClearAll();
                 connexionServer.stop();
 
             }
-            if (instructionName.Equals("ERR"))
+            if (instructionName.Equals("ERR")) //Indicate an error to the client
             {
                 string text = str.Substring(3);
                 mainWindow.doShowError(text);

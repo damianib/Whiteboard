@@ -419,7 +419,7 @@ namespace WhiteboardWPF
         /// <param name="e"></param>
         void clickInfo(object sender, System.EventArgs e) // send erase all
         {
-            Info info = new Info(getIp(), client.m_nomServer);
+            Info info = new Info(getIp(), client.m_nameBoard);
             info.Show();
         }
 
@@ -619,10 +619,10 @@ namespace WhiteboardWPF
         /// <summary>
         /// Switch to new board
         /// </summary>
-        /// <param name="newBoard"></param>
-        /// <param name="newAleaBoard"></param>
-        /// <param name="ip"></param>
-        /// <param name="boardName"></param>
+        /// <param name="newBoard">If set to true, create a board with given name</param>
+        /// <param name="newAleaBoard">If set to true and the previous is set to false, create a board with random name</param>
+        /// <param name="ip">"IP of the server"</param>
+        /// <param name="boardName">"Name of the board"</param>
         public void doRestart(bool newBoard, bool newAleaBoard, String ip, String boardName)
         {
             client.changeIP(ip);
@@ -643,25 +643,23 @@ namespace WhiteboardWPF
 
 
         }
+
+        /// <summary>
+        /// Restart a server, trying to either connect or join the board with given name
+        /// </summary>
+        /// <param name="ip">"Ip of the server"</param>
+        /// <param name="boardName">"Name of the server to join"</param>
         public void doRestart(String ip, String boardName)
         {
             
             client.joinBoard(boardName, true);
 
         }
-
-        void ink_KeyUp(object sender, KeyEventArgs e)
-        {
-            
-        }
-
         
-
-        public void changeIP(String ip)
-        {
-            client.changeIP(ip);
-        }
-
+        /// <summary>
+        /// Get the connection IP
+        /// </summary>
+        /// <returns>String representing the connexion IP</returns>
         public string getIp()
         {
             return client.getIp();
