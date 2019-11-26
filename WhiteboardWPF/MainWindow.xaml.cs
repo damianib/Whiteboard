@@ -45,13 +45,8 @@ namespace WhiteboardWPF
 
         public MainWindow()
         {
-            AllocConsole();
-            //TcpClient tcpClient = new TcpClient();
-            //tcpClient.Connect("127.0.0.1", 5035);
-            String ip = "127.0.0.1";
-            client = new Client(ip, this);
-            client.m_nomServer = "";
-            client.createBoard("");
+            client = new Client("127.0.0.1", this);
+            
 
             InitializeComponent();
             inkCanvas.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(clickCanvas), true);
@@ -70,39 +65,9 @@ namespace WhiteboardWPF
             inkCanvas.UseCustomCursor = true;
             inkCanvas.DefaultDrawingAttributes.StylusTip = System.Windows.Ink.StylusTip.Ellipse;
             texting.Text = "Initial text";
+
+            this.clickRestart();
         }
-
-        /*public MainWindow(String ipAdress, String nomServer, bool isNew = true)
-        {
-            AllocConsole();
-            //TcpClient tcpClient = new TcpClient();
-            //tcpClient.Connect(ipAdress, 5035);
-            client = new Client(ipAdress, this);
-            //client.m_nomServer = nomServer;
-            client.createBoard("coucouCaVa");
-
-            InitializeComponent();
-            inkCanvas.AddHandler(InkCanvas.MouseDownEvent, new MouseButtonEventHandler(clickCanvas), true);
-
-            penStyleBox.Items.Add("Pen");
-            penStyleBox.Items.Add("Eraser");
-
-            for (int i = 0; i < availableColors.Count; i++)
-            {
-                var textBlockColor = new TextBlock();
-                textBlockColor.Foreground = new SolidColorBrush(availableColors[i]);
-                textBlockColor.Text = availableColorsStr[i];
-                colorBox.Items.Add(textBlockColor);
-            }
-
-            colorBox.SelectedIndex = 0;
-            penStyleBox.SelectedIndex = 0;
-
-            inkCanvas.UseCustomCursor = true;
-            inkCanvas.DefaultDrawingAttributes.StylusTip = System.Windows.Ink.StylusTip.Ellipse;
-            texting.Text = "Initial text";
-        } */
-
 
         // -----------------------------------------------------------------------------------------
         // LOCAL CHANGES
@@ -275,6 +240,12 @@ namespace WhiteboardWPF
             client.ask_clear_all();
         }
 
+        void clickRestart() // send erase all
+        {
+            Popup pop = new Popup(this);
+            pop.Show();
+        }
+
         void clickRestart(object sender, System.EventArgs e) // send erase all
         {
             Popup pop = new Popup(this);
@@ -296,6 +267,7 @@ namespace WhiteboardWPF
         public void doRestart(bool newBoard, bool newAleaBoard, String ip, String boardName)
         {
             client.changeIP(ip);
+            
             if (newBoard)
             {
                 client.createBoard(boardName);
@@ -480,11 +452,6 @@ namespace WhiteboardWPF
         {
             return client.getIp();
         }
-        // -----------------------------------------------------------------------------------------
-        // CONSOLE
-
-        [DllImport("Kernel32")] public static extern void AllocConsole();
-
-        [DllImport("Kernel32")] public static extern void FreeConsole();
+        
     }
 }
