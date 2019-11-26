@@ -51,7 +51,7 @@ Le tableau peut être sauvegardé en appuyant sur le bouton Save (8). Une fenêt
 
 ### Echanges client-serveur
 
-Chaque élement tracé implémente la classe abstraite BoardElement, qui donne un cadre aux méthodes d'ajout/suppression/selection sur le tableau et à la conversion en string.
+Chaque élement tracé hérite de la classe abstraite BoardElement, qui donne un cadre aux méthodes d'ajout/suppression/selection sur le tableau et à la conversion en string.
 Les échanges entre l'utilisateur et le serveur peuvent être représentés comme ceci :
 
 ![Screenshot](Transmission.PNG)
