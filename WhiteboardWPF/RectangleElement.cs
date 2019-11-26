@@ -24,9 +24,17 @@ namespace WhiteboardWPF
 
         }
 
-        public SquareElement(Point A)
+        public SquareElement(StylusPoint A)
         {
-            
+            List<StylusPoint> listStylusPoint = new List<StylusPoint>();
+            StylusPointCollection pointsCollection = new StylusPointCollection(listStylusPoint);
+            pointsCollection.Add(A);
+            for(int i = 1; i < 10; i++)
+            {
+                pointsCollection.Add(new StylusPoint(A.X + i, A.Y));
+                pointsCollection.Add(new StylusPoint(A.X, A.Y + i));
+            }
+            this.Strokeat = new Stroke(pointsCollection);
         }
     }
 }
