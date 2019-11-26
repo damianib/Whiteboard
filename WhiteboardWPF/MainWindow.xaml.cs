@@ -27,7 +27,7 @@ namespace WhiteboardWPF
             Color.FromRgb(0, 0, 255) };
         Color currentColor = Color.FromRgb(0, 0, 0);
         string currentMode = "ink"; // possible values : ink, text, select, eraser
-        List<String> indexToMode = new List<String>() { "ink", "eraser", "select", "text" };
+        List<String> indexToMode = new List<String>() { "ink", "eraser", "select", "text", "shape"};
         bool isCreatingATextBox = false;
         bool isSelectionFromServer = false;
         int selectedObject = -1;
@@ -165,6 +165,11 @@ namespace WhiteboardWPF
             {
                 inkCanvas.EditingMode = InkCanvasEditingMode.Select;
             }
+            else if (newMode == "shape")
+            {
+                shapeBox.Visibility = System.Windows.Visibility.Visible;
+                inkCanvas.EditingMode = InkCanvasEditingMode.None;
+            }
 
             currentMode = newMode;
             penStyleBox.SelectedIndex = indexToMode.FindIndex(a => a == currentMode);
@@ -221,6 +226,13 @@ namespace WhiteboardWPF
                 lastClick = DateTime.Now;
                 changeMode("select");
             }
+
+            if ((currentMode == "shape") && ((DateTime.Now - lastClick) > new TimeSpan(0, 0, 1)))
+            {
+                CircleElement circle = new CircleElement(e.GetPosition(inkCanvas).X, e.GetPosition(inkCanvas).Y);
+                client.ask_add(circle);
+                lastClick = DateTime.Now;
+            }
         }
 
         /// <summary>
@@ -270,6 +282,12 @@ namespace WhiteboardWPF
             {
                 texting.Text = "no file";
             }
+        }
+
+
+        void selectedShape(object sender, System.EventArgs e)
+        {
+
         }
 
         // -----------------------------------------------------------------------------------------
