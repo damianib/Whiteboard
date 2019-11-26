@@ -70,15 +70,37 @@ namespace WhiteboardWPF
 
         public void createBoard()
         {
-            connexionServer.start("", true);
+            try
+            {
+                connexionServer.start("", true);
+            }
+            catch( Exception e)
+            {
+                mainWindow.doShowError(e.Message);
+            }
+            
         }
         public void createBoard(String stringNom)
         {
-            connexionServer.start(stringNom, true);
-        }
+            try
+            {
+                connexionServer.start(stringNom, true);
+            }
+            catch(Exception e)
+            {
+                mainWindow.doShowError(e.Message);
+            }
+}
         public void joinBoard(String stringNom, bool canCreate)
         {
-            connexionServer.start(stringNom, false, canCreate);
+            try
+            {
+                connexionServer.start(stringNom, false, canCreate);
+            }
+            catch (Exception e)
+            {
+                mainWindow.doShowError(e.Message);
+            }
         }
         private void runInstruction(String str)
         {
