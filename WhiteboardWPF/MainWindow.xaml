@@ -64,7 +64,7 @@
                     <TextBlock>Info</TextBlock>
                 </StackPanel>
             </Button>
-            <TextBlock x:Name="texting" Padding="10"></TextBlock>
+            <TextBlock x:Name="texting" Padding="10" Visibility="Hidden"></TextBlock>
         </StackPanel>
     </Grid>
 </Window>

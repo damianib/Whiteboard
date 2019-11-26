@@ -69,8 +69,6 @@ namespace WhiteboardWPF
             inkCanvas.UseCustomCursor = true;
             inkCanvas.DefaultDrawingAttributes.StylusTip = System.Windows.Ink.StylusTip.Ellipse;
             texting.Text = "Initial text";
-
-            this.clickRestart();
         }
 
         // -----------------------------------------------------------------------------------------
@@ -212,7 +210,6 @@ namespace WhiteboardWPF
                 newTextBox.Focus();
                 isCreatingATextBox = true;
                 lastClick = DateTime.Now;
-
                 changeMode("select");
             }
         }
