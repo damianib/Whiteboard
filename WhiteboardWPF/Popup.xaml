@@ -5,14 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WhiteboardWPF"
         mc:Ignorable="d"
-        Title="Parameters" Height="200" Width="300">
+        Title="Connection" Height="200" Width="300">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
-        <ComboBox x:Name="penStyleBox" VerticalAlignment="Top" Height="22" Grid.ColumnSpan="2"/>
+        <ComboBox x:Name="modeBox" VerticalAlignment="Top" Height="22" Grid.ColumnSpan="2" 
+                  SelectionChanged="modeBoxChanged"/>
         <TextBlock x:Name="textChoiceIp" VerticalAlignment="Top" Text="Enter the server IP" Margin="0,27,0,0" Height="16" Grid.ColumnSpan="2"/>
         <TextBox x:Name="choiceIp" VerticalAlignment="Top" Focusable ="True" Text="127.0.0.0" Margin="0,48,0,0" Height="19" Grid.ColumnSpan="2"/>
         <TextBlock x:Name="textChoiceName" VerticalAlignment="Top" Text="Enter the board name" Margin="0,72,0,0" Height="16" Grid.ColumnSpan="2"/>
