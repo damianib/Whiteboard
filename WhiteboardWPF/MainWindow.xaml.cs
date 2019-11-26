@@ -26,6 +26,7 @@ namespace WhiteboardWPF
         List<Color> availableColors = new List<Color>() { Color.FromRgb(0, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0),
             Color.FromRgb(0, 0, 255) };
         string currentMode = "ink"; // possible values : ink, text, select, eraser
+        List<String> indexToMode = new List<String>() { "ink", "eraser", "select", "text" };
         bool isCreatingATextBox = false;
         bool isSelectionFromServer = false;
         int selectedObject = -1;
@@ -81,7 +82,13 @@ namespace WhiteboardWPF
         /// <param name="e"></param>
         public void selectedPenStyle(object sender, System.EventArgs e)
         {
-            if (penStyleBox.SelectedIndex == 0)
+            if (indexToMode[penStyleBox.SelectedIndex] != currentMode)
+            {
+                changeMode(indexToMode[penStyleBox.SelectedIndex]);
+            }
+            
+
+            /*if (penStyleBox.SelectedIndex == 0)
             {
                 changeMode("ink");
                 inkCanvas.DefaultDrawingAttributes.Color = availableColors[colorBox.SelectedIndex];
@@ -89,7 +96,7 @@ namespace WhiteboardWPF
             else if (penStyleBox.SelectedIndex == 1)
             {
                 changeMode("eraser");
-            }
+            }*/
         }
 
         /// <summary>
@@ -124,14 +131,14 @@ namespace WhiteboardWPF
         {
             SolidColorBrush selectedButtonColor = new SolidColorBrush(Color.FromRgb(100, 100, 100));
 
-            if (currentMode == "text") // put last mode button in correct color
+            /*if (currentMode == "text") // put last mode button in correct color
             {
                 textButton.ClearValue(Button.BackgroundProperty);
             }
             else if (currentMode == "select")
             {
                 selectButton.ClearValue(Button.BackgroundProperty);
-            }
+            }*/
 
             if (newMode == currentMode) // if a mode is selected two times in a row, go back to ink (deselect button)
             {
@@ -145,12 +152,12 @@ namespace WhiteboardWPF
             else if (newMode == "text")
             {
                 inkCanvas.EditingMode = InkCanvasEditingMode.None;
-                textButton.Background = selectedButtonColor;
+                //textButton.Background = selectedButtonColor;
             }
             else if (newMode == "select")
             {
                 inkCanvas.EditingMode = InkCanvasEditingMode.Select;
-                selectButton.Background = selectedButtonColor;
+                //selectButton.Background = selectedButtonColor;
             }
             else if (newMode == "eraser")
             {
@@ -158,9 +165,10 @@ namespace WhiteboardWPF
             }
 
             currentMode = newMode;
+            penStyleBox.SelectedIndex = indexToMode.FindIndex(a => a == currentMode);
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Change to text mode if click on text button
         /// </summary>
         /// <param name="sender"></param>
@@ -178,7 +186,7 @@ namespace WhiteboardWPF
         void clickSelectButton(object sender, System.EventArgs e)
         {
             changeMode("select");
-        }
+        }*/
 
         DateTime lastClick = DateTime.Now;
         /// <summary>
