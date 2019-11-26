@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace TCPServeur
 {
-    class TextBoxElement : BoardElement //Classe correspondant au TextBoxElement du Client
+    /// <summary>
+    /// Classe correspondant au TextBoxElement du Client
+    /// </summary>
+    class TextBoxElement : BoardElement
     {
         
 
@@ -26,6 +29,11 @@ namespace TCPServeur
             this.Y = y;
         }
 
+        /// <summary>
+        /// Constructeur effectuant la conversion String vers TextBoxElement
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="str"></param>
         public TextBoxElement(int id, string str)
         {
             this.m_id = id;
@@ -43,7 +51,11 @@ namespace TCPServeur
             Y = Double.Parse(strlst[4]);
         }
 
-        public override string GetString() //Renvoie une string représentant l'objet pour transmission au Client
+        /// <summary>
+        /// Renvoie le TextBoxElement sous forme de string pour transmission au client
+        /// </summary>
+        /// <returns></returns> String représentant l'objet
+        public override string GetString() 
         {
             string str = "";
             char separator = '\u0000';

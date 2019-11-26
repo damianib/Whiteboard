@@ -7,6 +7,9 @@ using System.Windows;
 
 namespace TCPServeur
 {
+    /// <summary>
+    /// Classe correspondant au StrokeElement du client
+    /// </summary>
     class StrokeElement : BoardElement
     {
         struct Point
@@ -29,6 +32,12 @@ namespace TCPServeur
         bool IsHighlighter;
         int StylusTip;
         double Width;
+
+        /// <summary>
+        /// Constructeur faisant la conversion String vers StrokeElement
+        /// </summary>
+        /// <param name="id"></param>id unique de l'élément
+        /// <param name="locval"></param>String contenant les attributs du Stroke pour conversion
         public StrokeElement(int id, string locval)
         {
             this.m_id = id;
@@ -70,6 +79,11 @@ namespace TCPServeur
 
 
         }
+
+        /// <summary>
+        /// Renvoie le StrokeElement sous forme de string pour transmission au client
+        /// </summary>
+        /// <returns></returns>String représentant l'objet
         public override string GetString()
         {
             string locval;

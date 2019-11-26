@@ -8,16 +8,49 @@ using System.Windows.Controls;
 
 namespace WhiteboardWPF
 {
-    class TextBoxElement : BoardElement //Elément contenant une boîte de texte, les dimensions et les coordonnées
+    /// <summary>
+    /// Elément contenant une boîte de texte, les dimensions et les coordonnées
+    /// </summary>
+    class TextBoxElement : BoardElement
     {
+        /// <summary>
+        /// Attribut contenant la TextBox correspondante
+        /// </summary>
         private TextBox BoxT = null;
+
+        /// <summary>
+        /// Abscisse de la TextBox
+        /// </summary>
         public double X { get; set; }
+
+        /// <summary>
+        /// Ordonnée de la TextBox
+        /// </summary>
         public double Y { get; set; }
 
+
+        /// <summary>
+        /// Texte à afficher
+        /// </summary>
         public string Text { get; set; }
+
+        /// <summary>
+        /// Hauteur
+        /// </summary>
         public double Height { get; set; }
+
+        /// <summary>
+        /// Largeur
+        /// </summary>
         public double Width { get; set; }
 
+        /// <summary>
+        /// Constructeur sans dimensions
+        /// </summary>
+        /// <param name="box"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="id"></param>
         public TextBoxElement(TextBox box, double x, double y, int id)
         {
             this.BoxT = box;
@@ -26,6 +59,15 @@ namespace WhiteboardWPF
             this.id = id;
         }
 
+        /// <summary>
+        /// Constructeur avec l'ensemble des attributs
+        /// </summary>
+        /// <param name="height"></param>
+        /// <param name="width"></param>
+        /// <param name="text"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="id"></param>
         public TextBoxElement(double height, double width, string text, double x, double y, int id)
         {
             this.Height = height;
@@ -40,9 +82,11 @@ namespace WhiteboardWPF
             
         }
 
-        public override string GetString()//Renvoie les attributs de l'objet sous un string pour transmission au serveur
-            //Format : txb'\u0000'Texte....
-            //Le caractère unicode non affichable
+        /// <summary>
+        /// Renvoir les attributs de l'objet dans un string pour transmission au serveur
+        /// </summary>
+        /// <returns></returns> String au format Format : txb'\u0000'Texte....  '\u0000' : séparateur pour les attributs, caractère non affichable
+        public override string GetString()
         {
             string str = "";
             char separator = '\u0000';
@@ -52,6 +96,11 @@ namespace WhiteboardWPF
             return str;
         }
 
+        /// <summary>
+        /// Ajoute la TextBox à l'InkCanvas en entrée
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="ink"></param>
         public override void AddToCanvas(MainWindow window, InkCanvas ink)
         {
             BoxT = new TextBox();
@@ -64,22 +113,40 @@ namespace WhiteboardWPF
             ink.Children.Add(BoxT);
         }
 
+        /// <summary>
+        /// Supprime de l'InkCanvas
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="ink"></param>
         public override void DeleteFromCanvas(MainWindow window, InkCanvas ink)
         {
             ink.Children.Remove(BoxT);
         }
 
+        /// <summary>
+        /// Renvoie la TextBox sous la forme générique Object
+        /// </summary>
+        /// <returns></returns> (Object) TextBox
         public override object getElement()
         {
             return this.BoxT;
         }
 
+        /// <summary>
+        /// Sélectionne la Textbox dans l'InkCanvas
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="ink"></param>
         public override void selectInCanvas(MainWindow window, InkCanvas ink)
         {
             List<UIElement> uIElements = new List<UIElement> { this.BoxT };
             ink.Select(null, uIElements);
         }
 
+        /// <summary>
+        /// Met à jour les attributs de posisiton après un déplacement
+        /// </summary>
+        /// <param name="inkCanvas"></param>
         internal override void updatePosition(InkCanvas inkCanvas)
         {
             Point relativeLocation = BoxT.TranslatePoint(new Point(0, 0), inkCanvas);

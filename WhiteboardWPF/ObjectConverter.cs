@@ -20,7 +20,10 @@ using System.Diagnostics;
 
 namespace WhiteboardWPF
 {
-    class ObjectConverter //Objet gérant la conversion des strings reçus du serveur en BoardElement
+    /// <summary>
+    /// ObjectConverter gère la reconversion des string reçus du serveur en BoardElement
+    /// </summary>
+    class ObjectConverter 
     {
         /*public static Object getObject(String str)
         {
@@ -28,9 +31,12 @@ namespace WhiteboardWPF
             return se.GetStroke();
         } */
 
-
-        public static StrokeElement ReconvertStroke(string locval) //Transforme en StrokeElement
-            //Récupère les attributs séparés selon a convention et renvoi le StrokeElement correspondant
+        /// <summary>
+        /// Transforme le String en StrokeElement
+        /// </summary>
+        /// <param name="locval"></param>
+        /// <returns></returns>StrokeElement correspondant aux atttibuts reçus
+        public static StrokeElement ReconvertStroke(string locval)
         {
 
             string str = locval;
@@ -77,6 +83,11 @@ namespace WhiteboardWPF
             return new StrokeElement(stroke);
         }
 
+        /// <summary>
+        /// Conversion en TextBlockAndCoordinates. Obsolète
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>TextBlockAndCoordinates
        public static TextBlockAndCoordinates ReconvertTextblock(string str)
         {
             TextBlock block = new TextBlock();
@@ -94,7 +105,12 @@ namespace WhiteboardWPF
             return blockC;
         } 
 
-        public static TextBoxElement ReconvertTextBox(string str) //Transforme en TextBoxElement
+        /// <summary>
+        /// Convertit le String en TextBoxElement
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>TextBoxElement correspondant aux attributs transmis dans le String
+        public static TextBoxElement ReconvertTextBox(string str)
         {
             TextBoxElement BoxT = new TextBoxElement();
             char separator = '\u0000';
@@ -113,28 +129,35 @@ namespace WhiteboardWPF
             return BoxT;
         }
 
-
-        public static BoardElement ReconvertElement(string str) //Procédure appelée pour une reconversion
-            //Appelle la bonne procédure selon le code de type (les 3 premiers caractères)
+        /// <summary>
+        /// Appelle la bonne procédure de conversion selon le code de 3 caractères au début du String reçu.
+        /// str : StrokeElement
+        /// txt : TextBlockAndCoordinates
+        /// txb : TextBoxElement
+        /// Exception si le code ne correspond pas à un type implémenté
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>BoardElement corrspondant
+        public static BoardElement ReconvertElement(string str)
         {
             
             
 
             string identifier = str.Substring(0, 3);
-            if (identifier.Equals("txt")) //Pour un TextBlockAndCoordinates (Obsolète)
+            if (identifier.Equals("txt"))
             {
                 return ReconvertTextblock(str.Substring(3));
             }
-            else if (identifier.Equals("str")) //Pour un StrokeElement
+            else if (identifier.Equals("str"))
             {
                 
                 return ReconvertStroke(str.Substring(3));
             }
-            else if (identifier.Equals("txb")) //Pour un TextBoxElement
+            else if (identifier.Equals("txb"))
             {
                 return ReconvertTextBox(str.Substring(3));
             }
-            else //Erreur si le code ne correspond pas à un type implémenté
+            else
             {
                 throw new NotImplementedException();
             }

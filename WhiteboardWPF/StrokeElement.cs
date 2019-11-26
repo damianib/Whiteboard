@@ -17,8 +17,10 @@ using System.Windows.Ink;
 
 namespace WhiteboardWPF
 {
-    class StrokeElement : BoardElement //Classe contenant un élément Stroke et les méthodes associées
-        //Constructeurs : vide, ou initialisée avec un Stroke ou Stoke et id
+    /// <summary>
+    /// Classe contenant un élément affichable de type Stroke
+    /// </summary>
+    class StrokeElement : BoardElement
     {
         private Stroke Strokeat;
 
@@ -42,9 +44,12 @@ namespace WhiteboardWPF
         {
             return Strokeat;
         }
-        public override string GetString()  //Renvoie le Stroke sous forme de string pour transmission au serveur, sous la forme : 
-            //strDrawingAttributes.Attribut1#DrawingAttributes.Attribut2...#%Point1.X;Point1.Y%....%Pointn.X;Pointn.Y
-            //Un code de 3 caractères indiquant le type puis la liste des attributs
+
+        /// <summary>
+        /// Renvoie les attributs du Stroke sous forme de string pour transmission au serveur
+        /// </summary>
+        /// <returns></returns> String au format : strDrawingAttributes.Attribut1#DrawingAttributes.Attribut2...#%Point1.X;Point1.Y%....%Pointn.X;Pointn.Y
+        public override string GetString() 
         {
             string locval;
             DrawingAttributes attri = Strokeat.DrawingAttributes;
@@ -59,27 +64,51 @@ namespace WhiteboardWPF
             return "str"+locval;
         }
 
+        /// <summary>
+        /// Ajoute le Stroke à l'InkCanvas en entrée
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="ink"></param>
         public override void AddToCanvas(MainWindow window, InkCanvas ink) //Ajoute l'élément Stroke contenu sur le InkCanvas
         {
             ink.Strokes.Add(Strokeat);
         }
 
+        /// <summary>
+        /// Supprime le Stroke de l'InkCanvas
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="ink"></param>
         public override void DeleteFromCanvas(MainWindow window, InkCanvas ink) //Retire du InkCanvas
         {
             ink.Strokes.Remove(Strokeat);
         }
 
+        /// <summary>
+        /// Renvoie le Stroke contenu sous la forme générique d'Object
+        /// </summary>
+        /// <returns></returns> Object
         public override object getElement()
         {
             return this.Strokeat;
         }
 
+
+        /// <summary>
+        /// Sélectionne la Stroke dans l'InkCanvas
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="ink"></param>
         public override void selectInCanvas(MainWindow window, InkCanvas ink)
         {
             StrokeCollection strokeCollection = new StrokeCollection(new List<Stroke>{ this.Strokeat });
             ink.Select(strokeCollection, null);
         }
 
+        /// <summary>
+        /// Mise à jour de la position. Vide car il ne s'agit pas d'un attribut d'un Stroke
+        /// </summary>
+        /// <param name="inkCanvas"></param>
         internal override void updatePosition(InkCanvas inkCanvas)
         {
             

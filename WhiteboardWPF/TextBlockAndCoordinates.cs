@@ -16,7 +16,10 @@ using System.Windows.Ink;
 
 namespace WhiteboardWPF
 {
-    class TextBlockAndCoordinates : BoardElement //Classe a priori obsolète
+    /// <summary>
+    /// Classe contenant un TextBlock. Obsolète
+    /// </summary>
+    class TextBlockAndCoordinates : BoardElement
     {
         private TextBlock BlockT { get; set; }
         private double X { get; set; }
