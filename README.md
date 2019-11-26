@@ -17,14 +17,14 @@ Notre projet utilise les utilitaires WPF et ASP.Net. Ils ne sont pas nécessaire
 
 ## Utilisation
 ### Serveur
-Lancez TP3Server.exe pour configurer le serveur. Selectionnez une adresse IP parmi la liste proposée en rentrant l'index associé, et le serveur est prêt.
+Lancez Server.exe pour configurer le serveur. Selectionnez une adresse IP parmi la liste proposée en rentrant l'index associé, et le serveur est prêt.
 
 ### Application
 Lancez WhiteboardWPF.exe pour accèder à l'application. Vous devriez tomber sur une fenêtre blanche avec cette barre à outils :
 
 ![Screenshot](exampleGitHub.png)
 
-#### Créer/Rejoindre un tableau
+#### Créer/Rejoindre un tableau (NECESSAIRE AVANT DE TRACER)
 - Cliquez sur le bouton "Connect" (9), une fenêtre s'affiche.
 - Rentrez l'adresse IP du serveur dans la première case et le nom du tableau dans la deuxième, puis cliquez sur "Connect".
 - Si un tableau a déjà été créé pour cette adresse IP et ce nom, vous rejoindrez le tableau. Sinon, vous créez ce tableau.
