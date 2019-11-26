@@ -10,6 +10,14 @@ using System.Collections.Concurrent;
 
 namespace WhiteboardWPF
 {
+
+    /// <summary>
+    /// This class implement the connection protocol with the server
+    /// It deals with reconstructing instruction from the TCP stream
+    /// 
+    /// See the Server connexion object for more detailed doc about the transmission protocol
+    /// 
+    /// </summary>
     class Connexion
     {
 
@@ -17,7 +25,7 @@ namespace WhiteboardWPF
 
         private TcpClient m_tcpClient;
         private String instruction = "";
-        private Mutex mut = new Mutex();
+
         private Char m_limitor;
 
         public delegate void executer(String instruction);
@@ -25,7 +33,7 @@ namespace WhiteboardWPF
         private executer m_executor;
 
         private ConcurrentQueue<String> instructionToSend = new ConcurrentQueue<String>();
-        private ConcurrentQueue<String> instructionToTreat = new ConcurrentQueue<String>();
+        private ConcurrentQueue<String> dataToTreat = new ConcurrentQueue<String>();
         private Thread theradReception;
         private Thread theradEmission;
         private Thread threadTreatment;
@@ -47,7 +55,7 @@ namespace WhiteboardWPF
             threadTreatment = new Thread(new ThreadStart(treatInstruction));
 
             instructionToSend = new ConcurrentQueue<String>();
-            instructionToTreat = new ConcurrentQueue<String>();
+            dataToTreat = new ConcurrentQueue<String>();
     }
 
         
@@ -73,7 +81,7 @@ namespace WhiteboardWPF
             threadTreatment = new Thread(new ThreadStart(treatInstruction));
 
             instructionToSend = new ConcurrentQueue<String>();
-            instructionToTreat = new ConcurrentQueue<String>();
+            dataToTreat = new ConcurrentQueue<String>();
 
 
 
@@ -124,7 +132,7 @@ namespace WhiteboardWPF
             
             instruction = "";
             instructionToSend = new ConcurrentQueue<String>();
-            instructionToTreat = new ConcurrentQueue<String>();
+            dataToTreat = new ConcurrentQueue<String>();
         }
 
         public void exit()
@@ -144,13 +152,12 @@ namespace WhiteboardWPF
 
             instruction = "";
             instructionToSend = new ConcurrentQueue<String>();
-            instructionToTreat = new ConcurrentQueue<String>();
+            dataToTreat = new ConcurrentQueue<String>();
         }
 
 
         private void treatString(string newData)
         {
-            mut.WaitOne();
             int pos = 0;
             while (pos < newData.Length)
             {
@@ -187,7 +194,6 @@ namespace WhiteboardWPF
                     pos = newData.Length;
                 }
             }
-            mut.ReleaseMutex();
         }
 
 
@@ -200,7 +206,7 @@ namespace WhiteboardWPF
                 {
                     
                     String str = "";
-                    if (instructionToTreat.TryDequeue(out str))
+                    if (dataToTreat.TryDequeue(out str))
                     {
                         treatString(str);
                     }
@@ -229,7 +235,7 @@ namespace WhiteboardWPF
                 while (isActive && (i = stream.Read(bytes, 0, bytes.Length)) != 0)
                 {
                     string temp = System.Text.Encoding.UTF8.GetString(bytes, 0, i);
-                    instructionToTreat.Enqueue(temp);
+                    dataToTreat.Enqueue(temp);
                 }
             }
             catch (ThreadAbortException e)

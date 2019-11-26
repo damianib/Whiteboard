@@ -10,6 +10,10 @@ using System.Collections.Concurrent;
 
 namespace WhiteboardWPF
 {
+
+    /// <summary>
+    /// Client controler, this class will modify the main window according to the server instruction, and will also enable the main window to issue request to the server
+    /// </summary>
     class Client
     {
         
@@ -50,6 +54,13 @@ namespace WhiteboardWPF
             m_limitor = '\n';
             connexionServer = new Connexion(ip, runInstruction, m_limitor);
         }
+
+
+
+
+        /**************************/
+        /**Connexion instructions**/
+        /**************************/
 
         /// <summary>
         /// Create a board with random name
@@ -99,6 +110,12 @@ namespace WhiteboardWPF
                 mainWindow.doShowError(e.Message);
             }
         }
+
+
+
+        /*******************************************************************/
+        /**Method the server will invoke to send instruction to the client**/
+        /*******************************************************************/
 
         /// <summary>
         /// Function that is to be called by the "connexionServer" object when it recieve a full instruction
@@ -172,38 +189,80 @@ namespace WhiteboardWPF
             
         }
 
+
+
+        /*********************************************************************/
+        /**Method the main window can invoke to issue request to the server***/
+        /*********************************************************************/
+
+
+        /// <summary>
+        /// Method to invoke to ask the server to add an object
+        /// </summary>
+        /// <param name="b">Object to be added</param>
         public void ask_add (BoardElement b)
         {
             connexionServer.addInstruction("ADD" + b.GetString());
         }
+
+        /// <summary>
+        /// Method to invoke to ask the server to select an object
+        /// </summary>
+        /// <param name="id">Id of the object to be selected</param>
         public void ask_select(int id)
         {
             connexionServer.addInstruction("SEL" + Convert.ToString(id));
 
         }
+
+        /// <summary>
+        /// Method to invoke to ask the server to deselect all object
+        /// </summary>
         public void ask_deselect()
         {
             connexionServer.addInstruction("DES");
         }
+
+        /// <summary>
+        /// Method to invoke to ask the server to delete an object
+        /// </summary>
+        /// <param name="id">ID of the obect to be deleted</param>
         public void ask_delete(int id)
         {
             connexionServer.addInstruction("DEL" + Convert.ToString(id));
         }
+
+        /// <summary>
+        /// Method to invoke to ask the server to modify an object
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="b"></param>
         public void ask_modif(int id, BoardElement b)
         {
             connexionServer.addInstruction("MOD" + Convert.ToString(id)+" "+b.GetString());
         }
 
+        /// <summary>
+        /// Method to invoke to ask the server to clear the board
+        /// </summary>
         public void ask_clear_all()
         {
             connexionServer.addInstruction("CLR");
         }
 
+        /// <summary>
+        /// Change the connexion IP
+        /// </summary>
+        /// <param name="ip">New IP to be set</param>
         public void changeIP(String ip)
         {
             connexionServer.m_ip = ip;
         }
 
+        /// <summary>
+        /// Get the connexion IP
+        /// </summary>
+        /// <returns>The connexion IP</returns>
         public string getIp()
         {
             return connexionServer.m_ip;

@@ -20,24 +20,40 @@ namespace WhiteboardWPF
     public partial class Info : Window
     {
         string ipAdress;
-        string serverName;
-        public Info(string ipAdress, string serverName)
+        string whiteboardName;
+
+        /// <summary>
+        /// Create an information popup
+        /// </summary>
+        /// <param name="ipAdress">IP adress in the popup</param>
+        /// <param name="whiteboardName">Whiteboard name in the popup</param>
+        public Info(string ipAdress, string whiteboardName)
         {
             InitializeComponent();
             this.ipAdress = ipAdress;
-            this.serverName = serverName;
+            this.whiteboardName = whiteboardName;
             ipAdressTextBlock.Text = ipAdress;
-            serverNameTextBlock.Text = serverName;
+            serverNameTextBlock.Text = whiteboardName;
         }
 
+        /// <summary>
+        /// Copy the IP to the clipboard
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="e"></param>
         void ipClick(object server, System.EventArgs e)
         {
             Clipboard.SetText(this.ipAdress);
         }
 
+        /// <summary>
+        /// Copy the whiteboard's name to the clipboard
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="e"></param>
         void nameClick(object server, System.EventArgs e)
         {
-            Clipboard.SetText(this.serverName);
+            Clipboard.SetText(this.whiteboardName);
         }
     }
 }
