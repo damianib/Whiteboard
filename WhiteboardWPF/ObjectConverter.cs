@@ -25,11 +25,7 @@ namespace WhiteboardWPF
     /// </summary>
     class ObjectConverter 
     {
-        /*public static Object getObject(String str)
-        {
-            StrokeElement se = (StrokeElement) ReconvertElement(str);
-            return se.GetStroke();
-        } */
+        
 
         /// <summary>
         /// Transforme le String en StrokeElement
@@ -83,27 +79,7 @@ namespace WhiteboardWPF
             return new StrokeElement(stroke);
         }
 
-        /// <summary>
-        /// Conversion en TextBlockAndCoordinates. Obsolète
-        /// </summary>
-        /// <param name="str">String contenant les attributs du TextBlock</param>
-        /// <returns>TextBlockAndCoordinates</returns>
-        public static TextBlockAndCoordinates ReconvertTextblock(string str)
-        {
-            TextBlock block = new TextBlock();
-            char separator = '\u0000';
-            string[] strlst = str.Split(separator);
-
-            block.Text = strlst[0];
-
-            block.Height = Double.Parse(strlst[1]);
-
-            block.Width = Double.Parse(strlst[2]);
-
-            TextBlockAndCoordinates blockC = new TextBlockAndCoordinates(block, Double.Parse(strlst[3]), Double.Parse(strlst[4]));
-
-            return blockC;
-        }
+        
 
         /// <summary>
         /// Convertit le String en TextBoxElement
@@ -132,7 +108,6 @@ namespace WhiteboardWPF
         /// <summary>
         /// Appelle la bonne procédure de conversion selon le code de 3 caractères au début du String reçu.
         /// str : StrokeElement
-        /// txt : TextBlockAndCoordinates
         /// txb : TextBoxElement
         /// Exception si le code ne correspond pas à un type implémenté
         /// </summary>
@@ -144,11 +119,7 @@ namespace WhiteboardWPF
             
 
             string identifier = str.Substring(0, 3);
-            if (identifier.Equals("txt"))
-            {
-                return ReconvertTextblock(str.Substring(3));
-            }
-            else if (identifier.Equals("str"))
+            if (identifier.Equals("str"))
             {
                 
                 return ReconvertStroke(str.Substring(3));
@@ -162,27 +133,5 @@ namespace WhiteboardWPF
                 throw new NotImplementedException();
             }
         }
-
-        /*public static string getString(Object o)
-        {
-            if (typeof(Stroke).IsInstanceOfType(o)){
-                StrokeElement stroke = new StrokeElement((Stroke)o);
-                return stroke.GetString();
-            }
-            else if (typeof(TextBlockAndCoordinates).IsInstanceOfType(o))
-            {
-                TextBlockAndCoordinates txt = (TextBlockAndCoordinates)o;
-                return txt.GetString();
-            }
-            else if (typeof(TextBoxElement).IsInstanceOfType(o))
-            {
-                TextBoxElement txt = (TextBoxElement)o;
-                return txt.GetString();
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }*/
     }
 }
