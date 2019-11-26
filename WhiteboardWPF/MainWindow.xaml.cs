@@ -33,6 +33,9 @@ namespace WhiteboardWPF
 
         Client client;
 
+        /// <summary>
+        /// Handle local and server id for each object
+        /// </summary>
         ObjectIDGenerator objectIDGenerator = new ObjectIDGenerator();
         Dictionary<int, BoardElement> allBoardElements = new Dictionary<int, BoardElement>();
         Dictionary<long, int> objectIdToBoardId = new Dictionary<long, int>();
@@ -107,7 +110,12 @@ namespace WhiteboardWPF
         // -----------------------------------------------------------------------------------------
         // LOCAL CHANGES
 
-        public void selectedPenStyle(object sender, System.EventArgs e) //switch between pen and eraser
+        /// <summary>
+        /// Switch between pen and eraser when new item selected in combo box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void selectedPenStyle(object sender, System.EventArgs e)
         {
             changeMode("ink");
             if (penStyleBox.SelectedIndex == 0)
@@ -120,7 +128,12 @@ namespace WhiteboardWPF
             }
         }
 
-        void selectedColor(object sender, System.EventArgs e) // change pen color
+        /// <summary>
+        /// Change pen color when new color selected in combo box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void selectedColor(object sender, System.EventArgs e)
         {
             if (penStyleBox.SelectedIndex == 0)
             {
@@ -128,13 +141,22 @@ namespace WhiteboardWPF
             }
         }
 
-        void selectedStylusWidth(object sender, System.EventArgs e) // change width of stylus
+        /// <summary>
+        /// Change stylus width when new slider value selected
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void selectedStylusWidth(object sender, System.EventArgs e)
         {
             inkCanvas.DefaultDrawingAttributes.Width = widthSlider.Value;
             inkCanvas.DefaultDrawingAttributes.Height = widthSlider.Value;
         }
 
-        void changeMode(string newMode) // handle all operations related to changing mode between ink, text, selection etc...
+        /// <summary>
+        /// handle all UI operations related to changing mode between ink, text, selection etc...
+        /// </summary>
+        /// <param name="newMode"></param>
+        void changeMode(string newMode)
         {
             SolidColorBrush selectedButtonColor = new SolidColorBrush(Color.FromRgb(100, 100, 100));
 
@@ -175,26 +197,41 @@ namespace WhiteboardWPF
             currentMode = newMode;
         }
 
+        /// <summary>
+        /// Change mode to text when click on text button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void clickTextButton(object sender, System.EventArgs e)
         {
             changeMode("text");
         }
 
+        /// <summary>
+        /// Change mode to text when click on select button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void clickSelectButton(object sender, System.EventArgs e)
         {
             changeMode("select");
         }
 
         DateTime lastClick = DateTime.Now;
+        /// <summary>
+        /// Handle everything related to a click on the canvas
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void clickCanvas(object sender, MouseButtonEventArgs e)
         {
-            if(selectedObject != -1)
+            if(selectedObject != -1) // update selected object if user click somewhere else
             {
                 allBoardElements[selectedObject].updatePosition(inkCanvas);
                 client.ask_modif(selectedObject, allBoardElements[selectedObject]);
             }
 
-            if ((currentMode == "text") && ((DateTime.Now - lastClick) > new TimeSpan(0, 0, 1)))
+            if ((currentMode == "text") && ((DateTime.Now - lastClick) > new TimeSpan(0, 0, 1))) //create new text box if text mode
             {
                 TextBox newTextBox = new TextBox
                 {
@@ -215,6 +252,11 @@ namespace WhiteboardWPF
         }
 
 
+        /// <summary>
+        /// Handle deletion of selected object
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void previewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Delete)
@@ -228,7 +270,12 @@ namespace WhiteboardWPF
             }
         }
 
-
+        
+        /// <summary>
+        /// Save current whiteboard if click on save button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void clickSaveButton(object sender, System.EventArgs e)
         {
             Stream myStream;
@@ -256,6 +303,11 @@ namespace WhiteboardWPF
         }
 
 
+        /// <summary>
+        /// Prevent user from resizing selection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void selectionResizing(object sender, InkCanvasSelectionEditingEventArgs e)
         {
             e.Cancel = true;
@@ -264,23 +316,43 @@ namespace WhiteboardWPF
         // -----------------------------------------------------------------------------------------
         // EVENTS SENT TO CLIENT
 
+        /// <summary>
+        /// Send new stroke to server when a new stroke is added
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void strokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e) // send last stroke collected
         {
             client.ask_add(new StrokeElement(e.Stroke));
             inkCanvas.Strokes.Remove(e.Stroke);
         }
 
+        /// <summary>
+        /// Ask to server to erase everything when click on erase all button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void clickEraseAllButton(object sender, System.EventArgs e) // send erase all
         {
             client.ask_clear_all();
         }
 
+        /// <summary>
+        /// Open popup to connect to new whiteboard when click on connect button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void clickRestart(object sender, System.EventArgs e) // send erase all
         {
             Popup pop = new Popup(this);
             pop.Show();
         }
 
+        /// <summary>
+        /// Open info popup when click on info button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void clickInfo(object sender, System.EventArgs e) // send erase all
         {
             MessageBoxResult result = MessageBox.Show("IP adress\n"+getIp()+"\nWhiteboard name:\n"+client.m_nomServer+ "\n\nDo you want to copy the name on the clipboard ","Informations", MessageBoxButton.YesNo);
