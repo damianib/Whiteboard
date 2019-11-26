@@ -37,7 +37,7 @@ namespace WhiteboardWPF
             {
                 window.doRestart(false, true, choiceIp.Text, choiceName.Text);
             }
-            else if (penStyleBox.SelectedItem.Equals("Create board whith name"))
+            else if (penStyleBox.SelectedItem.Equals("Create board with name"))
             {
                 window.doRestart(true, true, choiceIp.Text, choiceName.Text);
             }
