@@ -9,8 +9,7 @@
     <Grid>
         <InkCanvas x:Name="inkCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0, 0, 0, 40" 
                    StrokeCollected="strokeCollected" MouseDown="clickCanvas" SelectionChanged="selectionChanged"
-                   SelectionChanging="selectionChanging" PreviewKeyDown="previewKeyDown"
-                   SelectionResizing="selectionResizing"></InkCanvas>
+                   SelectionChanging="selectionChanging" PreviewKeyDown="previewKeyDown"></InkCanvas>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="40">
             <ComboBox x:Name="penStyleBox" HorizontalAlignment="Left" SelectionChanged="selectedPenStyle">
                 <StackPanel Orientation="Horizontal">
