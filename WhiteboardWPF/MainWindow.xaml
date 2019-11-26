@@ -35,7 +35,7 @@
                 </StackPanel>
             </ComboBox>
             
-            <ComboBox x:Name="shapeBox" HorizontalAlignment="Left" SelectionChanged="selectedShape" Visibility="Collapsed">
+            <ComboBox x:Name="shapeBox" HorizontalAlignment="Left" Visibility="Collapsed">
                 <StackPanel Orientation="Horizontal">
                     <Image Height="15" Margin="2" Source="icons/circleIcon.png" Stretch="Uniform"/>
                     <TextBlock>Circle</TextBlock>

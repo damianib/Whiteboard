@@ -105,17 +105,6 @@ namespace WhiteboardWPF
             {
                 changeMode(indexToMode[penStyleBox.SelectedIndex]);
             }
-            
-
-            /*if (penStyleBox.SelectedIndex == 0)
-            {
-                changeMode("ink");
-                inkCanvas.DefaultDrawingAttributes.Color = availableColors[colorBox.SelectedIndex];
-            }
-            else if (penStyleBox.SelectedIndex == 1)
-            {
-                changeMode("eraser");
-            }*/
         }
 
         /// <summary>
@@ -149,35 +138,17 @@ namespace WhiteboardWPF
         /// <param name="newMode"></param>
         void changeMode(string newMode)
         {
-            /*SolidColorBrush selectedButtonColor = new SolidColorBrush(Color.FromRgb(100, 100, 100));
-
-            if (currentMode == "text") // put last mode button in correct color
-            {
-                textButton.ClearValue(Button.BackgroundProperty);
-            }
-            else if (currentMode == "select")
-            {
-                selectButton.ClearValue(Button.BackgroundProperty);
-            }
-
-            if (newMode == currentMode) // if a mode is selected two times in a row, go back to ink (deselect button)
-            {
-                newMode = "ink";
-            }*/
-
-            if (newMode == "ink") // change inkcanvas editing mode and button color
+            if (newMode == "ink") // change inkcanvas editing mode and other ui elements
             {
                 inkCanvas.EditingMode = InkCanvasEditingMode.Ink;
             }
             else if (newMode == "text")
             {
                 inkCanvas.EditingMode = InkCanvasEditingMode.None;
-                //textButton.Background = selectedButtonColor;
             }
             else if (newMode == "select")
             {
                 inkCanvas.EditingMode = InkCanvasEditingMode.Select;
-                //selectButton.Background = selectedButtonColor;
             }
             else if (newMode == "eraser")
             {
@@ -194,11 +165,8 @@ namespace WhiteboardWPF
             penStyleBox.SelectedIndex = indexToMode.FindIndex(a => a == currentMode);
         }
 
-       
-
         void checkPreview()
         {
-
             if (!inkCanvas.Strokes.Contains(strokePreview))
             {
 
@@ -291,7 +259,6 @@ namespace WhiteboardWPF
         }
         private void minuteHand_MouseMove(object sender, MouseEventArgs e)
         {
-            
             if (isWritingShape)
             {
                 checkPreview();
@@ -301,8 +268,6 @@ namespace WhiteboardWPF
         }
         private void unClickCanvas(object sender, MouseButtonEventArgs e)
         {
-            
-            
             if (isWritingShape)
             {
                 resetPreview();
@@ -360,12 +325,6 @@ namespace WhiteboardWPF
             {
                 texting.Text = "no file";
             }
-        }
-
-
-        void selectedShape(object sender, System.EventArgs e)
-        {
-
         }
 
         // -----------------------------------------------------------------------------------------
