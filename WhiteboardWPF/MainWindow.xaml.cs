@@ -551,7 +551,6 @@ namespace WhiteboardWPF
         void ink_KeyUp(object sender, KeyEventArgs e)
         {
             
-            
         }
 
         

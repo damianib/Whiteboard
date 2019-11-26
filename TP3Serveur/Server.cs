@@ -10,8 +10,15 @@ using System.Collections;
 
 namespace TCPServeur
 {
+    /// <summary>
+    /// This class represent the server
+    /// </summary>
     class Server
     {
+
+        /// <summary>
+        /// Containe 
+        /// </summary>
         Dictionary<String, CommonWhiteBoard> whiteBoards = new Dictionary<String, CommonWhiteBoard>();
         String ip = "127.0.0.1";
 
@@ -27,12 +34,11 @@ namespace TCPServeur
         }
         public void listen()
         {
-            Console.WriteLine("Préparation à l'écoute...");
+            
 
             //On crée le serveur en lui spécifiant le port sur lequel il devra écouter.
             IPAddress localAddr = IPAddress.Parse(ip);
             TcpListener server = new TcpListener(localAddr, 5035);
-
             server.Start();
             while (true)
             {
@@ -41,7 +47,6 @@ namespace TCPServeur
                 Thread th = new Thread(() => { establishConnection(client); });
                 th.Start();
             }
-
         }
 
         public void establishConnection(TcpClient client)

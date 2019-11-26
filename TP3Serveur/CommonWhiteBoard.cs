@@ -196,7 +196,7 @@ namespace TCPServeur
                 client.send_add(b.m_id, b);
             }
 
-            //The minimum unatributed ID is increasing
+            //The minimum unatributed ID is increasing as we added an object
             actualID++;
             Monitor.Exit(clients);
         }

@@ -49,7 +49,7 @@ namespace TCPServeur
             idClient = id;
 
             //Passing runInstruction as an argument, that will be invoked by the "connexionClient" each time a full instruction is recieved
-            connexionClient = new Connexion(tcpClient, runInstruction, m_limitor);
+            connexionClient = new Connexion(tcpClient, runInstruction);
 
             this.whiteBoard = whiteBoard;
         }
