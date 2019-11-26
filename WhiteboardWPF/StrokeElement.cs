@@ -161,6 +161,15 @@ namespace WhiteboardWPF
             
         }
 
+        /// <summary>
+        /// Change a stroke to represent the shape created with the given parameters
+        /// </summary>
+        /// <param name="stroke">The stroke to be modified</param>
+        /// <param name="shape">Desired shape (either "Circle" or Rectangle)</param>
+        /// <param name="x">first point x-coordinate</param>
+        /// <param name="y">first point y-coordinate</param>
+        /// <param name="x2">second point x-coordinate</param>
+        /// <param name="y2">second point y-coordinate</param>
         public static void changeStroke(Stroke stroke, String shape, double x, double y, double x2, double y2)
         {
             {
@@ -197,6 +206,11 @@ namespace WhiteboardWPF
             }
         }
 
+        /// <summary>
+        /// Change a stroke to represent the unfinished polyoma represented by the stylusPoints list
+        /// </summary>
+        /// <param name="stroke"></param>
+        /// <param name="stylusPoints"></param>
         public static void changeStroke(Stroke stroke, List<StylusPoint> stylusPoints)
         {
             List<StylusPoint> listStylusPoint = new List<StylusPoint>();
@@ -210,10 +224,6 @@ namespace WhiteboardWPF
             stroke.StylusPoints = pointsCollection;
 
             
-        }
-        public static void emtyStroke(Stroke stroke)
-        {
-            stroke.StylusPoints = new StylusPointCollection();
         }
 
 
