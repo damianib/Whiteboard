@@ -73,9 +73,29 @@ namespace WhiteboardWPF.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap connectIcon {
+            get {
+                object obj = ResourceManager.GetObject("connectIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap eraseIcon {
             get {
                 object obj = ResourceManager.GetObject("eraseIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap infoIcon {
+            get {
+                object obj = ResourceManager.GetObject("infoIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
