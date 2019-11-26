@@ -16,8 +16,8 @@ namespace WhiteboardWPF
             List<StylusPoint> listStylusPoint = new List<StylusPoint>();
             for (int i = 0; i < 100; i++)
             {
-                double newX = x + r*Math.Cos((double)i * 2 * Math.PI / 200);
-                double newY = x + r*Math.Sin((double)i * 2 * Math.PI / 200);
+                double newX = x + r*Math.Cos((double)i * 2 * Math.PI / 100);
+                double newY = y + r*Math.Sin((double)i * 2 * Math.PI / 100);
                 listStylusPoint.Add(new StylusPoint(newX, newY));
             }
             StylusPointCollection pointsCollection = new StylusPointCollection(listStylusPoint);

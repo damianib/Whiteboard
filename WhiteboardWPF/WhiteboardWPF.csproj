@@ -65,6 +65,7 @@
     <Compile Include="Popup.xaml.cs">
       <DependentUpon>Popup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RectangleElement.cs" />
     <Compile Include="TextBoxElement.cs" />
     <Page Include="Info.xaml">
       <SubType>Designer</SubType>
