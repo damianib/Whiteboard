@@ -193,17 +193,11 @@ namespace TCPServeur
         }
 
         /// <summary>
-        /// Tell the client to exit
+        /// Send information about the connection to the client
         /// </summary>
-        public void send_exit()
+        internal void send_info(String nomWhiteBoard)
         {
-            connexionClient.addInstruction("CLR");
-            //                              Clear the board
-        }
-
-        internal void send_info()
-        {
-            //throw new NotImplementedException();
+            connexionClient.addInstruction("INF"+idClient +" "+ nomWhiteBoard);
         }
     }
 }

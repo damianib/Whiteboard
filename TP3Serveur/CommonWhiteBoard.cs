@@ -272,7 +272,7 @@ namespace TCPServeur
                 //Give him again all the informations
                 clients[idClient].send_add(key, allBoardElements[key]);
             }
-            clients[idClient].send_info();
+            clients[idClient].send_info(name);
             Monitor.Exit(clients);
         }
 
