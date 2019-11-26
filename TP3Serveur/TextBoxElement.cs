@@ -29,6 +29,11 @@ namespace TCPServeur
             this.Y = y;
         }
 
+        /// <summary>
+        /// Constructeur effectuant la conversion String vers TextBoxElement
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="str"></param>
         public TextBoxElement(int id, string str)
         {
             this.m_id = id;
