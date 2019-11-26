@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TCPServeur.BoardElement" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAABAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>BoardElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TCPServeur.ClientInterface" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACQAAAACkIAAAAgAAAABABACAAgAAAUAAAAAAAAACA=</HashCode>
+      <FileName>ClientInterface.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TCPServeur.CommonWhiteBoard" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAIBAACAAIgAAgAAAABAgAwQAAEQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommonWhiteBoard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TCPServeur.Connexion" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAEAAJAAAAAQAQQgAAkAABAAAABgAAAACAAAEAAAAAA=</HashCode>
+      <FileName>Connexion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TCPServeur.ObjectConverter" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>ObjectConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TCPServeur.Program" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TCPServeur.Server" Collapsed="true">
+    <Position X="8.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAARAAAAAAAAAAAAAAAAAAAgAgAAAAgAAAAAAA=</HashCode>
+      <FileName>Server.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TCPServeur.StrokeElement" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAABAAQAAAAAAACBEAAAAAAAAIAAAAAgAAEAAA=</HashCode>
+      <FileName>StrokeElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TCPServeur.TextBoxElement" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAABEAAAAAAAAAAAAAACAAAYAA=</HashCode>
+      <FileName>TextBoxElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

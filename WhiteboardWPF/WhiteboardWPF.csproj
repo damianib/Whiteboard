@@ -78,7 +78,6 @@
     </Compile>
     <Compile Include="BoardElement.cs" />
     <Compile Include="StrokeElement.cs" />
-    <Compile Include="TextBlockAndCoordinates.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Connexion.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -109,6 +108,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
