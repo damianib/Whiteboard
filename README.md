@@ -47,9 +47,15 @@ Le bouton (7) efface le contenu entier.
 #### Sauvegarder son tableau
 Le tableau peut être sauvegardé en appuyant sur le bouton Save (8). Une fenêtre s'ouvre pour spécifier l'endroit où enregistrer l'image sous format jpg.
 
-### Structure du code
+## Structure du code
+
+### Echanges client-serveur
 
 Chaque élement tracé implémente la classe abstraite BoardElement, qui donne un cadre aux méthodes d'ajout/suppression/selection sur le tableau et à la conversion en string.
 Les échanges entre l'utilisateur et le serveur peuvent être représentés comme ceci :
 
 ![Screenshot](Transmission.PNG)
+
+### Gestion du tableau
+
+Le font se base sur WPF, notamment l'objet InkCanvas qui permet de gérer le tracé des traits et la selection. La gestion des évènements permet d'ajouter la communication avec le serveur ainsi que d'étendre les fonctionnalités.
