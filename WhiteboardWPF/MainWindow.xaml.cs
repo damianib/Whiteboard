@@ -25,6 +25,7 @@ namespace WhiteboardWPF
         List<String> availableColorsStr = new List<String>() { "Black", "Red", "Green", "Blue" };
         List<Color> availableColors = new List<Color>() { Color.FromRgb(0, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0),
             Color.FromRgb(0, 0, 255) };
+        Color currentColor = Color.FromRgb(0, 0, 0);
         string currentMode = "ink"; // possible values : ink, text, select, eraser
         List<String> indexToMode = new List<String>() { "ink", "eraser", "select", "text" };
         bool isCreatingATextBox = false;
@@ -76,7 +77,7 @@ namespace WhiteboardWPF
         // LOCAL CHANGES
 
         /// <summary>
-        /// Switch between pen and eraser if combobox selection changed
+        /// Switch between pen, eraser, select or text mode if combobox selection changed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -109,6 +110,7 @@ namespace WhiteboardWPF
             if (penStyleBox.SelectedIndex == 0)
             {
                 inkCanvas.DefaultDrawingAttributes.Color = availableColors[colorBox.SelectedIndex];
+                currentColor = availableColors[colorBox.SelectedIndex];
             }
         }
 
@@ -129,21 +131,21 @@ namespace WhiteboardWPF
         /// <param name="newMode"></param>
         void changeMode(string newMode)
         {
-            SolidColorBrush selectedButtonColor = new SolidColorBrush(Color.FromRgb(100, 100, 100));
+            /*SolidColorBrush selectedButtonColor = new SolidColorBrush(Color.FromRgb(100, 100, 100));
 
-            /*if (currentMode == "text") // put last mode button in correct color
+            if (currentMode == "text") // put last mode button in correct color
             {
                 textButton.ClearValue(Button.BackgroundProperty);
             }
             else if (currentMode == "select")
             {
                 selectButton.ClearValue(Button.BackgroundProperty);
-            }*/
+            }
 
             if (newMode == currentMode) // if a mode is selected two times in a row, go back to ink (deselect button)
             {
                 newMode = "ink";
-            }
+            }*/
 
             if (newMode == "ink") // change inkcanvas editing mode and button color
             {
@@ -370,6 +372,12 @@ namespace WhiteboardWPF
                     int strokeId = getBoardIdFromObject(stroke);
                     client.ask_select(strokeId);
                     client.ask_delete(strokeId);
+                }
+                foreach (UIElement element in selectedElements)
+                {
+                    int elementId = getBoardIdFromObject(element);
+                    client.ask_select(elementId);
+                    client.ask_delete(elementId);
                 }
             }
             else
