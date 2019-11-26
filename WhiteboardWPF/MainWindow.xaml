@@ -54,13 +54,13 @@
             </Button>
             <Button x:Name="restartButton" Click="clickRestart" Padding="10">
                 <StackPanel Orientation="Horizontal">
-                    <Image Margin="2" Source="icons/restartIcon.png" Stretch="Uniform" />
-                    <TextBlock>Restart</TextBlock>
+                    <Image Margin="2" Source="icons/connectIcon.png" Stretch="Uniform" />
+                    <TextBlock>Connect</TextBlock>
                 </StackPanel>
             </Button>
             <Button x:Name="infoButton" Click="clickInfo" Padding="10">
                 <StackPanel Orientation="Horizontal">
-                    <Image Margin="2" Source="icons/restartIcon.png" Stretch="Uniform" />
+                    <Image Margin="2" Source="icons/infoIcon.png" Stretch="Uniform" />
                     <TextBlock>Info</TextBlock>
                 </StackPanel>
             </Button>

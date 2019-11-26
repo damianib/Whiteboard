@@ -7,8 +7,8 @@
     <ProjectGuid>{0EC5428C-AA27-4D21-8361-66E95CF4EABE}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TP3Serveur</RootNamespace>
-    <AssemblyName>TP3Serveur</AssemblyName>
+    <RootNamespace>Serveur</RootNamespace>
+    <AssemblyName>Serveur</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
