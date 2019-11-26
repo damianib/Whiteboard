@@ -25,7 +25,7 @@ namespace WhiteboardWPF
         double xCliked = 0;
         double yCliked = 0;
 
-        bool isWritigShape = false;
+        bool isWritingShape = false;
 
         List<String> availableColorsStr = new List<String>() { "Black", "Red", "Green", "Blue" };
         List<Color> availableColors = new List<Color>() { Color.FromRgb(0, 0, 0), Color.FromRgb(255, 0, 0), Color.FromRgb(0, 255, 0),
@@ -33,6 +33,7 @@ namespace WhiteboardWPF
         Color currentColor = Color.FromRgb(0, 0, 0);
         string currentMode = "ink"; // possible values : ink, text, select, eraser
         List<String> indexToMode = new List<String>() { "ink", "eraser", "select", "text", "shape"};
+        List<String> indexToShape = new List<String>() { "Circle", "Rectangle", "Triangle" };
         bool isCreatingATextBox = false;
         bool isSelectionFromServer = false;
         int selectedObject = -1;
@@ -177,6 +178,7 @@ namespace WhiteboardWPF
             {
                 shapeBox.Visibility = System.Windows.Visibility.Visible;
                 inkCanvas.EditingMode = InkCanvasEditingMode.None;
+                shapeBox.SelectedIndex = 0;
             }
 
             currentMode = newMode;
@@ -239,7 +241,7 @@ namespace WhiteboardWPF
             if ((currentMode == "shape") && ((DateTime.Now - lastClick) > new TimeSpan(0, 0, 1)))
             {
 
-                isWritigShape = true;
+                isWritingShape = true;
                 
                 lastClick = DateTime.Now;
             }
@@ -247,10 +249,12 @@ namespace WhiteboardWPF
 
         private void unClickCanvas(object sender, MouseButtonEventArgs e)
         {
-            if (isWritigShape)
+            if (isWritingShape)
             {
+                isWritingShape = false;
+                string shapeType = indexToShape[shapeBox.SelectedIndex];
                 //double actualX = e.GetPosition(inkCanvas).X;
-                client.ask_add(new StrokeElement("Circle", xCliked, yCliked, e.GetPosition(inkCanvas).X, e.GetPosition(inkCanvas).Y));
+                client.ask_add(new StrokeElement(shapeType, xCliked, yCliked, e.GetPosition(inkCanvas).X, e.GetPosition(inkCanvas).Y));
             }
         }
 
