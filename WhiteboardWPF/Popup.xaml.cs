@@ -57,11 +57,13 @@ namespace WhiteboardWPF
         {
             if (modeBox.SelectedItem.Equals("Create new random board"))
             {
-                textChoiceName.IsEnabled = false;
+                choiceName.IsEnabled = false;
+                choiceName.Background = new SolidColorBrush(Color.FromRgb(100, 100, 100));
             }
             else
             {
-                textChoiceName.IsEnabled = true;
+                choiceName.IsEnabled = true;
+                choiceName.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             }
         }
     }
