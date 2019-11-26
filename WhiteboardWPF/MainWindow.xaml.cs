@@ -272,16 +272,6 @@ namespace WhiteboardWPF
             }
         }
 
-        /// <summary>
-        /// Prevent user from resizing selection
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void selectionResizing(object sender, InkCanvasSelectionEditingEventArgs e)
-        {
-            e.Cancel = true;
-        }
-
         // -----------------------------------------------------------------------------------------
         // EVENTS SENT TO CLIENT
 
