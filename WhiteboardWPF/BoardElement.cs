@@ -22,7 +22,7 @@ namespace WhiteboardWPF
         /// <summary>
         /// Renvoie l'élément sous forme de string pour transmission au serveur
         /// </summary>
-        /// <returns></returns> String représentant l'objet
+        /// <returns>String représentant l'objet</returns>
         public abstract string GetString();
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace WhiteboardWPF
         /// <summary>
         /// Renvoie l'élément affichable contenu par le BoardElement sous le type générique Object pour un traitement indifférencié
         /// </summary>
-        /// <returns></returns> Contenu sous forme Object
+        /// <returns>Contenu sous forme Object</returns>
         public abstract Object getElement();
         internal abstract void updatePosition(InkCanvas inkCanvas);
     }

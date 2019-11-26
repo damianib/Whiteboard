@@ -48,7 +48,7 @@ namespace WhiteboardWPF
         /// <summary>
         /// Renvoie les attributs du Stroke sous forme de string pour transmission au serveur
         /// </summary>
-        /// <returns></returns> String au format : strDrawingAttributes.Attribut1#DrawingAttributes.Attribut2...#%Point1.X;Point1.Y%....%Pointn.X;Pointn.Y
+        /// <returns>String au format : strDrawingAttributes.Attribut1#DrawingAttributes.Attribut2...#%Point1.X;Point1.Y%....%Pointn.X;Pointn.Y</returns>
         public override string GetString() 
         {
             string locval;
@@ -87,7 +87,7 @@ namespace WhiteboardWPF
         /// <summary>
         /// Renvoie le Stroke contenu sous la forme générique d'Object
         /// </summary>
-        /// <returns></returns> Object
+        /// <returns>Attribut Stroke en tant qu'Object</returns>
         public override object getElement()
         {
             return this.Strokeat;
